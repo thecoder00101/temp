@@ -1,0 +1,33 @@
+<footer class="text-muted small bg-white py-4 mt-3" id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 text-center text-lg-left">
+				<?php if (isset($light_config['config_exc_info']) && $light_config['config_exc_info'] == 1) { ?>
+				<div>
+					<!--{hook footer_footer_right_start.htm}-->
+					Processed: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b><span class="mx-2">|</span>SQL: <b><?php echo count($db->sqls);?></b>
+					<!--{hook footer_footer_right_end.htm}-->
+				</div>
+				<?php }?>
+				<div>
+				<!--{hook footer_footer_left_start.htm}-->
+				Powered by <a href="#" target="_blank" class="text-muted"><b>Xiuno BBS <span><?php echo $conf['version'];?></span></b></a>
+				<!--{hook footer_footer_left_end.htm}-->
+			</div>
+			
+			</div>
+			<div class="col-lg-6 text-center text-lg-right contact ">
+			<?php if (isset($light_config['contact_qq']) && $light_config['contact_qq'] == 1) { ?>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $light_config['contact_qq_number']?>&site=qq&menu=yes" target="_blank" class="text-muted" data-toggle="tooltip" data-placement="top" title="QQ"><i class="fab fa-qq"></i></a>
+				<?php }?>
+				
+				<?php if (isset($light_config['contact_wx']) && $light_config['contact_wx'] == 1) { ?>
+				<a href="JavaScript:;" data-toggle="tooltip" data-html="true" title="<img src='<?php echo $light_config['contact_wx_img']?>'/>" class="text-muted ml-2"><i class="fab fa-weixin"></i></a>
+				<?php }?>
+					<?php if (isset($light_config['contact_email']) && $light_config['contact_email'] == 1) { ?>
+				<a href="mailto:<?php echo $light_config['contact_email_number']?>" data-toggle="tooltip" data-placement="top" title="邮箱" class="text-muted ml-2"><i class="fas fa-envelope"></i></a>
+			<?php }?>
+			</div>
+		</div>
+	</div>
+</footer>

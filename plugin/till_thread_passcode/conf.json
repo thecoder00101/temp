@@ -1,0 +1,11 @@
+{
+    "name": "帖子密码",
+    "brief": "输入正确密码后，有效期为一天。",
+    "version": "1.1",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

@@ -1,0 +1,96 @@
+<?php
+$kv = kv_cache_get('iqismart_com_autolink');
+if(empty($kv)  || empty($kv['position']) || $kv['position'] == 'right'){
+	$autolinks = cache_get('autolinks');
+    if(empty($autolinks)){
+    // 缓存10分钟更新一次
+    $autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+
+    foreach($autolinks as $l){
+    $str1 = $_SERVER['SERVER_NAME'];
+    $str2 = 'from='.$l['uid'];
+
+    $status = -1;
+
+    if($l['uid'] == 0){
+    $status = 1;
+    }else{
+    $status = auto_link_check($l['siteUrl'],$str1,$str2);
+    }
+    db_update('autolink',array('id'=>$l['id']),array('status'=>$status));
+    }
+    $autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+    cache_set('autolinks', $autolinks, 600);
+
+    }
+}
+
+?>
+<?php if(empty($kv)  || empty($kv['position']) || $kv['position'] == 'right') { ?>
+<script>
+
+    function down(id){
+        var r=confirm("确认下线吗!");
+        if (r==true){
+            $.xget("<?php echo url('my-autolink'); ?>?act=down&ajax=1&id="+id,function (code, message) {
+                if (code == 0) {
+                    $.alert(message);
+                    setTimeout("history.go(-1);location.reload()", 2000);
+                }  else {
+                    $.alert(message);
+                }
+            });
+        }
+        else{
+
+        }
+        return false;
+
+    }
+</script>
+<style>
+
+    .card:hover{
+        box-shadow: 0px 0px 10px rgba(26, 26, 26, .1);
+        transition: box-shadow .5s ease-in-out;
+    }
+    a:hover {
+        color: #1E90FF;
+        text-decoration: none;
+    }
+</style>
+
+<div id="taghot" class="card">
+
+    <div class="card-header text-bold">
+        <span class="icon-link"></span>&nbsp;友情链接
+        <span style="float:right;">
+            <a href="<?php echo url('my-autolink'); ?>?act=add" style="color:#0084ff;">自助上链</a>
+        </span>
+    </div>
+    <div class="card-body pt-3 pb-3 pb-3 pl-0 small">
+        <?php foreach ( $autolinks as $link ){ ?>
+        
+            <!--            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>-->
+            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"
+               style="display:inline-block;font-size:12px;"><i class="icon-link  hidden-lg hidden-sm"></i> <?php echo $link['siteTitle'] ?>
+
+            </a>
+            <?php if($gid == 1) { ?>
+            <span onclick="down(<?php echo $link['id'];?>)" style='color:red; cursor: pointer;'>(下线)</span>
+            <?php } ?>
+        
+        <?php } ?>
+    </div>
+    <!--    <ul>-->
+    <!--        <?php foreach ( $autolinks as $link ){ ?>-->
+    <!--        <li>-->
+    <!--            &lt;!&ndash;            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>&ndash;&gt;-->
+    <!--            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"-->
+    <!--               style="display:inline-block"><i class="icon-link"></i><?php echo $link['siteTitle'] ?></a>-->
+    <!--        </li>-->
+    <!--        <?php } ?>-->
+    <!--    </ul>-->
+</div>
+<?php }?>
+

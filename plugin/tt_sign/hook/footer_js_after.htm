@@ -1,0 +1,7 @@
+<script>
+  var jmsign = $("#sign_mobile");
+  jmsign.on("click",function(){
+      $.xpost(xn.url("my-sign"),"",function(code,message){
+			    cocoMessage.info(message, 5000);});
+  });
+</script>

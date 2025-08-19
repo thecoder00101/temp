@@ -1,0 +1,9 @@
+<?php if($thread['digest'] > 0) { ?>
+	<?php if($thread['digest'] == 1) { ?>
+		<div class="alert alert-info"><i class="iconfont icon-jiangzhang mr-1" aria-hidden="true"></i>该帖已被设置为<?php echo lang('digest_1');?>帖</div>
+	<?php } elseif($thread['digest'] == 2) { ?>
+		<div class="alert alert-warning"><i class="iconfont icon-jiangzhang mr-1" aria-hidden="true"></i>该帖已被设置为<?php echo lang('digest_2');?>帖</div>
+	<?php } elseif($thread['digest'] == 3) { ?>
+		<div class="alert alert-danger"><i class="iconfont icon-jiangzhang mr-1" aria-hidden="true"></i>该帖已被设置为<?php echo lang('digest_3');?>帖</div>
+	<?php } ?>
+<?php } ?>

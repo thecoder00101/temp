@@ -1,0 +1,7 @@
+	<?php if (isset($light_config['new_threadlist']) && $light_config['new_threadlist'] == 1) { ?>
+	<li class="nav-item">
+		<a class="nav-link  <?php echo $active == 'newpost' ? 'active' : '';?>" href="<?php echo url("$route-1-5");?>">
+			<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-shijian1 ml-1 mr-2 hidden-sm hidden-md"></i></span>
+			新帖</a>
+	</li>
+ <?php } ?>

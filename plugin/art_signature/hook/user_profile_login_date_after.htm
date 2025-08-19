@@ -1,0 +1,12 @@
+<br/><span class="text-grey">个性签名：</span>
+<?php
+$htmlsupport = $get_signature['html'];
+if(isset($htmlsupport) && !empty($_user['signature'])){
+	if($htmlsupport == 1){
+		echo htmlspecialchars_decode($_user['signature']);
+	}else{
+		echo $_user['signature'];
+	}
+}else{
+	echo "这家伙太懒了，什么也没留下。"; 
+}?>

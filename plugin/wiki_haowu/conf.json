@@ -1,0 +1,11 @@
+{
+    "name": "Wiki修罗百科好物推荐",
+    "brief": "为XiunoBBS添加一个管理好物推荐内容页面<br/>关注更多请到：<a href='https://xiuno.wiki/' class='text-primary' target='_blank'>修罗百科</a>",
+    "version": "1.0.0",
+    "bbs_version": "4.0.4",
+    "installed": 0,
+    "enable": 0,
+    "hooks": [],
+    "dependencies": [],
+    "settings": []
+}

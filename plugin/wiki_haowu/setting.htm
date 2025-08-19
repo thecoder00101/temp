@@ -1,0 +1,123 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+    <div class="col-lg-12 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <form action="<?php echo url('plugin-setting-wiki_haowu');?>" method="post" id="form">
+                    <h4 class="card-title">好物列表</h4>
+                    <div class="table-responsive arrlist">
+                        <table class="table" style="min-width: 1500px">
+                            <thead>
+                                <tr align="center">
+                                    <th width="60">ID</th>
+                                    <th width="120">名称</th>
+                                    <th width="200">描述</th>
+                                    <th width="100">来源</th>
+                                    <th width="80">价格</th>
+                                    <th width="60">评分</th>
+                                    <th width="180">图片</th>
+                                    <th width="200">链接</th>
+                                    <th width="200">评测链接</th>
+                                    <th width="60">排序</th>
+                                    <th width="60" class="text-center">删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($haowulist as $arr) { ?>
+                                <?php $rowid = $arr['hwid'];?>
+                                <tr align="center" rowid="<?php echo $rowid; ?>">
+                                    <td><input type="text" class="form-control" name="rowid[<?php echo $rowid;?>]" value="<?php echo $rowid; ?>" readonly /></td>
+                                    <td><input type="text" class="form-control" name="name[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['name']); ?>" placeholder="名称" /></td>
+                                    <td><input type="text" class="form-control" name="content[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['content']); ?>" placeholder="描述" /></td>
+                                    <td><input type="text" class="form-control" name="source[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['source']); ?>" placeholder="来源" /></td>
+                                    <td><input type="text" class="form-control" name="price[<?php echo $rowid;?>]" value="<?php echo $arr['price']; ?>" placeholder="价格" /></td>
+                                    <td><input type="text" class="form-control" name="score[<?php echo $rowid;?>]" value="<?php echo $arr['score']; ?>" placeholder="评分" /></td>
+                                    <td><input type="text" class="form-control" name="img[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['img']); ?>" placeholder="图片URL" /></td>
+                                    <td><input type="text" class="form-control" name="url[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['url']); ?>" placeholder="链接" /></td>
+                                    <td><input type="text" class="form-control" name="review[<?php echo $rowid;?>]" value="<?php echo htmlspecialchars($arr['review']); ?>" placeholder="评测链接" /></td>
+                                    <td><input type="text" class="form-control" name="rank[<?php echo $rowid;?>]" value="<?php echo $arr['rank']; ?>" placeholder="顺序" /></td>
+                                    <td><a class="btn row_delete" role="btn">删除</a></td>
+                                </tr>
+                                <?php } ?>
+                                <tr align="center" rowid="0" class="d-none">
+                                    <td><input type="text" class="form-control" name="rowid[0]" value="" readonly /></td>
+                                    <td><input type="text" class="form-control" name="name[0]" value="" placeholder="名称" /></td>
+                                    <td><input type="text" class="form-control" name="content[0]" value="" placeholder="描述" /></td>
+                                    <td><input type="text" class="form-control" name="source[0]" value="" placeholder="来源" /></td>
+                                    <td><input type="text" class="form-control" name="price[0]" value="" placeholder="价格" /></td>
+                                    <td><input type="text" class="form-control" name="score[0]" value="" placeholder="评分" /></td>
+                                    <td><input type="text" class="form-control" name="img[0]" value="" placeholder="图片URL" /></td>
+                                    <td><input type="text" class="form-control" name="url[0]" value="" placeholder="链接" /></td>
+                                    <td><input type="text" class="form-control" name="review[0]" value="" placeholder="评测链接" /></td>
+                                    <td><input type="text" class="form-control" name="rank[0]" value="" placeholder="顺序" /></td>
+                                    <td><a class="btn row_delete" role="btn">删除</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><a role="button" class="btn row_add">[+]增加一行</a></p>
+                    <p class="text-center">
+                        <button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+    var maxid = <?php echo $maxid;?>;
+
+    var jform = $("#form");
+    var jsubmit = $("#submit");
+    var jarrlist = $('.arrlist');
+    jform.base64_encode_file();
+
+    jform.on('submit', function() {
+        jform.reset();
+        var postdata = jform.serialize();
+        jsubmit.button('loading');
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if (code == 0) {
+                $.alert(message);
+                jsubmit.text(message).delay(3000).location();
+                return;
+            } else {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+    jarrlist.on('click', 'a.row_delete', function() {
+        var jthis = $(this);
+        var jtr = jthis.parents('tr');
+        var rowid = jtr.attr('rowid');
+        if (jform.find('tbody').find('tr').length <= 2) {
+            $.alert('不能删除系统保留的行。');
+            return;
+        }
+        jtr.remove();
+        return false;
+    });
+
+    $('a.row_add').on('click', function() {
+        var jclone = jarrlist.find('tr').last().clone();
+        jclone.insertAfter(jarrlist.find('tr').last()).removeClass('d-none');
+        var jrowid = jclone.find('input[name^="rowid"]');
+        var rowid = ++maxid;
+        jrowid.val(rowid);
+        jclone.attr('rowid', rowid);
+
+        jclone.find('input').not('[name^="rowid"]').val('');
+        jclone.find('input').attr_name_index(rowid);
+
+        return false;
+    });
+
+    $('#nav_pc li.plugin, #nav_mobile li.plugin').addClass('active');
+</script>

@@ -1,0 +1,112 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+    <div class="card-body">
+        <p class="text-muted small"><?php echo lang('login_guide_icon_tip');?></p>
+                <form action="?plugin-setting-zaesky_links.htm" method="post" id="form">
+                <div class="table-responsive arrlist">
+                    <table class="table" style="min-width: 800px">
+                        <thead>
+                        <tr align="center">
+<!--                            <th width="80"><?php echo lang('forum_id');?></th>-->
+                            <th width="0" align="left"></th>
+                            <th width="0" align="left"></th>
+                            <th width="15%" class="text-center"><?php echo lang('forum_icon');?></th>
+                            <th width="15%"><?php echo lang('forum_name');?></th>
+                            <th width="30%" class="text-center">链接</th>
+                            <th width="40"><?php echo lang('forum_rank');?></th>
+                            <th width="100" class="text-center"><?php echo lang('forum_delete');?></th>
+                        </tr>
+                        <thead>
+                        <tbody>
+                        <?php
+                        $links = db_sql_find("select * from {$db->tablepre}navlinks");
+                        $maxlid = count($links);
+                        if($maxlid == 0){
+                            $links=array(array(
+                                    'lid' => 1,
+                                    'icon' => '',
+                                    'name' => '',
+                                    'link' => '',
+                                    'rank' => 0
+                            ));}
+                        foreach($links as $_link) { ?>
+                        <tr align="center" rowid="<?php echo $_link['lid']; ?>">
+                            <td><input type="text" class="form-control" name="lid[<?php echo $_link['lid']; ?>]" value="<?php echo $_link['lid']; ?>" hidden></td>
+                            <td align="left" style="vertical-align:inherit;"><i class="<?php echo $_link['icon'] ? $_link['icon'] : '' ; ?>" aria-hidden="true"></i></td>
+                            <td><input type="text" class="form-control" name="icon[<?php echo $_link['lid'];?>]" value="<?php echo $_link['icon']; ?>"  placeholder="icon icon-qq" /></td>
+                            <td><input type="text" class="form-control" name="name[<?php echo $_link['lid'];?>]" value="<?php echo $_link['name']; ?>" placeholder="<?php echo lang('forum_name');?>" /></td>
+                            <td><input type="text" class="form-control" name="link[<?php echo $_link['lid'];?>]" value="<?php echo $_link['link']; ?>" placeholder="链接" /></td>
+                            <td><input type="text" class="form-control" name="rank[<?php echo $_link['lid'];?>]" value="<?php echo $_link['rank']; ?>" placeholder="<?php echo lang('forum_rank');?>" /></td>
+
+                            <td><a class="btn row_delete btn-danger" role="button" tabindex="0"><?php echo lang('forum_delete');?></a></td>
+                        </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <p><a role="button" class="btn row_add btn-light">[+]增加一行</a></p>
+                <p class="text-center">
+                    <button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
+                </p>
+                </form>
+    </div>
+</div>
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+<script>
+    var maxlid = <?php echo $maxlid;?>;
+
+    var jform = $("#form");
+    var jsubmit = $("#submit");
+
+    jform.on('submit', function(){
+        jform.reset();
+        var postdata = jform.serialize();
+        jsubmit.button('loading');
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if(code == 0) {
+                $.alert(message);
+                jsubmit.text(message).delay(3000).location();
+                return;
+            } else {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+    //删除
+    var jarrlist = $('.arrlist');
+    jarrlist.on('click', 'a.row_delete', function() {
+        var jdelete = $('a.row_delete');
+        var jthis = $(this);
+        var jtr = jthis.parents('tr');
+        jtr.remove();
+        return false;
+    });
+    // 增加
+    var jadd = $('a.row_add');
+    jadd.on('click', function() {
+        var jarrlist = $('.arrlist');
+        var last = jarrlist.find('tr').last();
+        var jclone = last.clone();
+        jclone.insertAfter(jarrlist.find('tr').last());
+        // var jrank = jclone.find('input[name^="rank"]');
+        // var rowid = Number(last.attr('rowid')) + 1;
+        var rowid = ++maxlid;
+        // jrank.val(rowid);
+        jclone.attr('rowid', rowid);
+
+        // 修改 [] 中的值为 rowid
+        jclone.find('input').attr_name_index(rowid);
+
+        var inputIcon = jclone.find('input[name^="icon"]');
+
+        // 清空值
+        jclone.find('input').val('');
+
+        return false;
+    });
+</script>

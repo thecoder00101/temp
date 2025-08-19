@@ -1,0 +1,86 @@
+<?php $till_login_banner_setting = setting_get('till_login_banner_setting'); 
+
+$till_login_banner_theme_color_bg = 'var(--'.$till_login_banner_setting['theme'].')';
+$till_login_banner_theme_color_text = 'var(--light)';
+
+$till_login_banner_theme_color_btn_primary = 'btn-'.$till_login_banner_setting['theme'];
+$till_login_banner_theme_color_btn_secondary = 'btn-light';
+
+if($till_login_banner_setting['theme'] == 'light') {
+    $till_login_banner_theme_color_btn_primary = 'btn-primary';
+    $till_login_banner_theme_color_text = 'var(--primary)';
+    $till_login_banner_theme_color_btn_secondary = 'btn-outline-primary';
+}
+
+if( empty($uid) ):
+?>
+<style>
+@keyframes login_hint_banner_showup {
+from {transform: translateY(100%);}
+to {transform: translateY(0%);}
+}
+section#login_hint_banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1024;
+    width: 100%;
+    height: auto;
+    padding: .75em 0;
+    font-size: 1.3rem;
+    text-align:center;
+    color: <?php echo $till_login_banner_theme_color_text; ?>;
+    animation: login_hint_banner_showup 1s ease-out;
+}
+
+section#login_hint_banner:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: <?php echo $till_login_banner_theme_color_bg; ?>;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    z-index: -1;
+    box-shadow: 0 0 0.5em rgba(0,0,0,.1);
+}
+
+#login_hint_banner_close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.login_hint_title,.login_hint_action {
+    display: inline-block;
+    margin: 0 0.5em;
+    vertical-align: middle;
+}
+.login_hint_action .btn {
+    box-shadow: 0 0.1em 0.2em rgba(0,0,0,.2);
+}
+</style>
+<script>
+    function deleteMyself(Obj){
+        Obj.parentNode.parentNode.removeChild(Obj.parentNode);
+    }
+</script>
+<section id="login_hint_banner">
+    <?php if($till_login_banner_setting['allow_close']): ?>
+    <button id="login_hint_banner_close" class="close" onclick="deleteMyself(this)">&times;</button>
+    <?php endif; ?>
+    <div class="container">
+            <div class="login_hint_title">
+                <?php echo $till_login_banner_setting['hint_text']; ?>
+            </div>
+            <div class="login_hint_action btn-group">
+                <?php if($conf['user_create_on']): ?>
+                <a class="btn <?php echo $till_login_banner_theme_color_btn_primary; ?>" href="<?php echo url('user-create');?>"><i class="icon-user-plus"></i> <?php echo lang('register');?></a>
+                <?php endif; ?>
+                <a class="btn <?php echo $till_login_banner_theme_color_btn_secondary; ?>" href="<?php echo url('user-login');?>"><i class="icon-user"></i> <?php echo lang('login');?></a>
+            </div>
+    </div>
+</section>
+<?php endif; ?>

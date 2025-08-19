@@ -1,0 +1,223 @@
+<?php 
+$huux_hlight = setting_get('huux_hlight');
+if($huux_hlight){
+	echo '<div class="d-none huux_hlight">';
+		echo '<style type="text/css">';
+		for( $i=1; $i<6; $i++ ){
+		echo '.huux_thread_hlight_style'.$i.'{color: '.$huux_hlight['hlight_s'.$i.'c'].';font-weight:'.$huux_hlight['hlight_s'.$i.'w'].'}';
+		}
+		echo '</style>';
+	echo '</div>';
+}
+?>
+
+					<?php 
+					if($threadlist) { 
+						$have_allowtop = 0;
+						foreach($threadlist as &$_thread) {
+							$_thread['allowtop'] = forum_access_mod($_thread['fid'], $gid, 'allowtop');
+							if($_thread['allowtop']) $have_allowtop = 1;
+						}
+					}
+					?>
+
+					<?php if($threadlist) { foreach($threadlist as &$_thread) { ?>
+					<li class="media thread tap <?php echo $_thread['top_class'];?>"
+						data-href="<?php echo url("thread-$_thread[tid]");?>" data-tid="<?php echo $_thread['tid'];?>">
+
+						<a <?php if(isset($light_config['user_info_card']) && $light_config['user_info_card']){ ?> data-toggle="popover"  data-trigger="hover" data-html="true" data-content="
+						<div class='media'>
+							<img class='avatar-4 mr-3' src='<?php echo $_thread['user_avatar_url'];?>'>
+							<div class='media-body'>
+							  <h5><?php echo $_thread['username'];?></h5>
+							  <span class='badge badge-primary mr-2'>UID:<?php echo $_thread['user']['uid'];?></span><span class='badge badge-info mr-2'><?php echo $_thread['user']['groupname'];?></span><span class='badge badge-secondary'><?php echo humandate($_thread['user']['login_date']);?></span>
+							  <div class='mt-1'><span class='mr-4'><?php echo lang('threads');?>：<?php echo $_thread['user']['threads'];?></span><span><?php echo lang('posts');?>：<?php echo $_thread['user']['posts'];?></span></div>
+							</div>
+						  </div>
+						" <?php } ?> href="<?php echo url("user-$_thread[uid]");?>" tabindex="-1" class="mt-1 mr-3" >
+							<img class="avatar-3" src="<?php echo $_thread['user_avatar_url'];?>">
+						</a>
+						
+						<?php if (isset($light_config['user_online']) && $light_config['user_online'] == 1) { ?>
+<?php
+			foreach($arronline as $online_user) {
+			if($online_user['uid'] == $_thread['uid']){
+			echo "<i class='icon icon-circle position-absolute  userOnline'  data-toggle='tooltip' data-placement='right' title='在线'></i>";
+			} 
+		} ; ?>
+		<?php }?>
+						
+						<div class="media-body">
+							<div class="style3_subject break-all" style="font-size: <?php echo $light_config['thread_subject_size'];?>px;">
+								<?php if($have_allowtop) { ?>
+								<?php if($_thread['allowtop']) { ?>
+								<input type="checkbox" name="modtid" class="thread_checkbox" value="<?php echo $_thread['tid']; ?>" />
+								<?php } ?>
+								<?php } ?>
+
+								
+								
+								<?php if($_thread['top'] > 0) { ?>
+									<span  data-toggle="tooltip" data-placement="top" title="置顶" class="icon-top-<?php echo $_thread['top']; ?>"></span>
+									<?php } ?>
+								<?php if($_thread['content_buy'] > 0)
+{ ?><!--<img src="./plugin/tt_credits/pay.png" class="user-group-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="赞助">-->
+<i class="icon-shopping-cart" style="color:gold;" aria-hidden="true" title="赞助"></i>
+ <?php } ?>
+
+								<?php if (isset($route) && ($route == 'my' && $action == 'favorite')) { ?>
+	<a href="<?php echo url("forum-$_thread[fid]");?>" target="_blank" title="<?php echo $_thread['forumname'];?>" class="text-grey">[<?php echo $_thread['forumname'];?>]</a>
+<?php } ?><?php 
+if($_thread['hlight'] > 0) { 
+    $huux_hlight = setting_get('huux_hlight');
+	switch($_thread['hlight']){
+		case 1 : $_thread['subject'] = '<span class="huux_thread_hlight_style1">'.($huux_hlight['hlight_n_io'] ? '['.$huux_hlight['hlight_s1n'].'] ':'').$_thread['subject'].'</span>';break;
+		case 2 : $_thread['subject'] = '<span class="huux_thread_hlight_style2">'.($huux_hlight['hlight_n_io'] ? '['.$huux_hlight['hlight_s2n'].'] ':'').$_thread['subject'].'</span>';break;
+		case 3 : $_thread['subject'] = '<span class="huux_thread_hlight_style3">'.($huux_hlight['hlight_n_io'] ? '['.$huux_hlight['hlight_s3n'].'] ':'').$_thread['subject'].'</span>';break;
+		case 4 : $_thread['subject'] = '<span class="huux_thread_hlight_style4">'.($huux_hlight['hlight_n_io'] ? '['.$huux_hlight['hlight_s4n'].'] ':'').$_thread['subject'].'</span>';break;
+		case 5 : $_thread['subject'] = '<span class="huux_thread_hlight_style5">'.($huux_hlight['hlight_n_io'] ? '['.$huux_hlight['hlight_s5n'].'] ':'').$_thread['subject'].'</span>';break;
+		default : $_thread['subject'] = $_thread['subject'];
+	}
+} ?>
+
+								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+								
+<?php if($_thread['digest'] > 0) { ?>
+	<?php if($_thread['digest'] == 1) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-1" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_1');?>"></i>
+	<?php } elseif($_thread['digest'] == 2) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-2" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_2');?>"></i>
+	<?php } elseif($_thread['digest'] == 3) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-3" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_3');?>"></i>
+	<?php } ?>
+<?php } ?>
+							<?php if(!empty($_thread['taglist'])) { foreach($_thread['taglist'] as $tag) { ?>
+							<a href="<?php echo url("forum-$_thread[fid]-$page", array('tagids'=>$tag['tagid']));?>" class="badge badge-pill badge-<?php echo empty($tag['style']) ? 'secondary' : $tag['style'];?>"><?php echo $tag['name'];?></a>
+							<?php  }} ?>
+							<?php if (isset($light_config['new_thread']) && $light_config['new_thread'] == 1) { ?>  
+<?php  
+	if (date('Y-m-d', $_thread['create_date']) == date('Y-m-d')) {
+	?>
+	<span class="badge jb-pink badge-pill"><?= lang('new_post_icon') ?></span>
+	<?php  }  ?>
+    <?php  }  ?>
+
+								
+								<!-- <?php if($_thread['files'] > 0) { ?><i class="icon small filetype other"></i><?php } ?> -->
+								
+
+								
+								<?php if($_thread['closed'] > 0) { ?><i class="icon-lock"></i><?php } ?>
+								
+
+							</div>
+
+							<div class="d-flex justify-content-between small mt-1">
+								<div class="break-all text-truncate">
+									<?php if (isset($light_config['thread_forum_name']) && $light_config['thread_forum_name'] == 1) { ?>
+
+									<?php if ($route == 'index' || $route == 'bbs') { ?>
+										<a href="<?php echo url("forum-$_thread[fid]");?>" title="<?php echo $_thread['forumname'];?>" class="text-grey style3-thread-forum-name bg-light"><?php echo $_thread['forumname'];?></a>
+									<?php } ?>
+									<?php } ?>
+									<?php
+	    $threadss = setting_get('threadss');
+	    $postss = setting_get('postss');
+	    	    $today0 = strtotime("-1 month");
+	$new_threads = db_count('thread',array('uid'=>$_thread['user']['uid'],'create_date'=>array('>'=>$today0)));
+	$new_posts = db_count('post',array('uid'=>$_thread['user']['uid'],'isfirst'=>0,'create_date'=>array('>'=>$today0)));
+	
+	   if($new_threads >= $threadss & $new_posts >= $postss){ $raw__user_username = $_thread['username'];
+
+
+
+$_thread['username']='<span style="color:red;">'.$_thread['username'].'</span>';}?>
+									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-muted mr-1 <?php if($_thread['lastuid'] && $light_config['thread_last_reply']) { ?> hidden-sm<?php } ?>"
+										uid="<?php echo $_thread['uid'];?>"><?php echo $_thread['username'];?>
+										
+<?php if (isset($light_config['groupicon_display']) && $light_config['groupicon_display'] == 1) {
+  $groupImg = './plugin/zaesky_theme_light/view/img/groupicon/'.$_thread['user']['gid'].'.png';
+  if(file_exists($groupImg))  echo '<img src="./plugin/zaesky_theme_light/view/img/groupicon/'.$_thread['user']['gid'].'.png" class="user-group-icon" data-toggle="tooltip" data-placement="top" title="'.$_thread['user']['groupname'].'">';
+  }?>
+
+									</a>
+									<span
+										class="date text-grey<?php if($_thread['lastuid'] && $light_config['thread_last_reply']) { ?> hidden-sm<?php } ?>"><?php echo $_thread['create_date_fmt'];?></span>
+
+									
+									<?php if (isset($light_config['thread_last_reply']) && $light_config['thread_last_reply'] == 1) { ?>  
+
+									<?php if($_thread['lastuid']) { ?>
+									<span>
+										<span class="text-grey mx-2"><i class="fa fa-reply"></i></span>
+										<span class="username text-muted mr-1" uid="<?php echo $_thread['lastuid'];?>"><?php echo $_thread['lastusername'];?>
+											
+										</span>
+										<span class="text-grey"><span class="hidden-sm"><?php echo lang('last_reply');?></span>
+											<?php echo $_thread['last_date_fmt'];?></span>
+									</span>
+									<?php } ?>
+									<?php } ?>
+									<?php if ($route == 'my' && $action == 'favorite') { ?>
+<span class="ml-3">
+	<a href="javascript:;" title="<?php echo lang('haya_favorite_remove_favorite'); ?>" class="text-grey text-small js-haya-favorite-remove" data-tid="<?php echo intval($_thread['tid']); ?>">
+		<i class="icon-remove" aria-hidden="true"></i> 
+		<?php echo lang('haya_favorite_remove_favorite'); ?>
+	<a>
+</span>
+<?php } ?>
+
+								</div>
+								<div class="text-muted  text-nowrap">
+									
+									<!-- <span class="ml-2" data-bs-toggle="tooltip" data-placement="top" title="浏览"><span class="iconfont icon-yanjing" ></span><span > <?php echo convert($_thread['views']);?></span></span> -->
+									
+
+									
+									<?php if ($_thread['posts'] > 0) {?>
+										<a href="<?php echo url("thread-$_thread[tid]");?>#comments" class="ml-2"><span class="text-muted" data-toggle="tooltip" data-placement="top" title="评论"><span class="iconfont  icon-xiaoxi" ></span><span> <?php echo convert($_thread['posts']);?></span></span></a>
+									<?php } ?>
+									<?php 
+if (isset($haya_post_like_config['open_thread'])
+	&& $haya_post_like_config['open_thread'] == 1
+) {
+?>
+	<?php 
+	if ((isset($haya_post_like_config['list_show_likes'])
+		&& $haya_post_like_config['list_show_likes'] == 1)
+		|| ($route == 'my' || $route == 'user')
+	) {
+	?>
+		<span class="ml-2">
+			<span class="iconfont icon-dianzan"></span>
+			<span><?php echo intval($_thread['likes']);?></span>
+		</span>
+	<?php } ?>
+	
+<?php } ?><?php 
+if ( 
+	(isset($haya_favorite_config['thread_show_favorite']) && $haya_favorite_config['thread_show_favorite'] == 1)
+	|| ($route == 'my' || $route == 'user')
+) { 
+?>
+<span class="ml-2" title="<?php echo intval($_thread['favorites']);?> <?php echo lang('haya_favorite_name'); ?>">
+	<i class="icon-star-o" aria-hidden="true"></i> 
+	<?php echo intval($_thread['favorites']);?>
+</span>
+<?php } ?>
+								</div>
+							</div>
+						</div>
+					</li>
+					<?php }} else { ?>
+					<!-- <li>
+						<div><?php echo lang('none');?></div>
+					</li> -->
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<div class="text-center my-5" style="color:gainsboro"><i
+									class="fa fa-bug display-1"></i><br /><?php echo lang('none');?></div>
+						</div>
+					</div>
+					<?php } ?>
+					

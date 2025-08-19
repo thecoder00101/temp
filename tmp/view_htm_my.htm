@@ -1,0 +1,294 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+<div class="row d-lg-none">
+    <div class="col-12 p-0">
+        <div class="card mb-0 rounded-0 py-5 mm-background background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+            <div class="card-body text-white ">
+                <div class="media">
+                    
+                    <img src="<?php echo $user['avatar_url'];?>" class="avatar-4 rounded-circle border border-white">
+                    <div class="media-body ml-3">
+                        <div class="d-flex justify-content-between user-page-username">
+                            <div class="break-all text-truncate">
+                                <span class="font-weight-bold h4"><?php echo $user['username'];?></span>
+                                
+                            </div>
+                            <div class="text-nowrap">
+                                <a class="text-white" href="<?php echo url("user-$user[uid]");?>">个人主页>></a> 
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+                            <span class="badge badge-pill jb-cyan"><?php echo $user['groupname'];?></span>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 px-3" style="margin-top: -35px;">
+        <div class="card mb-0 user-info-count">
+            <div class="card-body">
+                <div class="d-flex justify-content-around text-center">
+                    <div><span class="text-muted"><?php echo lang('mb_threads');?></span><br/><b><?php echo $user['threads'];?></b></div>
+                    <div><span class="text-muted"><?php echo lang('mb_posts');?></span><br/><b><?php echo $user['posts'];?></b></div>
+                     
+                    <div><span class="text-muted">收藏</span><br/><b><?php echo intval($user['favorites']);?></b></div><div><span class="text-muted"><?php echo lang('mb_followed');?></span><br/><b><?php echo intval($user['followeds']); ?></b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group my-3 hidden-lg my-mobile-btn-group" role="group" id="my_mobile_nav1" style="width: 100%;overflow:auto;">
+
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+    
+    
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+    <a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+    
+</div>
+
+<div class="row justify-content-center d-none d-lg-block">
+    <div class="col-lg-12">
+        <div class="card user_header" style="overflow: hidden;">
+            <div class="w-100 background mp-background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+                
+            </div>
+            <div class="card-body">
+                    <div class="media" style="margin-top: -90px;">
+                        
+                        <img class="avatar-6 rounded border mr-4 mt-3" src="<?php echo $user['avatar_url'];?>">
+                        <div class="media-body mt-5 pt-5">
+                            <div class="name-info">
+                                <div class="mb-3">
+                                    <span class="h4 font-weight-bold"><?php echo $user['username'];?></span>
+                                    
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="badge jb-blue mr-1">UID:<?php echo $user['uid'];?></span><span class="badge badge-info jb-cyan"><?php echo $user['groupname'];?></span>
+                                    
+                                </div>
+                                <div style="margin-top: -24px;">
+                                    <a class="btn btn-outline-primary" href="<?php echo url("user-$user[uid]");?>" role="button"><i class="iconfont icon-wode"></i> <?php echo lang('my_user');?></a>
+                                    
+                                </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
+
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+	
+	
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+	
+</div>
+
+<div class="row">
+	<!-- 左侧菜单 -->
+	<div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
+		<div class="card">
+			<div class="card-body text-center">
+				
+				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
+				<br><?php echo $user['username'];?>
+				
+			</div>
+			<div class="list-group list-group-flush text-center">
+				
+				<a href="<?php echo url('my');?>" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
+				
+				
+				
+				<a href="<?php echo url('my-thread');?>" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
+				<a href="<?php echo url('my-follow');?>" class="list-group-item list-group-item-action" data-active="menu-my-follow">关注</a>
+		<a href="<?php echo url('my-notice');?>" class="list-group-item list-group-item-action" data-active="menu-my-notice"><?php echo lang('notice');?></a><a href="<?php echo url('my-name');?>" class="list-group-item list-group-item-action" data-active="menu-my-name">红名</a><a href="<?php echo url('my-credits');?>" class="list-group-item list-group-item-action" data-active="menu-my-credits"><?php echo lang('credits'); ?></a><!--<a href="<?php echo url('my-ranklist');?>" class="list-group-item list-group-item-action" data-active="menu-my-ranklist">排行榜</a>-->
+				
+			</div>
+		</div>
+	</div>
+	<!-- 右侧内容 -->
+	<div class="col-lg-10" id="my_main">
+		
+		<div class="card">
+			<div class="card-header">
+				
+				
+		<ul class="nav nav-tabs card-header-tabs">
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link " href="<?php echo url("my");?>" data-active="my-profile"><?php echo lang('my_basic_profile');?></a>
+			</li>
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-password");?>" data-active="my-password"><?php echo lang('modify_password');?></a>
+			</li>
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-avatar");?>" data-active="my-avatar"><?php echo lang('modify_avatar');?></a>
+			</li>
+			<li class="nav-item"><a class="nav-link" href="<?php echo url("my-signature");?>" data-active="my-signature">签名</a></li><?php if( isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?>
+<li class="nav-item"><a class="nav-link" href="<?php echo url('my-background');?>" data-active="background"><?php echo lang('my_background');?></a></li>
+<?php } ?>
+			
+			
+		</ul>
+	
+				
+			</div>
+			<div class="card-body">
+				
+				
+		<div class="row line-height-4">
+			<div class="col-md-6">
+				<span class="text-muted"><?php echo lang('threads');?>：</span><?php echo $user['threads'];?>
+				<br><span class="text-muted"><?php echo lang('posts');?>：</span><?php echo $user['posts'];?>
+				<br><span class="text-muted"><?php echo lang('haya_favorite_count'); ?>：</span><a href="<?php echo url("my-favorites"); ?>" target="_blank"><?php echo intval($user['favorites']);?></a>
+<br />
+<span class="text-muted">关注数：</span><?php echo intval($user['follows']); ?>
+
+<br />
+<span class="text-muted">粉丝数：</span><?php echo intval($user['followeds']); ?>
+					<br><span class="text-muted"><?php echo lang('sg_credits');?>：</span><?php echo $user['credits'];?>					<br><span class="text-muted"><?php echo lang('digests');?>：</span><?php echo $user['digests'];?>
+			</div>
+			<div class="col-md-6">
+				<span class="text-muted"><?php echo lang('user_group');?>：</span><?php echo $user['groupname'];?>
+				<br><span class="text-muted"><?php echo lang('create_date');?>：</span><?php echo $user['create_date_fmt'];?>
+				<br><span class="text-muted"><?php echo lang('last_login_date');?>：</span><?php echo $user['login_date_fmt'];?>
+				<br><span class="text-danger"><?php echo lang('email');?>：</span><?php echo $user['email'];?>
+				<br><span><span class="text-grey">个性签名：</span>
+<?php
+$htmlsupport = $get_signature['html'];
+if(isset($htmlsupport) && !empty($user['signature'])){
+	if($htmlsupport == 1){
+		echo htmlspecialchars_decode($user['signature']);
+	}else{
+		echo $user['signature'];
+	}
+}else{
+	echo "这家伙太懒了，什么也没留下。"; 
+}?></span>
+
+
+			</div>
+		</div>	
+	
+				
+			</div>
+		</div>
+		<?php 
+$haya_follow_config = setting_get('haya_follow');
+?>
+
+<?php 
+if (isset($haya_follow_config['show_my_dynamic']) 
+	&& $haya_follow_config['show_my_dynamic'] == 1
+	&& ($route == 'my' && $action == '')
+) { 
+?>
+
+	<?php 
+	$haya_follow_dynamic_post_num = intval($haya_follow_config['my_dynamic_post_num']);
+
+	$haya_follow_my_follow_user_count = haya_follow_count_cache(array('follow_uid' => $uid, 'show_dynamic' => 1), 86400);
+	$haya_follow_my_follow_uids = haya_follow_find_uids_by_follow_uid_cache($uid, $haya_follow_my_follow_user_count, 86400);
+	$haya_follow_my_follow_uids[] = $uid;		
+	
+	$haya_follow_user_post_list = post_find(array('uid' => $haya_follow_my_follow_uids), array('pid' => -1), 1, $haya_follow_dynamic_post_num);
+
+	$haya_follow_my_follow_user_remarks_uids = array();
+	if (!empty($haya_follow_user_post_list)) {
+		foreach ($haya_follow_user_post_list as & $haya_follow_user_post) {
+			$haya_follow_user_post['thread'] = thread_read_cache($haya_follow_user_post['tid']);
+	
+			if (!in_array($haya_follow_user_post['uid'], $haya_follow_my_follow_user_remarks_uids)) {
+				$haya_follow_my_follow_user_remarks_uids[] = $haya_follow_user_post['uid'];
+			}
+		}
+	}
+	
+	$haya_follow_my_follow_user_list = haya_follow__find(array('follow_uid' => $uid, 'uid' => $haya_follow_my_follow_user_remarks_uids), array('create_date' => -1), 1, count($haya_follow_my_follow_user_remarks_uids));
+	
+	$haya_follow_my_follow_user_remarks_list = array();
+	
+	if (!empty($haya_follow_my_follow_user_list)) {
+		foreach ($haya_follow_my_follow_user_list as $haya_follow_my_follow_user) {
+			$haya_follow_my_follow_user_remarks_list[$haya_follow_my_follow_user['uid']] = $haya_follow_my_follow_user;
+		}
+	}
+	?>
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<div class="haya-follow-name">
+						最新动态
+					</div>
+					
+					<div class="haya-follow-more">
+						<a href="<?php echo url("my-follow"); ?>" class="small">
+							更多 >>
+						</a>
+					</div>				
+				</div>
+				
+				<div class="card-body">			
+					<?php include _include(APP_PATH.'plugin/haya_follow/view/htm/my_follow_thread.htm'); ?>
+				</div>
+
+			</div>
+
+<?php } ?>
+
+	</div>
+</div>
+
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+<script>
+$('li[data-active="bbs"]').addClass('active');
+</script>
+<script>
+	$('a[data-active="my"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="menu-my"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="my-profile"]').addClass('active');
+</script>

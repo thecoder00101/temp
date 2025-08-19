@@ -1,0 +1,12 @@
+<?php
+	    $threadss = setting_get('threadss');
+	    $postss = setting_get('postss');
+	    	    $today0 = strtotime("-1 month");
+	$new_threads = db_count('thread',array('uid'=>$_thread['user']['uid'],'create_date'=>array('>'=>$today0)));
+	$new_posts = db_count('post',array('uid'=>$_thread['user']['uid'],'isfirst'=>0,'create_date'=>array('>'=>$today0)));
+	
+	   if($new_threads >= $threadss & $new_posts >= $postss){ $raw__user_username = $_thread['username'];
+
+
+
+$_thread['username']='<span style="color:red;">'.$_thread['username'].'</span>';}?>

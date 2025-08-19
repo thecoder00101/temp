@@ -1,0 +1,10 @@
+<li class="nav-item">
+  <a href="<?php echo url('my-follow');?>" class="nav-link text-muted">
+  <i class="iconfont  icon-guanzhu"></i> <?php echo lang('mb_follow');?> <span class="float-right badge bg-light text-muted"><?php echo intval($user['follows']); ?></span>
+  </a>
+  </li>
+  <li class="nav-item">
+  <a href="<?php echo url("my-follow-fans");?>" class="nav-link text-muted">
+   <i class="iconfont icon-wodeguanzhu"></i> <?php echo lang('mb_followed');?> <span class="float-right badge bg-light text-muted"><?php echo intval($user['followeds']); ?></span>
+  </a>
+  </li>

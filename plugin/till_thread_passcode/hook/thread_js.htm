@@ -1,0 +1,20 @@
+<script id="till_thread_passcode_js">
+
+    till_thread_passcode_form = $('#ckpass_form');
+    if (till_thread_passcode_form) {
+
+        till_thread_passcode_form.on('submit', function () {
+            var postdata = till_thread_passcode_form.serialize();
+            $.xpost(till_thread_passcode_form.attr('action'), postdata, function (code, message) {
+                if (code === 0) {
+                    $.alert(message);
+                    window.location.reload();
+                } else {
+                    $.alert(message);
+                }
+            });
+            return false;
+        });
+
+    }
+</script>

@@ -1,0 +1,119 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+	<div class="col-lg-8 offset-lg-2">
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url("plugin-setting-xn_watermark");?>" method="post" id="form">
+					<h4 class="card-title"><b>图片水印  设置</b></h4>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">水印类型：</label>
+						<div class="col-sm-5">
+							<?php echo $input['type']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">水印位置：</label>
+						<div class="col-sm-5">
+							<?php echo $input['position']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">允许水印格式：</label>
+						<div class="col-sm-5">
+							<?php echo $input['format']; ?>
+						</div>
+					</div>
+					<h4 class="card-title"><b>文字  设置</b></h4>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">水印文字：</label>
+						<div class="col-sm-5">
+							<?php echo $input['text']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">文字字体大小：</label>
+						<div class="col-sm-5">
+							<?php echo $input['size']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">文字颜色（RGB）：</label>
+						<div class="col-sm-5">
+							<?php echo $input['color']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">字体文件：</label>
+						<div class="col-sm-5">
+							<?php echo $input['font']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-12 col-form-label"><font  class="col-form-label text-small" color="#FF0000"> 演示使用的是英文字体文件，如果要使用中文，请上传中文字体文件。存放路径：plugin/xn_watermark/font/
+</font></label>
+
+					</div>
+					<h4 class="card-title"><b>图片  设置</b></h4>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">水印图片：</label>
+						<div class="col-sm-3">
+							<img id="logo_img" src="<?php echo $logo; ?>">
+						</div>
+						<div class="col-sm-4">
+							<input type="file" id="logo_upload" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"  class="form-upload" style="width: 200px; opacity: 0.7" value="<?php echo lang('modify_avatar');?>"/>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label">水印图尺寸：</label>
+						<div class="col-sm-5">
+							<?php echo $input['width']; ?>
+						</div>
+					</div><div class="form-group row">
+						<label class="col-sm-3 col-form-label"></label>
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
+						</div>
+					</div>
+				</form>
+				<p class="text-small text-muted">本插件可设置上传图片添加文字和图片水印。<br>插件为<a target='_blank' href='https://xiu.no'>修罗学院</a>整理</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+
+var jform = $("#form");
+var jsubmit = $("#submit");
+var referer = '<?php echo url("plugin-setting-xn_watermark");?>';
+jform.on('submit', function(){
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serialize();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit.text(message).delay(1000).button('reset').location(referer);
+			return;
+		} else {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+var javatar_upload = $('#logo_upload');
+var jimg = $('#logo_img');
+javatar_upload.on('change', function(e) {
+	var files = xn.get_files_from_event(e);
+	xn.upload_file(
+		files[0], 
+		xn.url('plugin-setting-xn_watermark-logo'), 
+		{width: 200, filetype: 'png'}, 
+		function(code, message) {
+			if(code == 0) {
+				jimg.attr('src', message.url+'?'+Math.random());
+			} else {
+				$.alert(message);
+			}
+		}
+	);
+});
+</script>

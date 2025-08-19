@@ -1,0 +1,380 @@
+<?php $conf = G('conf');?>
+<?php $header = G('header');?>
+<?php $user = G('user');?>
+<?php $uid = G('uid');?>
+<?php $gid = G('gid');?>
+<?php $fid = G('fid');?>
+<?php $tid = G('tid');?>
+<?php $pid = G('pid');?>
+<?php $route = G('route');?>
+<?php $forumlist_show = G('forumlist_show');?>
+<?php $static_version = $conf['static_version'];?>
+
+<!DOCTYPE html>
+<html lang="<?php echo $conf['lang'];?>">
+<head>
+	
+	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
+	
+	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+	<?php if(!empty($header['keywords'])) { ?>
+	<meta name="keywords" content="<?php echo strip_tags($header['keywords']);?>" />
+	<?php } ?>
+
+	<meta name="description" content="<?php echo strip_tags($header['description']);?>" />
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+
+	<title><?php echo $header['title'];?></title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta itemprop="image" content="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png">
+<meta property="og:image" content="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png">
+<meta property="og:description" content="<?php echo $conf['sitebrief'];?>" />
+<link rel="shortcut icon" href="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png" />
+<link rel="icon" sizes="32x32" href="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png">
+<link rel="Bookmark" href="https://<?php echo $_SERVER['HTTP_HOST'];?>/view/img/logo.png" />
+	
+	<link rel="shortcut icon" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="<?php echo $conf['view_url'];?>img/favicon.ico">
+	<link rel="Bookmark" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	
+	<style>
+table.nav_tag_list {margin-bottom: 0.2rem;}
+table.nav_tag_list td {padding: 0.3rem;}
+table.nav_tag_list td a{margin-right: 0.2rem;}
+.nav_tag_list .active {font-weight: normal}
+.tag_option {
+        border: 1px solid #bbb; padding: 1px 10px; border-radius: 10px; text-decoration: none;
+}
+.tag_option:active, .tag_option.active {
+        border: 1px solid #000; background: #000; color: #fff; text-decoration: none;
+}
+</style>
+	<?php $bootstrap_css = !empty($bootstrap_css) ? $bootstrap_css : $conf['view_url']."css/bootstrap.css".$static_version; ?>
+	<link rel="stylesheet" href="<?php echo $bootstrap_css;?>">
+	
+	
+	
+	<?php $bootstrap_bbs_css = !empty($bootstrap_bbs_css) ? $bootstrap_bbs_css : $conf['view_url']."css/bootstrap-bbs.css".$static_version; ?>
+	<link rel="stylesheet" href="<?php echo $bootstrap_bbs_css;?>">
+	<style>
+@import url("//at.alicdn.com/t/font_2761470_wlzc7cs9pc.css");
+.bottom-nav {
+    /* display: none; */
+    background-color: white;
+}
+
+.nav_font{
+	font-size:12px;
+	color:#8590a6;
+}
+
+
+.bottom-nav{
+    position: relative;
+    display: inline-block;
+    /* padding-top: 6px; */
+    line-height: 20px;
+    color: #9e9e9e;
+    cursor: pointer;
+}
+@media screen and (min-width: 992px) {
+    .bottom-nav {
+        display: none !important;
+		}
+    }
+	
+@media screen and (max-width: 992px) {
+		#footer{margin-bottom: 4rem};
+    }
+</style><link rel="stylesheet" href="<?php echo 'plugin/huux_notice/view/css/huux-notice.css';?>" name="huux_notice"><link rel="stylesheet" href="https://cdn.staticfile.org/Swiper/8.4.6/swiper-bundle.min.css">
+<style>
+	.swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .swiper {
+        margin-left: auto;
+        margin-right: auto;
+      }
+</style><link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/4.6.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo 'plugin/zaesky_theme_light/view/css/bootstrap-bbs.min.css'.$static_version;?>">
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="<?php echo 'plugin/zaesky_theme_light/view/css/zaesky-theme-light.min.css'.$static_version;?>">
+<link rel="stylesheet" href="https://cdn.staticfile.org/wangeditor5/5.1.23/css/style.min.css">
+<?php if (isset($light_config['body_font_style']) && $light_config['body_font_style'] == 1) { ?> 
+  <link rel="stylesheet" href="<?php echo 'plugin/zaesky_theme_light/view/fonts/HarmonySanc.css'.$static_version;?>">
+  <?php }else if(isset($light_config['body_font_style']) && $light_config['body_font_style'] == 2){?>
+  <link rel="stylesheet" href="<?php echo 'plugin/zaesky_theme_light/view/fonts/SmileySans.css'.$static_version;?>">
+  <?php }?>
+
+	
+	<!-- 限制只在显示签名的页面（帖子页)加载css，避免增加其它页面负担。 -->
+<?php if($route == 'thread') { ?>
+<style>.signature{overflow:hidden;margin-bottom:10px;margin-top:15px;padding-top:20px;line-height:1.6em;font-size:1rem!important;background:url(/plugin/art_signature/view/img/sign.png) no-repeat 0 0}</style>
+<?php } ?><style>
+@import url("//at.alicdn.com/t/font_1706592_83vcpalnto3.css");
+/*
+box-shadow: 0 0 5px red;
+*/
+@keyframes xndigest {
+	0% { color: red; text-shadow: 0 0 3px #FF8D8D;} 
+	20% { color: orange; text-shadow: 0 0 3px #FFE1AD;} 
+	40% { color: green; text-shadow: 0 0 3px #B3FFAF;} 
+	65% { color: blue; text-shadow: 0 0 3px #AFE4FF;} 
+	80% { color: purple; text-shadow: 0 0 3px #FFC9F3;} 
+	100% { color: red; text-shadow: 0 0 3px #FF8D8D;} 
+}
+
+/*水晶闪烁效果 占内存*/
+i.icon-diamond.flash{color: #D53D38;  /*animation: xndigest 5s linear infinite;*/ }
+
+/* i.icon-digest-1 {  text-shadow: 0 0 3px #AFE4FF; }
+i.icon-digest-2 {  text-shadow: 0 0 3px #FFF177; }
+i.icon-digest-3 {  text-shadow: 0 0 3px #FF8D8D; } */
+.icon-digest-1:before {color: #5BC0DE;} /* "\f0a5" */
+.icon-digest-2:before {color: #ECA541;}
+.icon-digest-3:before {color: #D53D38;}
+</style><?php if (isset($light_config['dark_mode_switch']) && $light_config['dark_mode_switch'] == 1) { ?>
+<script type="text/javascript" >
+  function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i].trim();
+    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+  }
+  return "";
+}
+
+function loadjscssfile(filename, filetype) {
+
+  if (filetype == "js") {
+    var fileref = document.createElement('script')
+    fileref.setAttribute("type", "text/javascript")
+    fileref.setAttribute("src", filename)
+  } else if (filetype == "css") {
+    var fileref = document.createElement("link")
+    fileref.setAttribute("rel", "stylesheet")
+    fileref.setAttribute("type", "text/css")
+    fileref.setAttribute("href", filename)
+  }
+  if (typeof fileref != "undefined")
+    document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+function removejscssfile(filename, filetype) {
+  var targetelement = (filetype == "js") ? "script" : (filetype == "css") ? "link" : "none"
+  var targetattr = (filetype == "js") ? "src" : (filetype == "css") ? "href" : "none"
+  var allsuspects = document.getElementsByTagName(targetelement)
+  for (var i = allsuspects.length; i >= 0; i--) {
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr) != null && allsuspects[i].getAttribute(
+        targetattr).indexOf(
+        filename) != -1) {
+      allsuspects[i].parentNode.removeChild(allsuspects[i])
+    }
+  }
+}
+
+function theme() {
+  Theme = getCookie('Theme');
+  if (Theme == "" | Theme == "null" | Theme == null | Theme == undefined) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setCookie('Theme', '2');
+    }
+  }
+
+  if (Theme == "2") {
+    removejscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+  } else if (Theme == "3") {
+    loadjscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+  } else {
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      loadjscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+    } else {
+      removejscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+    }
+
+  }
+}
+theme()
+window.onload = function() {
+  Theme = getCookie('Theme');
+  if (Theme == "3") {
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+    }
+  } else if (Theme == "1") {
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+      }
+    } else {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+      }
+    }
+
+  }
+
+}
+
+function theme_switch() {
+
+  Theme = getCookie('Theme');
+  if (Theme == "null" || Theme == undefined || Theme == "1") {
+    document.getElementById("theme").innerHTML =
+      "<i class = 'iconfont icon-rijian'></i>";
+    setCookie('Theme', '2')
+    theme()
+    cocoMessage.success("日间模式！", 3000);
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+
+    }
+
+
+
+  } else if (Theme == "2") {
+    document.getElementById("theme").innerHTML =
+      "<i class='iconfont icon-yejian'></i>";
+    setCookie('Theme', '3')
+    theme()
+    cocoMessage.success("夜间模式！", 3000);
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+    }
+  } else {
+    document.getElementById("theme").innerHTML =
+      "<i class='iconfont icon-shuaxin1'></i>";
+    setCookie('Theme', '1')
+    theme()
+    cocoMessage.success("自动切换模式！", 3000);
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+      }
+    } else {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+      }
+    }
+  }
+}
+</script>
+<?php }?>
+
+
+<?php if (isset($light_config['site_bg_custom']) && $light_config['site_bg_custom'] == 1 ) { ?>
+<style>
+    body{
+      background-image: url('<?php echo $light_config['site_bg_custom_img'];?>');
+<?php if (isset($light_config['site_bg_cover']) && $light_config['site_bg_cover'] == 1 ) { ?>
+      background-size: cover;
+      <?php }?>
+<?php if (isset($light_config['site_bg_scroll']) && $light_config['site_bg_scroll'] == 0 ) { ?>
+      background-attachment: fixed;
+      <?php }?>
+
+    } 
+  </style>
+<?php }?><link rel="stylesheet" href="plugin/zaesky_threadrank/css/style.css<?php echo $static_version;?>">
+
+
+</head>
+
+<body>
+	
+	
+	
+	<?php include _include(APP_PATH.'view/htm/header_nav.inc.htm');?>
+
+	<main id="body">
+		<div class="container">
+	
+		<?php $xn_ad_setting = setting_get('xn_ad_setting'); ?>
+<?php echo $xn_ad_setting['body_start']; ?><?php if (isset($light_config['site_annoucement_switch']) && $light_config['site_annoucement_switch'] == 1 && isset($light_config['site_annoucement_position']) && $light_config['site_annoucement_position'] == 0 && $light_config['site_annoucement_content'] && $route != 'my' && $route != 'user') {
+  $site_annoucement_style = "";
+  switch($light_config['site_annoucement_style']){
+      case 0: $site_annoucement_style = "primary";break;
+      case 1: $site_annoucement_style = "secondary";break;
+      case 2: $site_annoucement_style = "success";break;
+      case 3: $site_annoucement_style = "danger";break;
+      case 4: $site_annoucement_style = "warning";break;
+      case 5: $site_annoucement_style = "info";break;
+  }
+  ?> 
+  <div class="row">
+    <div class="col-12">
+      <div class="alert mb-0 mb-lg-3 alert-<?php echo $site_annoucement_style;?> alert-dismissible fade show" role="alert">
+        <i class="<?php echo $light_config['site_annoucement_icon'] ;?> mr-2"></i>
+        <?php echo $light_config['site_annoucement_content'] ;?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<?php }?>
+

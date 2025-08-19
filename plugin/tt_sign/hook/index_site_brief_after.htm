@@ -1,0 +1,64 @@
+<?php
+$today0 = strtotime(date('Y-m-d',time()))-1;$num=0;
+$signed = db_find('sign',array('time'=>array('>'=>$today0)),array('time'=>-1),1,5);
+$user_signed = db_count('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)));
+?>
+
+	<div class="card">
+		<div class="card-header">
+
+		<div class="row" id="start">
+		<div  class="tt_signpanel JD_sign d-block col-6 pr-0">
+		<div class="btn <?php if($user_signed){?>btn-light<?php }else{ ?>btn-primary<?php } ;?> btn-block h-100" id="tt_sign">
+			<?php if($uid){?>
+			<span id="sign_title" class="d-block pt-2" ><?php echo db_find_one('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)))?'已签':'签到';?></span>
+			<?php }else{?>
+				<span id="sign_title" class="d-block pt-2" >请先登录</span>
+			<?php }?>
+		</div>
+	</div>
+	<div class="fblock col-6">
+		<div class="all text-muted" >
+			人数：<span class="badge badge-success badge-pill" id="peo"><?php $cache = cache_get('tt_sign'); if(isset($cache['num'])) {echo $cache['num'];$num=$cache['num'];} else {$num=db_count('sign',array('time'=>array('>'=>$today0)));cache_set('tt_sign',array('num'=>$num),600); echo $num;}  ?></span>
+		</div>
+		<div class="line"><span class="small text-gray" id="day"><?php echo date('Y-m-d',time());?></span></div>
+	</div>
+	</div>
+		</div>
+		<div class="card-body py-0">
+			<ul class="list-unstyled mb-0">
+			<?php 
+			if($signed){
+			
+			foreach($signed as $user){
+				$signed_user = db_find_one('user',array('uid'=>$user['uid']));
+				$avatar_link = 'upload/avatar/000/'.$user['uid'].'.png';
+
+				if(file_exists($avatar_link)==false){
+					$avatar_link = 'view/img/avatar.png';
+				}
+				
+				?>
+					<li class="my-2">
+						<div class="media">
+							<img class="avatar-3 mt-1 mr-2" src="<?php echo $avatar_link;?>" alt="">
+							<div class="media-body">
+								<span class="sign_name">
+								<?php echo $signed_user['username'];?>
+								</span>
+								<span class="sign_time d-block text-gray small mt-1">
+									签到时间：<?php echo humandate($user['time']);?>
+								</span>
+							</div>
+							<span class="badge mt-2 badge-light"><i class="fa fa-coins"></i> <?php echo $user['golds'] ;?></span>
+						</div>
+						
+					</li>
+			 <?php }
+				
+			}else{?>
+				<p class="text-center text-muted my-3">今日还没有人签到哦~</p>
+			<?php }?>
+			</ul>
+		</div>
+	</div>

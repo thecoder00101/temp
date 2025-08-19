@@ -1,0 +1,21 @@
+<?php if ( isset($positionlimit) && $positionlimit == 0 ) { ?>
+<div class="text-grey signature d-flex justify-content-between">
+	<span>
+	<?php
+	if (isset($htmlsupport) && !empty($_post['user']['signature'])){
+		if ($htmlsupport == 1) {
+		    echo htmlspecialchars_decode($_post['user']['signature']);
+		} else {
+		    echo $_post['user']['signature'];
+		}
+	}else{
+		echo "这家伙太懒了，什么也没留下。";
+	} 
+	?>
+	</span>
+	<?php
+	if (isset($reportlink) && !empty($reportlink)){?>
+	<a href="<?php echo $reportlink; ?>" class="text-grey" target="_blank">&#10150</a>
+	<?php } ?>
+</div>
+	<?php  } ?>

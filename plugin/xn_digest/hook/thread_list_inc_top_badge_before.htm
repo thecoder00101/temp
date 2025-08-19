@@ -1,0 +1,9 @@
+<?php if($_thread['digest'] > 0) { ?>
+	<?php if($_thread['digest'] == 1) { ?>
+		<span class="badge jb-blue icon-digest-1" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_1');?>">精</span>
+	<?php } elseif($_thread['digest'] == 2) { ?>
+		<span class="badge jb-purple icon-digest-2" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_2');?>">精</span>
+	<?php } elseif($_thread['digest'] == 3) { ?>
+		<span class="badge jb-red icon-digest-3" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_3');?>">精</span>
+	<?php } ?>
+<?php } ?>

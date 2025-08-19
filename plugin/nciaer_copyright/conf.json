@@ -1,0 +1,11 @@
+{
+    "name": "版权声明",
+    "brief": "<b>简介：</b>贴子内显示版权声明，支持变量，支持多种设置<br />xiuno非官方提供，www.xiuno.top",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

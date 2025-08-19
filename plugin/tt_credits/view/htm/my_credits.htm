@@ -1,0 +1,33 @@
+<template include="./plugin/tt_credits/view/htm/my_credits.template.htm">
+	<slot name="my_body"><div class="col-md-6 mx-auto">
+<?php $no_cache_user = user_read($uid);
+$progress=100; $max=1; $now=$no_cache_user['credits'];
+if($no_cache_user['gid']>100){
+	foreach($grouplist as $group) {
+		if($group['gid'] < 100) continue;
+		$n = $no_cache_user['credits'] ;
+		if($n > $group['creditsfrom'] && $n <= $group['creditsto']) {
+			$max=$group['creditsto'];
+			if($no_cache_user['groupname']!=$group['name']) {
+				$no_cache_user['groupname']=$group['name'];
+				user_update_group($uid);
+			}
+			break;
+		}
+	}
+	$progress = (int)($now/$max);
+}
+
+?>
+			<p><?php echo lang('user_group');?>: <?php echo $no_cache_user['groupname'];?></p>
+			<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: <?php echo $progress;?>%;" aria-valuenow="<?php echo $progress;?>" aria-valuemin="0" aria-valuemax="100"><?php if($progress>=20) echo $progress,'%';?></div><?php if($progress<20) echo $progress,'%';?></div>
+			<hr>
+		    <div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" style="width:80px;display:block;"><i class="icon-flask" aria-hidden="true"></i> <?php echo lang('credits1');?></span></div><input type="text" class="form-control" readonly style="background-color:white;" value="<?php echo $no_cache_user['credits'];?>"></div>
+            <div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" style="width:80px;display:block;"><i class="icon-diamond" aria-hidden="true"></i> <?php echo lang('credits2');?></span></div><input type="text" class="form-control" readonly style="background-color:white;" value="<?php echo $no_cache_user['golds'];?>"></div>
+            <div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" style="width:80px;display:block;"><i class="icon-jpy" aria-hidden="true"></i> <?php echo lang('credits3');?></span></div><input type="text" class="form-control" readonly style="background-color:white;" value="<?php echo $no_cache_user['rmbs'];?>"></div>
+		<!--{hook my_credits_after.htm}-->
+	</div></slot></template>
+<script>
+    $('a[data-active="my-credits"]').addClass('active');
+</script>
+<!--{hook my_credits_script_after.htm}-->

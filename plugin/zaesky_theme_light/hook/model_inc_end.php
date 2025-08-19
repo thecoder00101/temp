@@ -1,0 +1,1 @@
+include _include(APP_PATH.'plugin/zaesky_theme_light/model/light.func.php');

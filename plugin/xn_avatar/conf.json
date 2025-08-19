@@ -1,0 +1,11 @@
+{
+    "name": "预设头像",
+    "brief": "系统预设头像，适用于各种站点。魔趣吧www.moqu8.com提供下载",
+    "version": "1.00",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

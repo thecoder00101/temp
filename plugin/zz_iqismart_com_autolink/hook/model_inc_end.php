@@ -1,0 +1,1 @@
+include _include(APP_PATH.'plugin/zz_iqismart_com_autolink/model/autolink.func.php');

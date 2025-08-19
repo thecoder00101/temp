@@ -1,0 +1,18 @@
+<template include="view/htm/my.common.template.htm">
+	<slot name="my_nav">
+		<ul class="nav nav-tabs card-header-tabs">
+			<!--{hook my_nav_photo_before.htm}-->
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-name");?>" data-active="my-name">红名特权状态</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-namerank");?>" data-active="my-namerank">红名用户名单</a>
+			</li>
+			<!--{hook my_nav_photo_after.htm}-->
+		</ul>
+	</slot>
+</template>
+
+<script>
+$('a[data-active="menu-my-name"]').addClass('active');
+</script>

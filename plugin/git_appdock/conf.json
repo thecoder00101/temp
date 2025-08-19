@@ -1,0 +1,11 @@
+{
+    "name": "APP底部栏",
+    "brief": "一个网站底部导航插件。由<a style='font-weight:600;color:red;' href='https://www.noteweb.top' target='_blank'>NOTEWEB</a>重制优化。",
+    "version": "2.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

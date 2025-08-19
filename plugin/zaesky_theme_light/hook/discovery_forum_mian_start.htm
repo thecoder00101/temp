@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <div>
+        <i class="fas fa-user-friends mr-2"></i><?php echo lang('discovery_partner');?>
+      </div>
+      <div>
+        <?php echo lang('online');?>：<span class="badge badge-success badge-pill"><b><?php echo $runtime['onlines'];?></b>  </span> 
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+      <div class="overflow-auto discovery-user">
+      <div style="width:800px">
+        <?php 
+		$userlist = discovery_get_site_new_user(21);
+        foreach ($userlist as $user) {
+			$user_avatarimg = 'view/img/avatar.png';
+			$user['avatar']!=0 && $user_avatarimg = $conf['upload_url'].'avatar/000/'.$user['uid'].'.png?'.$user['avatar'];
+      $user['login_name_date'] = $user['dname'].'('.humandate($user['login_date']).')';
+			  ?>
+			<a title="<?php echo $user['login_name_date'];?>" class="tt" href="<?php echo url("user-$user[uid]");?>">
+				<img src="<?php echo $user_avatarimg; ?>" class="avatar-3" alt="<?php echo $user['dname'];?>">
+			</a>
+		<?php } ?>
+      </div>
+    </div>
+  </div>
+</div>
+

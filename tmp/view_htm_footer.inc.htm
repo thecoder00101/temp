@@ -1,0 +1,776 @@
+<?php $db = G('db');?>
+<?php $starttime = G('starttime');?>
+<?php $time = G('time');?>
+<?php $ip = G('ip');?>
+<?php $useragent = G('useragent');?>
+<?php $forumlist = G('forumlist');?>
+<?php $forumarr = G('forumarr');?>
+<?php $fid = G('fid');?>
+<?php $conf = G('conf');?>
+<?php $static_version = $conf['static_version'];?>
+				
+			<?php echo $xn_ad_setting['body_end']; ?><?php
+
+echo setting_get('footer_start_htm');
+
+?>
+		
+			<?php  echo xn_debug_info(); ?>
+	
+		</div>
+	</main>
+	
+	
+	
+	<?php include _include(APP_PATH.'view/htm/footer_nav.inc.htm');?>
+	
+	
+	
+	<!--[if ltg IE 9]>
+	<script>window.location = '<?php echo url('browser');?>';</script>
+	<![endif]-->
+	
+	
+	
+	<?php $browser = get__browser();?>
+	<?php if($browser['name'] == 'ie') { ?>
+	<script src="<?php echo $conf['view_url'];?>js/es6-shim.js<?php echo $static_version;?>"></script>
+	<?php } ?>
+	<script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/popper.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/bootstrap.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/xiuno.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/async.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/form.js<?php echo $static_version;?>"></script>
+	<script>
+	var debug = DEBUG = <?php echo DEBUG; ?>;
+	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;
+	var forumarr = <?php echo xn_json_encode($forumarr);?>;
+	var fid = <?php echo $fid;?>;
+	var uid = <?php echo intval($uid);?>;
+	var gid = <?php echo intval($gid);?>;
+	xn.options.water_image_url = '<?php echo $conf['logo_water_url'];?>';	// 水印图片 / watermark image
+	</script>
+	<script src="<?php echo $conf['view_url'];?>js/bbs.js<?php echo $static_version;?>"></script>
+	<?php if ($route == 'user' || $route == 'thread' || ($route == 'my' && $action == 'follow')) { ?>
+	<script>
+	<?php if ($uid) { ?>
+	$(document).on('click', '.js-haya-follow-add', function() {
+		$(this).attr("disabled", "disabled");
+
+		var thiz = $(this);
+		var uid = thiz.attr("data-uid");
+		var url = '<?php echo url("follow-create");?>';
+		$.xpost(url, {'uid': uid}, function(code, msg){
+			if (code == 1) {
+				thiz.removeClass('js-haya-follow-add')
+					.addClass('js-haya-follow-del')				
+					.attr('title', '取消关注');		
+			
+				thiz.find(".icon").removeClass('icon-plus')
+					.addClass('icon-check')
+					.attr("aria-label", '取消关注');
+					
+				thiz.find(".haya-follow-btn")
+					.text('已关注');
+			} else {
+				$.alert(msg);
+			}
+			
+			thiz.removeAttr("disabled");
+		});
+	});
+
+	$(document).on('click', '.js-haya-follow-del', function() {
+		$(this).attr("disabled", "disabled");
+
+		var thiz = $(this);
+		var uid = thiz.attr("data-uid");
+		var url = '<?php echo url("follow-delete");?>';
+		$.xpost(url, {'uid': uid},function(code, msg){
+			if (code == 1) {				
+				thiz.removeClass('js-haya-follow-del')
+					.addClass('js-haya-follow-add')
+					.attr('title', '关注');		
+			
+				thiz.find(".icon").removeClass('icon-check')
+					.addClass('icon-plus')
+					.attr("aria-label", '关注');
+					
+				thiz.find(".haya-follow-btn")
+					.text('关注');
+			} else {
+				$.alert(msg);
+			}
+			
+			thiz.removeAttr("disabled");
+		});
+	});
+	
+	$(document).on('click', '.js-haya-follow-remove', function() {
+		$(this).attr("disabled", "disabled");
+
+		var thiz = $(this);
+		var uid = thiz.attr("data-uid");
+		var url = '<?php echo url("follow-remove");?>';
+		$.xpost(url, {'uid': uid},function(code, msg){
+			if (code == 1) {									
+				$(".haya-follower-"+uid).remove();
+			} else {
+				$.alert(msg);
+			}
+			
+			thiz.removeAttr("disabled");
+		});
+	});
+	
+	<?php } else { ?>
+	$(document).on('click', '.js-haya-follow-tip', function() {
+		$.alert("登录后才可以关注~");
+	});
+	<?php } ?>
+	</script>
+<?php } ?><script>
+// 主题高亮
+$('.mod-button button.hlight').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('hlight', {"0": "<?php echo '<span class=\"huux_thread_hlight_style0\">'.lang('thread_hlight_0').'</span>';?>", "1": "<?php echo '<span class=\"huux_thread_hlight_style1\">'.lang('thread_hlight_1').'</span>';?>","2": "<?php echo '<span class=\"huux_thread_hlight_style2\">'.lang('thread_hlight_2').'</span>';?>", "3": "<?php echo '<span class=\"huux_thread_hlight_style3\">'.lang('thread_hlight_3').'</span>';?>", "4": "<?php echo '<span class=\"huux_thread_hlight_style4\">'.lang('thread_hlight_4').'</span>';?>", "5": "<?php echo '<span class=\"huux_thread_hlight_style5\">'.lang('thread_hlight_5').'</span>';?>"});
+	$.confirm("<?php echo lang('set_thread_hlight');?>", function() {
+		var tids = xn.implode('_', modtid);
+		var hlight = $('input[name="hlight"]').checked();
+		var postdata = {hlight: hlight};
+		$.xpost(xn.url('mod-hlight-'+tids), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+"<?php echo lang('thread_hlight_style');?>"+'：'+radios+'</p>'});
+})
+</script>
+
+<script src="plugin/tt_credits/view/js/tt_credits.js<?php echo $static_version;?>"></script><script>
+  var jmsign = $("#sign_mobile");
+  jmsign.on("click",function(){
+      $.xpost(xn.url("my-sign"),"",function(code,message){
+			    cocoMessage.info(message, 5000);});
+  });
+</script><script>
+    //前端设置cookie
+    if(!$.cookie('_xn_accesscount_visited')){
+        $.cookie('_xn_accesscount_visited', 1, <?php echo strtotime(date('Y-m-d 23:59:59')) - time();?>, '/');
+    }
+</script><script>
+// 版主管理：精华
+
+// $('.mod-button button.digest').on('click', function() {
+// 	var modtid = $('input[name="modtid"]').checked();
+// 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+// 	var radios = xn.form_radio('digest', {"0": "<?php echo lang('digest_0');?>", "1": "<?php echo lang('digest_1');?>","2": "<?php echo lang('digest_2');?>", "3": "<?php echo lang('digest_3');?>"});
+// 	$.confirm("<?php echo lang('set_digest_thread');?>", function() {
+// 		var tids = xn.implode('_', modtid);
+// 		var digest = $('input[name="digest"]').checked();
+// 		var postdata = {digest: digest};
+// 		$.xpost(xn.url('mod-digest-'+tids), postdata, function(code, message) {
+// 			if(code != 0) return $.alert(message);
+// 			$.alert(message).delay(1000).location('');
+// 		});
+// 	}, {'body': '<p>'+"<?php echo lang('digest_level');?>"+'：'+radios+'</p>'});
+// })
+</script><script src="<?php echo 'plugin/zaesky_theme_light/view/js/coco-message.min.js';?>"></script>
+<script src="<?php echo 'plugin/zaesky_theme_light/view/js/sidebar.min.js';?>"></script>
+<script type="text/javascript">
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	});
+	$(function () {
+	  $('[data-toggle="popover"]').popover()
+	})
+	var sidebarjs = new SidebarJS();
+</script>
+
+
+<?php if ($route == 'thread' && $action != 'create') { ?>
+  <style>
+    @media screen and (max-width: 992px) {
+    #footer{margin-bottom: 3rem};
+    }
+  </style>
+  
+  <div class="position-fixed w-100 header_fiexd  thread-nav d-lg-none">
+    
+    <div class="d-flex mt-2 px-2">
+      <a href="javascript:;" class="flex-grow-1 thread_comment_input text-muted" >
+        <em><?php if($user) { ?> <span class="thread_tip_text1 ">来发布一条评论吧~</span><span class="tip_close d-none">点击关闭评论框</span> <?php } else{ ?>请先登录后发表评论！<?php }  ?></em>
+    </a>
+    <div class="thread_btm_func d-flex" style="margin-top: -8px;">
+    <div class="px-3">
+      <a href="#comments" class=" position-relative"><i class="iconfont icon-huida"></i><span class="thread_nav_pop_count"><?php echo convert($thread['posts']) ? convert($thread['posts']) : '';?></span></a>
+    </div>
+  <?php if (isset($light_config['thread_left_func']) && $light_config['thread_left_func'] == 1) { ?>
+    <div class="px-3">
+      <?php $haya_favorite_check_favorite = haya_favorite_find_by_uid_and_tid($uid, $tid); ?>
+  <?php if($haya_favorite_check_favorite){ ?>
+    <a href="javascript:;" class="position-relative add_func js-haya-favorite-del text-primary" data-tid="<?php echo $tid;?>"><i class="iconfont icon-tiezishoucang"></i><span class="haya-favorite-user-count thread_nav_pop_count"><?php echo convert(intval($thread['favorites'])) ? convert(intval($thread['favorites'])) : ''; ?></span></a>
+  <?php } else { ?>
+    <a href="javascript:;" class="position-relative add_func js-haya-favorite-add" data-tid="<?php echo $tid;?>"><i class="iconfont icon-tiezishoucang"></i><span class="haya-favorite-user-count thread_nav_pop_count"><?php echo convert(intval($thread['favorites'])) ? convert(intval($thread['favorites'])) : ''; ?></span></a>
+  <?php } ?>
+  
+  </div>
+    <div class="px-3">
+      <?php $haya_post_like_thread_check = haya_post_like_find_by_uid_and_pid($uid, $first['pid']); ?>
+      <?php if($haya_post_like_thread_check){ ?>
+      <a href="javascript:;"  class="position-relative add_func js-haya-post-like-thread-del text-primary" data-pid="<?php echo $first['pid'];?>"><i class="iconfont icon-zan"></i><span class="thread_nav_pop_count haya-post-like-thread-user-count"><?php echo convert(intval($first['likes'])) ? convert(intval($first['likes'])) : ''; ?></span>
+      </a>
+      <?php } else { ?>
+      <a href="javascript:;" class="position-relative add_func js-haya-post-like-thread-add" data-pid="<?php echo $first['pid'];?>"><i class="iconfont icon-zan"></i><span class="thread_nav_pop_count haya-post-like-thread-user-count"><?php echo convert(intval($first['likes'])) ? convert(intval($first['likes'])) : ''; ?></span>
+      </a>
+        <?php } ?>
+    </div><?php }?>
+  
+    <?php if($gid > 0 && $gid < 5 || $allowupdate || $first['allowupdate'] || $allowdelete || $first['allowdelete']) { ?>
+    <div class="pl-3 pr-2">
+      <div class="dropup">
+      <i class="iconfont icon-gengduo" data-toggle="dropdown"></i>
+      <div class="dropdown-menu p-0">
+          <div class="text-center">
+            <div class=" btn-group-vertical w-100 mod-button" role="group" aria-label="">
+              <?php if(param(0) != 'thread') { ?>
+              <label class="btn btn-secondary mb-0">
+                <input type="checkbox" data-target='input[name="modtid"]' class="checkall mr-2" value=""
+                  aria-label="<?php echo lang('checkall');?>" /><?php echo lang('checkall');?>
+              </label>
+              <?php } ?>
+              <?php if($gid > 0 && $gid < 5) { ?>
+              
+              <button class="btn btn-secondary delete" data-modal-url="<?php echo url("mod-delete");?>"
+                data-modal-title="<?php echo lang('delete');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('delete');?></button>
+              
+              <button class="btn btn-secondary move" data-modal-url="<?php echo url("mod-move");?>"
+                data-modal-title="<?php echo lang('move');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('move');?></button>
+              
+              <button class="btn btn-secondary top" data-modal-url="<?php echo url("mod-top");?>"
+                data-modal-title="<?php echo lang('top');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('top');?></button>
+              <button type="button" class="btn btn-secondary hlight"><?php echo lang('thread_hlight');?></button>
+              <button class="btn btn-secondary _close" data-modal-url="<?php echo url("mod-close");?>"
+                data-modal-title="<?php echo lang('close');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('close');?></button>
+              <button class="btn btn-secondary digest" data-modal-url="<?php echo url("mod-digest");?>" data-modal-title="<?php echo lang('digest');?>" data-modal-arg=".threadlist" data-modal-size="md"><?php echo lang('digest');?></button>
+              <?php } ?>
+              <?php if($allowupdate || $first['allowupdate']) { ?>
+                <a class="btn btn-secondary post_update" href="<?php echo url("post-update-$thread[firstpid]");?>">
+                  <?php echo lang('edit');?>
+                </a>
+                <?php } ?>
+      
+                <?php if($allowdelete || $first['allowdelete']) { ?>
+                <a class="btn btn-secondary post_delete" data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" isfirst="1"><?php echo lang('delete');?></a>
+                <?php } ?>
+            </div>
+          </div>
+          
+      </div>  
+    </div>
+    </div>
+    <?php } ?>
+  </div>
+  </div>
+  
+  </div> 
+  
+  <?php }?>
+
+
+
+<?php if (isset($light_config['pic_lazyload_switch']) && $light_config['pic_lazyload_switch'] == 1) { ?>
+	<script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$(function(){
+			$('.message img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".message img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+		$(function(){
+			$('.pic_box img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".pic_box img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+		$(function(){
+			$('.left_img_box img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".left_img_box img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+	</script>
+<?php } ?>
+
+<?php if (isset($light_config['window_no_console']) && $light_config['window_no_console'] == 1) { ?>
+
+	<script type="text/javascript">
+		var h = window.innerHeight,w=window.innerWidth;
+		window.oncontextmenu=function(){return false;}
+		window.addEventListener("keydown", function(e) {
+		if (e.keyCode == 123) {
+		window.event.returnValue = false;
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		return false;
+		} else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)){
+		window.event.returnValue = false;
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		return false;
+		}else if((e.shiftKey) && (e.keyCode == 121)){
+		window.event.returnValue = false;
+		return false;
+		}else if((e.ctrlKey) && (e.keyCode == 85)){
+		window.event.returnValue = false;
+		return false;
+		}else if ((e.ctrlKey) && (e.keyCode == 83)) {
+		window.event.returnValue = false;
+		return false;
+		}
+		}, false);
+		//如果用户在工具栏调起开发者工具，那么判断浏览器的可视高度和可视宽度是否有改变，如有改变则关闭本页面
+		window.onresize = function () {
+		// if (h != window.innerHeight||w!=window.innerWidth){
+		// window.location.reload();
+		//}
+		};
+		function checkDebugger(){
+		const d=new Date();
+		debugger;
+		const dur=Date.now()-d;
+		if(dur<5){
+		return false;
+		}else{
+		window.close();
+		window.location = "about:blank";
+		return true;
+		}
+		};
+		function breakDebugger(){
+		if(checkDebugger()){
+		breakDebugger();
+		}
+		};
+		
+		(function isConsoleOpen() {
+		breakDebugger();
+		})();
+		(function(){
+		var re=/x/;
+		var i=0;
+		console.log(re);
+		re.toString=function(){
+		window.close();
+		window.location = "about:blank";
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		}
+		})();
+		
+		//禁用控制台打开
+		document.onkeydown = function (e) {
+		var currKey = 0, evt = e || window.event;
+		currKey = evt.keyCode || evt.which || evt.charCode;
+		if ((currKey == 123) || ((event.ctrlKey == true) && (event.shiftKey == true) && (currKey == 73))) {
+		layer.msg('控制台不见了呢', {
+		time: 1000
+		});
+		window.event.cancelBubble = true;
+		window.event.returnValue = false;
+		return false;
+		}
+		}
+		</script>
+<?php } ?>
+
+
+<script>
+	$('.add_func').on('click',function(){
+		<?php if (!empty($user)) { ?>
+			if($(this).hasClass('text-primary')){
+			$(this).removeClass('text-primary')
+		}else{
+			$(this).addClass('text-primary')
+		}
+		<?php } else { ?> 
+			cocoMessage.error("请先登录后操作！", 3000);
+			<?php } ?>
+	})
+
+</script>
+
+
+<?php if (isset($light_config['back_top']) && $light_config['back_top'] == 1) { ?> 
+	<script src="<?php echo 'plugin/zaesky_theme_light/view/js/GoToTop.min.js';?>"></script>
+	<div class="goTop text-center shadow-sm text-muted"  id="js-go_top" style="transform: translate(60px,0px);"><i class="fas fa-arrow-alt-circle-up"></i></div>
+	<script>
+    //示例
+    $('#js-go_top').gotoTop({
+        offset : 100,
+        speed : 300, 
+        animationShow : {
+            'transform' : 'translate(0,0)',
+            'transition': 'transform .5s ease-in-out'
+        },
+        animationHide : {
+            'transform' : 'translate(60px,0)',
+            'transition': 'transform .5s ease-in-out'
+        }
+    });
+</script>
+	<?php }?>
+
+<script>
+	$.each($('.thread_checkbox'),function(){
+		
+		$(this).on('click',function(){
+				$('.thread_mod_func').css({
+					'position':'fixed',
+					'bottom':'50px',
+					'left':0,
+					'right':0,
+				})
+				$('.close_mod').removeClass('d-none')
+		})
+
+	})
+
+	$('.close_mod').on('click',function(){
+		$('.thread_mod_func').css('position','relative')
+		$('.close_mod').addClass('d-none')
+	})
+
+
+	function cancelReply (){
+	var jthis = $('.mod_post_reply');
+	var tid = jthis.data('tid');
+	var pid = jthis.data('pid');
+	var jli = jthis.closest('.post');
+	var qusername = $('.qusername');
+	var jadvanced_reply = $('#advanced_reply');
+	var jform = $('#quick_reply_form');
+	var replying = $('.replying');
+		jli.removeClass('quote');
+		jform.find('input[name="quotepid"]').val(0);
+		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
+		qusername.text('');
+		replying.hide('fast');
+}
+</script>
+
+<?php if (isset($light_config['thread_emo_func']) && $light_config['thread_emo_func'] == 1) { ?>
+<script type="text/javascript" src="/plugin/zaesky_theme_light/view/js/jquery.qqFace.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.emotion').qqFace({
+		id : 'facebox', 
+		assign:'message', 
+		path:'plugin/zaesky_theme_light/view/img/emoicon/',
+		emoNum: <?php echo ShuLiang('plugin/zaesky_theme_light/view/img/emoicon/'); ?>,
+	});
+});
+</script>
+<?php } ?>
+
+
+  
+	
+</body>
+
+</html>
+<div class="position-fixed w-100 header_fiexd bottom-nav" style="width: 100%; height: 55px; bottom: 0; z-index: 1000;border-top: 1px solid rgb(239, 239, 239);">
+
+    <div class="row mx-0 text-center align-items-center" style="height: 55px;">
+        <a href="./" class="col" data-active="index">
+            <div>
+                <i class="iconfont icon-zhuye"></i>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_home');?>
+            </div>
+        </a>
+        <a  class="col" data-toggle="modal" data-target="#forum">
+            <div>
+                <i class="iconfont icon-gengduo text-dark"></i>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_category');?>
+            </div>
+        </a>
+		<?php if($uid){ ?>
+		<a href="<?php echo url("thread-create-$fid");?>" class="col">
+		    <button type="button" class="btn btn-primary rounded-circle"><i class="iconfont icon-iconjia"></i></button>
+		</a>
+		<?php  } ?>
+        <a href="<?php echo url("my-notice");?>" class="col">
+            <div>
+                <i class="iconfont icon-xiaoxi"></i>
+				<?php if(!empty($user['unread_notices'])) { ?>
+      <span class="badge badge-danger badge-pill position-absolute"><?php echo $user['unread_notices']; ?></span>
+<?php  } ?>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_notice');?>
+            </div>
+        </a>
+        <a href="<?php echo url("my");?>" class="col">
+            <div>
+                <i class="iconfont icon-wode"></i>
+            </div>
+            <div class="nav_font" >
+                <?php echo lang('dock_my');?>
+            </div>
+        </a>
+    </div>
+</div> 
+<?php if(empty($uid) & in_array($route, array('bbs', 'forum', 'thread', 'post','index'))) { ?>
+	<div  class="position-fixed header_fiexd text-center hidden-lg" style="width: 100%; height: 100px; bottom: 0; z-index: 999;"><a href="<?php echo url('user-login');?>" role="button" class="btn btn-primary rounded-pill"  style="box-shadow: 0 1px 3px rgba(26,26,26,.1);
+"><?php echo lang('dock_login');?></a></div>
+<?php  }?>
+
+<div class="modal fade" id="forum" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo lang('dock_section');?></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+					<div class="row row-cols-2 justify-content-between">
+						<?php foreach($forumlist_show as $_forum) { ?>
+						
+					    <div class="col py-2">
+							<a class="nav-link rounded media w-100 bg-light"
+								href="<?php echo url("forum-$_forum[fid]");?>">
+							<div class="media">
+							  <img class="avatar-3 mr-3 mt-1 rounded" src="<?php echo $_forum['icon_url'];?>">
+							  <div class="media-body">
+							    <span class="font-weight-bold"><?php echo $_forum['name'];?></span>
+							    <span class="d-block text-muted mt-2 w-100 text-truncate"><span><i
+							    			class="far fa-comment-alt"></i> :
+							    		<b><?php echo $_forum['threads'];?></b></span>
+							    	<span><i class="far fa-comments"></i> :
+							    		<b><?php echo $_forum['todayposts'];?></b></span>
+							    </span>
+							  </div>
+							</div>
+							</a>
+						</div>
+						
+						<?php } ?>	
+					  </div>
+					
+			</div>
+		</div>
+	</div>
+</div>  <style>
+.uptodown {
+    outline: none;
+    position: fixed;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 6px rgba(0,0,0,.12);
+    cursor: pointer;
+    z-index: 5
+}
+
+.d-fixed {
+    right: 70px;
+	width: 50px;
+}
+@media (max-width: 992px) {
+.d-fixed {
+    right: 0px;
+}
+
+}
+</style>
+<div id="scroll_to_top" class="d-fixed " style="position: fixed; _position: absolute; bottom: 180px;   height: 0px;display: none;">
+	<a href="javascript:void(0);" class="uptodown" title="回到顶部"><i class="icon-angle-up"></i></a>
+</div>
+<div id="scroll_to_end" class="d-fixed " style="position: fixed; _position: absolute; bottom: 80px;   height: 50px;display: none;">
+	<a href="javascript:void(0);" class="uptodown" title="直达底部"><i class="icon-angle-down"></i></a>
+</div>
+
+<script>
+//回到顶部
+var jscroll_to_top = $('#scroll_to_top');
+$(window).scroll(function() {
+	if ($(window).scrollTop() > 0) {
+	   jscroll_to_top.fadeIn('slow');
+	} else {
+		jscroll_to_top.fadeOut('slow');
+	}
+});
+jscroll_to_top.on('click', function() {
+	$('html,body').animate({scrollTop: 0}, 'slow');
+});
+//直达底部
+var jscroll_to_end = $('#scroll_to_end');
+$(window).scroll(function() {
+	if ($(window).scrollTop() < ($(document).height()-$(window).height()) ) {
+	   jscroll_to_end.fadeIn('slow');
+	} else {
+		jscroll_to_end.fadeOut('slow');
+	}
+});
+jscroll_to_end.on('click', function() {
+	$('html,body').animate({scrollTop: $(document).height() }, 'slow');
+});
+</script>
+<?php echo $xn_ad_setting['footer_end']; ?><?php
+
+echo setting_get('footer_end_htm');
+
+?>
+
+<?php if ($route != 'thread' && isset($light_config['dock_switch']) && $light_config['dock_switch'] == 1) { ?>
+  <style>
+    @media screen and (max-width: 992px) {
+    #footer{margin-bottom: 4rem};
+    }
+  </style>
+<div class="position-fixed w-100 header_fiexd bottom-nav d-lg-none bottom-nav-bt" >
+
+  <div class="row mx-0 text-center align-items-center" style="height: 55px;">
+      <a href="./" class="col" data-active="index">
+          <div>
+              <i class="iconfont icon-dockhome"></i>
+          </div>
+          <div class="nav_font">
+              <?php echo lang('dock_home');?>
+          </div>
+      </a>
+<?php if (isset($light_config['disc_page']) && $light_config['disc_page'] == 1 && $light_config['disc_page_index'] == 0) { ?>
+      <a href="<?php echo url('discovery');?>" class="col" data-active="discovery">
+          <div>
+              <i class="iconfont icon-dockfenlei"></i>
+          </div>
+          <div class="nav_font">
+            <?php echo $light_config['disc_page_title'];?>
+          </div>
+      </a>
+      <?php }else if(isset($light_config['disc_page']) && $light_config['disc_page'] && $light_config['disc_page_index']){ ?>
+        <a href="<?php echo url('bbs');?>" class="col" data-active="bbs" >
+          <div>
+              <i class="iconfont icon-dockfenlei"></i>
+          </div>
+          <div class="nav_font">
+              论坛
+          </div>
+      </a>
+      <?php }else{ ?>
+        <a href="javascript:;" class="col" data-toggle="modal" data-target="#forum">
+          <div>
+              <i class="iconfont icon-dockfenlei"></i>
+          </div>
+          <div class="nav_font">
+              <?php echo lang('dock_category');?>
+          </div>
+      </a>
+        <?php } ?>
+  <?php if($uid){ ?>
+  <a href="<?php echo url("thread-create-$fid");?>" class="col">
+      <button type="button" class="btn btn-primary jb-blue"><i class="iconfont icon-dockfatie"></i></button>
+  </a>
+  <?php  } ?>
+  <?php if (isset($light_config['dock_func_3']) && $light_config['dock_func_3'] == 1) { ?>  
+      <a href="<?php echo url("my-notice");?>" class="col" data-active="notice">
+          <div>
+              <i class="iconfont icon-dockxiaoxi"></i>
+              <?php if(!empty($user['unread_notices'])) { ?>
+                <span class="badge jb-red badge-pill position-absolute"><?php echo $user['unread_notices']; ?></span>
+          <?php  } ?>
+          </div>
+          <div class="nav_font">
+              <?php echo lang('dock_notice');?>
+          </div>
+      </a>
+      <?php } else {?>
+      <a href="<?php echo url("search");?>" class="col" data-active="search">
+        <div>
+            <i class="iconfont icon-docksousuo"></i>
+        </div>
+        <div class="nav_font">
+            <?php echo lang('dock_search');?>
+        </div>
+    </a>
+    <?php } ?>
+      <a href="<?php echo url("my");?>" class="col" data-active="my">
+          <div>
+              <i class="iconfont icon-dockmy"></i>
+              
+          </div>
+          <div class="nav_font" >
+              <?php echo lang('dock_my');?>
+          </div>
+      </a>
+  </div>
+</div> 
+<?php if(empty($uid) && in_array($route, array('index'))) { ?>
+<div  class="position-fixed header_fiexd text-center hidden-lg" style="width: 100%; height: 100px; bottom: 0;"><a href="<?php echo url('user-login');?>" role="button" class="btn btn-primary jb-blue rounded-pill"  style="box-shadow: 0 1px 3px rgba(26,26,26,.1);
+"><?php echo lang('dock_login');?></a></div>
+<?php  }?>
+
+<div class="modal fade " id="forum" style="display: none;" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content overflow-hidden">
+    <div class="modal-header position-relative d-block p-0">
+      <div class="modal-title text-center py-5  jb-cyan">
+        <div class="h3"><?php echo lang('dock_section');?></div>
+      <div class="h5 mt-3"><?= lang('dock_section_1');?><span class="badge jb-pink mx-2"><?php echo count($forumlist_show);?></span><?= lang('dock_section_2');?></div>
+      </div>
+      
+      <button type="button" class="close position-absolute " style="top: 10px;right: 15px;color: var(--white);" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+          <?php foreach($forumlist_show as $_forum) { ?>
+          
+            <div class="py-1">
+            <a class="nav-link rounded media w-100 bg-light d-flex justify-content-between"
+              href="<?php echo url("forum-$_forum[fid]");?>">
+              <div>
+                <span class="font-weight-bold"><?php echo $_forum['name'];?></span>
+                <span class="d-block text-muted mt-2 w-100 text-truncate">
+                  <span class="mr-3"><i class="far fa-comment-alt"></i> <?php echo lang('mb_threads');?>:<b><?php echo $_forum['threads'];?></b></span>
+                  <span><i class="far fa-comments"></i> <?php echo lang('mb_todayposts');?><b><?php echo $_forum['todayposts'];?></b></span>
+                </span>
+              </div>
+              <div>
+                <img class="avatar-3 mt-2" src="<?php echo $_forum['icon_url'];?>">
+
+              </div>
+            </a>
+          </div>
+          
+          <?php } ?>	
+          
+        
+    </div>
+  </div>
+</div>
+</div>  
+<?php }?>
+
+
+
+<?php echo cron_run();?>

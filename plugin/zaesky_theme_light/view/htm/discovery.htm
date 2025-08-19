@@ -1,0 +1,96 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+<!--{hook discovery_start.htm}-->
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card mb-0 mb-lg-3">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-6">
+						<!--{hook discovery_header_looppic.htm}-->
+					</div>
+					<div class="col-lg-6 discovery-main-right mt-3 mt-lg-0">
+						<nav>
+							<div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+							<!--{hook discovery_nav_navtabs.htm}-->
+							</div>
+						</nav>
+						<div class="tab-content" id="nav-tabContent">
+							<!--{hook discovery_nav_navtabs_content.htm}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-9 pr-lg-0">
+		<!--{hook discovery_forum_mian_start.htm}-->
+		<div class="card mb-0 mb-lg-3">
+			<div class="card-header">
+				<i class="fas fa-list mr-2"></i>
+				<?php echo lang('discovery_allforum');?>
+			</div>
+			<div class="card-body py-2">
+				<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2">
+				<?php foreach($forumlist_show as $_forum) { ?>
+					<!--{hook header_nav_forumlist_loop_start.htm}-->
+					<div class="col px-2 py-2">
+						<div class="card p-3 rounded discovery_forum overflow-hidden">
+						<div class="  media " fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+						<img class="avatar-4 rounded mr-2" src="<?php echo $_forum['icon_url'];?>">
+						<div class="media-body">
+							<h5><a href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a><span class="badge badge-primary ml-2"><?php if($_forum['todayposts']>0) echo $_forum['todayposts'];?></span></h5>
+							<div class="small mb-2">
+							<span class="text-muted"><?php echo lang('mb_threads');?>：<?php echo $_forum['threads'];?></span>
+								<span class="text-muted ml-2"><?php echo lang('today_threads');?>：<?php echo $_forum['todaythreads'];?></span>
+							</div>
+								<p class="text-grey mb-0 small discovery-forum-brief"><?php echo $_forum['brief'];?></p>
+						</div>
+					</div>
+					<hr>
+					<div class="d-flex justify-content-between small">
+						<div>
+							<div class="text-small">
+								<span class=" text-muted"><?php echo lang('forum_moderator');?>：</span>
+								<?php if($_forum['modlist']) { ?>
+								<?php foreach ($_forum['modlist'] as $mod) { ?>
+								<a href="<?php echo url("user-$mod[uid]");?>"><img src="<?php echo $mod['avatar_url'];?>"
+										class="avatar-1" data-toggle="tooltip" data-placement="top"
+										title="<?php echo $mod['username'];?>"></a>
+								<?php } ?>
+								<?php  } else {?>
+								<span class="text-gray"><?php echo lang('no_moderator');?><i class="fa fa-frown"></i></span>
+								<?php } ?>
+							</div>
+						</div>
+						<div>
+							<span class="into_forum">
+								<a class="text-grey rounded into_forum_link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo lang('discovery_intoforum');?></a>
+							</span>
+						</div>
+					</div>
+				</div>
+				</div>
+					<!--{hook header_nav_forumlist_loop_end.htm}-->
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+		<!--{hook discovery_forum_end.htm}-->
+	</div>
+
+	<div class="col-lg-3">
+		<!--{hook discovery_forum_right.htm}-->
+		</div>
+</div>
+
+
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+$('li[data-active="<?php echo empty($light_config['disc_page_index'] && $light_config['disc_page']) ? 'discovery' : 'index'; ?>"]').addClass('active');
+$('a[data-active="<?php echo empty($light_config['disc_page_index'] && $light_config['disc_page']) ? 'discovery' : 'index'; ?>"]').addClass('active');
+</script>
+
+<!--{hook discovery_js.htm}-->

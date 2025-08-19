@@ -1,0 +1,8 @@
+<style>a.thread-links:hover{color:#04aeff;text-decoration:none}a.thread-links{color:#1f83e0;text-decoration:unset}a.thread-links:before{background-image:url(./plugin/xn_godlinks/img/link.svg);background-size:1rem;height:1rem;width:1rem;content:" ";display:inline-block;vertical-align:text-bottom}</style>
+<?php
+$first['message_fmt'] = str_replace('<a href="upload/attach', '<a date="isimglink" href="upload/attach', $first['message_fmt']);
+
+$first['message_fmt'] = str_replace('<a href=', '<a class="icon-external-link-square text-danger" href=', $first['message_fmt']);
+
+?>
+

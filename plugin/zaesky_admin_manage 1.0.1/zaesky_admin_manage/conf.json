@@ -1,0 +1,10 @@
+{
+    "name": "Xiuno·manage(修罗·执事)",
+    "brief": "Xiuno·manage(修罗·执事)——一款xiuno程序后台管理框架。<br/>如果您有更好的建议请到官网：<a href='https://www.noteweb.top/' class='text-primary' target='_blank'>NOTEWEB</a>",
+    "version": "1.0.1",
+    "bbs_version": "4.0",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "dependencies": []
+}

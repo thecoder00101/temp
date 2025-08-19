@@ -1,0 +1,46 @@
+<ul class="list-unstyled threadlist">
+	<div class="alert alert-success">
+	    <?php 	
+	    $threadss = setting_get('threadss');
+	    $postss = setting_get('postss');
+	    ?>
+	30 天内发表 <?php echo $threadss;?> 篇主题、<?php echo $postss;?> 条回帖可获得红名！</div>
+<hr>
+<span style="color:Red;">
+     	红名特权：
+     	<br>①尊贵红名显示，活跃的象征。
+        <br>②重大节日免费抽取福利周边。
+        <br>③部分任务活动无需达标直接获得奖励。
+        <br>④需人工审核内容第一时间优先处理。
+
+</span>
+<hr>
+	<table style="text-align:center" class="table">
+	    <thead>
+		<tr>
+			<th>达标情况</th>
+			<th>当前主题数</th>
+			<th>当前回帖数</th>
+		</tr>
+		</thead>
+		<tbody><?php $today0 = strtotime("-1 month");
+	$new_threads = db_count('thread',array('uid'=>$uid,'create_date'=>array('>'=>$today0)));
+	$new_posts = db_count('post',array('uid'=>$uid,'isfirst'=>0,'create_date'=>array('>'=>$today0)));
+	
+	?>
+			<tr class="alert-<?php if($new_threads >= $threadss & $new_posts >= $postss){echo 'success';}else{echo 'danger';}?>">
+
+			    <td><?php 
+	if($new_threads >= $threadss & $new_posts >= $postss){ ?><span style="color:green;">已达标</span><?php }else{echo '未达标';}?></td>
+				<td><?php echo $new_threads;?>
+</td>
+				<td><?php echo $new_posts;?></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div style="text-align:center;">
+		监测日期:<?php $dayss = date('Y-m-d', strtotime('-30 days')); echo $dayss.' 至 '. date("Y-m-d",time());?>
+
+	</div>
+</ul>

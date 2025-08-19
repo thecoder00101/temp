@@ -1,0 +1,15 @@
+{
+    "name": "字体秀不？",
+    "brief": "填入链接即可<br/>关注更多信息请访问><a href='https://xiu.no/' class='badge badge-primary'>XIUNO</a>",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 0,
+    "hooks_rank": {
+        "footer_footer_left_end.htm": -100,
+        "footer_footer_right_end.htm": -100,
+        "thread_user_after.htm": -100
+    },
+    "overwrites_rank": [],
+    "dependencies": []
+}

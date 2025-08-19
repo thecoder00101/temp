@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'smileySans';
+  src: url('../fonts/SmileySans-Oblique.ttf');
+}
+
+
+body{
+  font-family: 'smileySans' !important;
+}

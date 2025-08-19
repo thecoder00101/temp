@@ -1,0 +1,13 @@
+{
+    "name": "充钱",
+    "brief": "支持扫码支付、手机APP支付、支持关闭交易、支持退款。",
+    "version": "1.03",
+    "bbs_version": "4.0.4",
+    "uid": "10000",
+    "username": "步惊云",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

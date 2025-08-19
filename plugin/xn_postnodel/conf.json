@@ -1,0 +1,10 @@
+{
+    "name": "禁止删除帖子",
+    "brief": "禁止删除帖子,xiuno爱好者",
+    "version": "3.4",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "overwrites_rank": [],
+    "dependencies": []
+}

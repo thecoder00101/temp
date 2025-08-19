@@ -1,0 +1,13 @@
+<?php if($uid && ( ($uid==$thread['uid']) || $user['gid'] == '1') ){?>
+    <?php if($thread['pinned_comment'] != 0 && $thread['pinned_comment'] == $_post['pid']){?>
+        <a data-href="<?php echo url('post-unpin_comment-'.$thread['tid']);?>" data-confirm-text="取消置顶这个评论？" href="javascript:void(0);" class="text-muted post_unpin_comment _confirm mr-3">
+            <i class="icon-arrow-circle-down"  title="<?php echo lang('unpin_comment');?>"></i>
+            <span class="sr-only"><?php echo lang('unpin_comment');?></span>
+        </a>
+    <?php } else { ?>
+        <a data-href="<?php echo url('post-pin_comment-'.$_post['pid']);?>" data-confirm-text="置顶这个评论？" href="javascript:void(0);" class="text-muted post_pin_comment _confirm mr-3">
+            <i class="icon-arrow-circle-up"  title="<?php echo lang('pin_comment');?>"></i>
+            <span class="sr-only"><?php echo lang('pin_comment');?></span>
+        </a>
+    <?php } ?>
+<?php } ?>

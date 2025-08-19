@@ -1,0 +1,5 @@
+<?php !defined('DEBUG') AND exit('Access Denied.');if(!empty($group['allowbanuser'])){if($_user['gid'] > 5){?>
+<?php if($_user['gid'] == 7){?><a role="button" class="btn btn-primary confirm btn-block my-3" data-confirm-text="确定要把该用户释放出来？" data-method="post" href="<?php echo url("mod-openuser-$_user[uid]");?>">释放出狱</a><?php }else{?><a role="button" href="javascript:void(0);" class="btn btn-dark btn-block my-3 prison" data-modal-url="<?php echo url("mod-prison-{$_user['uid']}");?>" data-modal-title="关小黑屋" data-modal-size="md">关小黑屋</a><?php }?><?php }}?>
+<?php if(!empty($_user['prison_status'])){?><div class="col-12 row"><?php if(!empty($_user['prison_status'])){?><div class="alert alert-primary" role="alert"><i class="icon-warning"></i>   该帐号<?php echo $_user['prison_message'];?>理由成立!
+剥夺政治权利并在小黑屋服刑，于<?php echo date('Y年m月d日H:i:s', fox_prison_read($_user['uid'], 'endtime'));?>刑满释放。
+</div><?php }?></div><?php }?>

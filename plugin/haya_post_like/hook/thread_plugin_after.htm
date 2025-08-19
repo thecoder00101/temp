@@ -1,0 +1,44 @@
+<style>
+.log-list {
+    margin: 10px 0;
+    padding: 0;
+    list-style: none;
+}
+.log-list {
+    overflow: auto;
+}
+    .log-list li {
+        width: 60px;
+        float: left;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .log-list .logavatar {
+        margin: 10px;
+    }
+    .log-list .log-name {
+        font-size: 12px;
+        line-height: 30px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+
+<div class="card-body haya_like_list p-1">
+	<div class="m-0 p-0 px-0 px-md-4 px-lg-4 mx-auto col-sm-8 col-md-7 col-lg-7 col-xl-6
+	text-center">
+		<div class="card-title text-center text-grey">──── <span class="text-center"><span class="text-primary"><?php echo intval($first['likes']); ?></span>人觉得很赞</span> ────</div>
+		<div class="p-0 m-0 haya_like_avatar_list">
+            <?php foreach($likes_data as $value): ?>
+    			<span class="haya_like_avatar"><a href="<?= url('user-'. $value['uid']) ?>" title="<?= $value['username'] ?>" target="_blank"><img src="<?= $value['avatar_url'] ?>"></a></span>
+            <?php endforeach; ?>
+		</div>
+	</div>
+</div>
+<style>
+.haya_like_avatar,.haya_like_avatar2{display:inline-block;vertical-align:top;width:25px;height:25px;margin:0 3px 3px 0;}
+.haya_like_avatar a img{border-radius:0.25rem!important;width: 100%;}
+.haya_like_avatar2{border:1px #dee2e6 solid;border-radius:0.25rem!important;text-align:center}
+.haya_like_avatar_list{padding-left: 4rem !important;padding-right: 4rem !important;}
+</style>

@@ -1,0 +1,26 @@
+<script>
+var jform_sendmail = $('#form_sendmail');
+var jsubmit_sendmail = $('#submit_sendmail');
+var jreturns_the_result = $('#returns_the_result');
+jform_sendmail.on('submit', function() {
+	jform_sendmail.reset();
+	jsubmit_sendmail.button('loading');
+	var postdata = jform_sendmail.serialize();
+	$.xpost(jform_sendmail.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit_sendmail.text(message).delay(1000).button('reset');
+			jreturns_the_result.text(message);
+		} else if(xn.is_number(code)) {
+			$.alert(message);
+			jsubmit_sendmail.button('reset');
+			jreturns_the_result.text(message);
+		} else {
+			jform_sendmail.find('[name="'+code+'"]').alert(message).focus();
+			jsubmit_sendmail.button('reset');
+			jreturns_the_result.text(message);
+		}
+	});
+	return false;
+});
+</script>

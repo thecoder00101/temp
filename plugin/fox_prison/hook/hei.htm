@@ -1,0 +1,130 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');
+?>	
+
+        
+<style>
+.haya_like_list_02{padding-left:.6rem!important;padding-right:.6rem!important;}
+.haya_like_list_02 ul{list-style:none;}
+.haya_like_list_02 ul li{width:12.5%;float:left;text-align:center;}
+.haya_like_list_02 ul li .avatar-3,.haya_like_list_02 ul li a.border{width:85%!important;height:85%!important;border-radius:0.25rem;border: 1px solid #dee2e6;!important;}
+.haya_like_list_02 ul li a.border{display:inline-block;line-height:40px!important;border:1px solid #dee2e6;}
+.avatar-1{border-radius:0.25rem!important;}
+</style>    
+<div class="row">
+  <div class="col-lg-12 mx-auto">  
+    <div class="card">
+
+
+
+<?php
+$n = db_count('user',array('gid'=>7));
+?>
+
+        
+      
+      
+      
+   <div class="card-header">小黑屋(<?php echo $n; ?>)
+   <a href="#" data-toggle="modal" data-target="#lv_info" style="position: absolute;
+    right: 10px;
+    z-index:10;">详情</a>
+    
+    
+   <div class="modal fade" id="lv_info" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<span class="modal-title">小黑屋说明</span>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<table width="100%" align="center">
+<tbody>
+1.每日吃三餐，每天要三省。<br>
+2.弘扬法治精神，打造平安黑屋。<br>
+3.服从监管，禁止喧哗。<br>
+4.知罪、认罪、悔罪，痛改前非；学法、知法、守法，重新做人。<br>
+5.失足未必千古恨，今朝立志做新人！<br>
+6.罪大罪小都是过，劳早劳晚需思过。<br>
+7.好好休息，迎接明天的阳光。
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div> 
+ </div>
+ 
+ 	 <div class="card-body">
+		   
+<ul class="list-unstyled m-0">
+<?php $latest_users = user_find(array('gid'=>7), array('uid'=>-1))?>
+            <?php foreach($latest_users as $v){ ?>
+<li class="media post haya-follower-210" data-uid="210">
+<div class="media-body">
+<div class="d-flex justify-content-between text-muted">
+<div class="media">
+<a target="_blank" href="<?php echo url("user-$v[uid]");?>" title="ganjiahui" class="mr-2 mt-1">
+<img class="avatar-3 gray" src="<?php echo $v['avatar_url']; ?>"></a>
+<div class="media-body">
+<div>
+<a target="_blank" href="<?php echo url("user-$v[uid]");?>" title="ganjiahui" class="text-success mt-1">
+	<?php echo $v['username']; ?>
+	</a>
+</div>
+	<div class="mt-1 haya-follow-follower-fans">
+<span class="small haya-follower-fans">
+理由：<?php echo $v['prison_message'];?></span>
+</span>
+</div>	</div>
+</div>
+
+
+
+
+<div class="text-right">
+<div class="btn btn-sm btn-outline-secondary mt-2 js-haya-follow-add" href="/xiu.no">UID:<span class="text-muted"><?php echo $v['uid'];?></span></div>
+	</div>
+
+
+
+</div></li>
+<?php } ?>
+<?php
+if($n == 0) {
+	echo "暂时还没有人被关进小黑屋";
+
+}
+
+?>        
+</ul>
+	</div>
+       
+       
+       
+           </div>
+  </div>
+</div>
+				
+			
+		
+				
+<script>
+window.onload = function(){
+
+document.getElementById('btn1').addEventListener('click',goToBaiDu)
+
+}
+
+function goToBaiDu(){
+
+console.log('现在去百度啦！')
+
+window.open('http://www.baidu.com')
+
+}
+		
+</script>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>

@@ -1,0 +1,57 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+<?php
+ 
+	$kv = kv_cache_get('iqismart_com_autolink');
+ 
+?>
+
+
+<div class="row">
+	<div class="col-lg-8 offset-lg-2">
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url("plugin-setting-zz_iqismart_com_autolink");?>" method="post" id="setvForm">
+                      <input type="hidden" name="op" value="2"/>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label">位置</label>
+                        <div class="col-sm-10">
+                          <select name="position" class="custom-select" id="position"> 
+                            <option value="right" <?php if(empty($kv) || empty($kv['position']) || $kv['position']=='right') {?> selected="selected" <?php } ?>  >右侧</option>
+                          	<option value="bottom" <?php if($kv['position']=='bottom') {?> selected="selected" <?php } ?> >底部</option> 
+                          </select>
+                		</div>
+                      </div>
+                       
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label"></label>
+                        <div class="col-sm-2 m-b-sm">
+                          <button type="submit" class="btn btn-primary btn-block" id="setvSubmit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+                        </div>
+                        <div class="col-sm-2 m-b-sm">
+                          <a role="button" class="btn btn-secondary btn-block" href="javascript:history.back();"><?php echo lang('back');?></a>
+                        </div>
+                      </div>
+              		</form>
+				 
+			</div>
+		</div>
+	</div>
+</div>
+ 
+<script src="/view/js/jquery-3.1.0.js?1.0"></script>
+<script>
+   
+</script>
+ 
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+<script>
+    var jsubmit = $("#submit");    
+    jsubmit.on('click',function(){
+        jsubmit.button('loading'); 
+      	var postdata ="position="+$("#position").val();
+        $.xpost("<?php echo url('plugin-setting-zz_iqismart_com_autolink');?>",postdata,function(code,message){
+            //$.alert(message);setTimeout(function(){location.reload();},1000); });
+    });
+     
+    
+</script>

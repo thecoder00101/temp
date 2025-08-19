@@ -1,0 +1,11 @@
+{
+    "name": "回帖置顶",
+    "brief": "帖子发布者和管理员可以对帖子的评论进行置顶操作。作者：<a href='http://lcat.top/'>橘蓝猫之家</a>，由Tillreetree改进。",
+    "version": "2.0.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

@@ -1,0 +1,12 @@
+{
+    "name": "最新评论小插件",
+    "brief": "本插件由<a href='http://www.xiuno.top' style='color:red'>xiuno非官方</a>提供下载",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": [],
+    "username": ""
+}

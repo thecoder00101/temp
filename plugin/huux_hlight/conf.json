@@ -1,0 +1,11 @@
+{
+    "name": "主题高亮",
+    "brief": "让主题变色的插件<br />(FOR 4.0正式版)xiuno非官方提供！www.xiuno.top",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

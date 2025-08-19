@@ -1,0 +1,6 @@
+<?php $links = db_sql_find("select * from {$db->tablepre}navlinks order by `rank`");
+foreach($links as $_lid=>$_link) { ?>
+<li class="nav-item">
+    <a class="nav-link" target="_blank" href="<?php echo $_link['link'];?>"><i class="<?php echo $_link['icon'] ? $_link['icon'] : '' ; ?>"></i> <?php echo $_link['name'];?></a>
+</li>
+<?php } ?>

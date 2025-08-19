@@ -1,0 +1,10 @@
+{
+    "name": "聚合页轮播图",
+    "brief": "xiuno·轻鸿主题专用。在聚合页显示幻灯片。<br/>此版本为主题（xiuno Light）适配版。主题下载请访问><a class='text-danger' href='https://www.noteweb.top/'>NOTEWEB</a>",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "dependencies": []
+}

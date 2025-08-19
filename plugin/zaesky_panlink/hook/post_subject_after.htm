@@ -1,0 +1,67 @@
+
+
+<div>
+<a href="javascript:void(0);" role="radio" class="btn btn-success mb-3" data-toggle="modal" data-target="#insert_pan_link">插入网盘链接</a>&nbsp;
+</div>
+<div class="modal fade" id="insert_pan_link" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">插入网盘链接</h4>
+			</div>
+		
+			<div class="modal-body">
+			<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="panLinkGroupSelect">网盘类型</label>
+  </div>
+  <select class="custom-select" name="panLinkGroupSelect" id="panLinkGroupSelect">
+    <option selected value="0">请选择网盘类型</option>
+    <option value="百度网盘">百度网盘</option>
+    <option value="天翼云网盘">天翼云网盘</option>
+    <option value="阿里云盘">阿里云盘</option>
+    <option value="夸克网盘">夸克网盘</option>
+    <option value="蓝奏云">蓝奏云</option>
+    <option value="One Drive">One Drive</option>
+    <option value="115网盘">115网盘</option>
+  </select>
+</div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">网盘链接</span>
+                    </div>
+                    <input type="text" name="panLink" id="panLink" placeholder="请输入网盘链接地址" class="form-control" />
+                </div>
+                
+								
+           
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">提取码</span>
+                    </div>
+                    <input type="text" name="panCode" id="panCode" placeholder="请输入网盘链接提取码，没有可为空" class="form-control" />
+                </div>           
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" onclick="insert_panlink()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function insert_panlink(){
+	$("#insert_pan_link").modal("hide");
+	var panCate = $('#panLinkGroupSelect').val();
+	var panLink = $('#panLink').val();
+	var panCode = $('#panCode').val() ? ' 提取码：'+$('#panCode').val() : '';
+	if(panCate && panLink){
+		tinymce.activeEditor.selection.setContent('[panlink]'+panCate+'：'+'<a href="'+panLink+'" target="_blank">查看链接</a>'+panCode+'[/panlink]');
+		$('#panLink').val('');
+    $('#panCode').val('');
+    $('#panLinkGroupSelect').val(0);
+	}
+}
+</script>

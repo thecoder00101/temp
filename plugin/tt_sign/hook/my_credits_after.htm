@@ -1,0 +1,25 @@
+<?php
+$today0 = strtotime(date('Y-m-d',time()))-1;
+$count_all = db_count('sign',array('uid'=>$uid));
+if($count_all===FALSE)$count_all=0;
+if($count_all>0){
+$__tmp = db_find_one('sign',array('uid'=>$uid),array('time'=>-1));
+$last_timestamp = $__tmp['time'];
+}
+$beginThismonth = strtotime(date('Y-m-01', strtotime('this month')))-1; $endThismonth = strtotime(date('Y-m-t', strtotime('this month')))+1;
+$_sql_month = db_count('sign',array('uid'=>$uid,'time'=>array('>'=> $beginThismonth, '<'=>$endThismonth)));
+$beginWeek = strtotime(date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),date("d")-date("w"),date("Y"))))-1;
+$endWeek = strtotime(date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("d")-date("w")+6,date("Y"))))+1;
+$_sql_week = db_count('sign',array('uid'=>$uid,'time'=>array('>'=> $beginWeek, '<'=>$endWeek)));
+if($_sql_week===FALSE) $_sql_week=0;
+?>
+<hr>
+<?php if(isset($last_timestamp)){?>
+<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text"><?php echo db_find_one('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)))?'今日已签':'上次签到';?></span></div>
+<input type="text" class="form-control" aria-label="Default" readonly style="background-color:white;" value="<?php echo date('Y-m-d h:i:s',$last_timestamp);?>"></div><?php }?>
+<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">累计签到</span></div>
+<input type="text" class="form-control" aria-label="Default" readonly style="background-color:white;" value="<?php echo $count_all;?>"></div>
+<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">本周签到</span></div>
+<input type="text" class="form-control" aria-label="Default" readonly style="background-color:white;" value="<?php echo $_sql_week;?>"></div>
+<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">本月签到</span></div>
+<input type="text" class="form-control" aria-label="Default" readonly style="background-color:white;" value="<?php echo $_sql_month;?>"></div>

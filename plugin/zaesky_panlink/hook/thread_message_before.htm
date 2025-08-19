@@ -1,0 +1,6 @@
+<?php 
+$mft = $first['message_fmt'];
+$mft = str_ireplace( '[panlink]','<div class="alert alert-secondary">',$mft);
+$mft = str_ireplace('[/panlink]','</div>',$mft);
+$first['message_fmt'] = $mft;
+?>

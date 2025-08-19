@@ -1,0 +1,12 @@
+<?php
+exit;
+'sendmail_test'=>'发送邮件测试',
+'sendmail'=>'发送邮件',
+'target_email'=>'目标Email',
+'email_subject'=>'邮件标题',
+'email_content'=>'邮件内容',
+'smtp_tutorial'=>'设置SMTP图文教程',
+'smtp_troubleshooting'=>'故障排查教程',
+'email_subject_is_empty'=>'邮件标题为空', 
+'email_content_is_empty'=>'邮件内容为空',
+'returns_the_result'=>'返回结果', 

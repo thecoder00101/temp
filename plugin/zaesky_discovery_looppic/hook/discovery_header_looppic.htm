@@ -1,0 +1,22 @@
+<?php
+$slidelist = db_find('swiperpic', array(), array('slideid'=>1), 1, 1000, 'slideid');
+?>
+
+	<div class="swiper mySwiper">
+		<div class="swiper-wrapper">
+				<?php if($slidelist) { foreach ($slidelist as $key => $link) { ?>
+			<div class="swiper-slide">
+				<a href="<?php echo $link['url'];?>" title="<?php echo $link['name'];?>">
+					<img class="d-block w-100  rounded" src="<?php echo $link['slidepic'];?>" alt="<?php echo $link['name'];?>">
+					<div class="carousel-caption">
+						<h5 class="text-white" style="text-shadow:0px 0px 10px black;"><?php echo $link['name'];?></h5>
+					</div>
+				</a>
+			</div>
+			<?php }
+		} ?>
+		</div>
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-pagination"></div>
+	</div>

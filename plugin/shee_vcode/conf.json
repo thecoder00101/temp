@@ -1,0 +1,10 @@
+{
+    "name": "注册验证-站外获取验证码",
+    "brief": "引导用户关注公众号或其他地址获取验证码。插件为<a href=\"http://www.shee.cc/\" target=\"_blank\" _href=\"http://shee.cc/\"><span style=\"color:#0070c0\">秘言</span></a>制作更新。",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "dependencies": []
+}

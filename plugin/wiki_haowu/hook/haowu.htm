@@ -1,0 +1,94 @@
+<?php
+
+$page_title = "好物推荐"; 
+$header['mobile_title'] = $page_title; 
+$header['title'] = $page_title . ' - ' . $conf['sitename']; 
+		
+$haowulist = db_find('haowu', array(), array('rank'=>-1, 'hwid'=>-1), 1, 1000, 'hwid');
+	
+include _include(APP_PATH . 'view/htm/header.inc.htm'); 
+?>
+
+<!-- 页面内容 -->
+<link rel="stylesheet" href="/plugin/wiki_haowu/asset/haowu.css" type="text/css">
+<div class="haowu-content">
+  <!-- 好物列表 -->
+  <?php foreach($haowulist as $item) { ?>
+  <div class="haowu-content-item">
+    <div class="haowu-header"> 
+      <img 
+        decoding="async" 
+        loading="lazy" 
+        class="haowu-header-banner" 
+        src="<?php echo htmlspecialchars($item['img']); ?>" 
+        alt="<?php echo htmlspecialchars($item['name']); ?>"
+      >
+    </div>
+    <div class="haowu-specification-block">
+      <div class="haowu-body-specification">
+        <p class="unit">¥</p>
+        <p class="current"><?php $price = floatval($item['price']); if($price >= 1000) { echo number_format($price, 0); } else { echo number_format($price, 1); } ?></p>
+        <div class="discount-info">
+          <p class="desc"><?php echo htmlspecialchars($item['source']); ?></p>
+          <div class="discount-off">
+            <div class="discount-box">
+              <p class="discount">使用体验</p>
+              <p class="original">
+                      <?php
+        $score = floatval($item['score']);
+        $full = floor($score);
+        $half = ($score - $full) >= 0.5 ? 1 : 0;
+        $empty = 5 - $full - $half;
+        for($i=0; $i<$full; $i++) echo '<i class="fas fa-star"></i>';
+        if($half) echo '<i class="fas fa-star-half-alt"></i>';
+        for($i=0; $i<$empty; $i++) echo '<i class="far fa-star"></i>';
+      ?>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="haowu-body">
+      <div class="haowu-body-title"><?php echo htmlspecialchars($item['name']); ?></div>
+      <div class="haowu-body-description">
+        <?php echo htmlspecialchars($item['content']); ?>
+      </div>
+    </div>
+  <div class="haowu-toolbar">
+    <div class="haowu-toolbar-item">
+      <?php if(!empty($item['review'])) { ?>
+        <a 
+          class="haowu-toolbar-item-link haowu-toolbar-item-review" 
+          href="<?php echo htmlspecialchars($item['review']); ?>" 
+          target="_blank" 
+          rel="external nofollow"
+          style="margin-right:10px;"
+        >
+          <span>好物评测<i class="fas fa-angle-double-right"></i></span>
+        </a>
+      <?php } ?>
+      <?php if(!empty($item['url'])) { ?>
+        <a 
+          class="haowu-toolbar-item-link haowu-toolbar-item-shop" 
+          href="<?php echo htmlspecialchars($item['url']); ?>" 
+          target="_blank" 
+          rel="external nofollow"
+        >
+          <span>我要同款<i class="fas fa-angle-double-right"></i></span>
+        </a>
+      <?php } else { ?>
+        <a class="haowu-toolbar-item-link haowu-toolbar-item-stop">
+          <span>暂无链接</span>
+        </a>
+      <?php } ?>
+    </div>
+  </div>
+  </div>
+<?php } ?>
+</div>
+<!-- 页面内容 -->
+<?php 
+// 引入主题的页脚
+include _include(APP_PATH . 'view/htm/footer.inc.htm'); 
+?>

@@ -1,0 +1,99 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+<!--{hook index_start.htm}-->
+
+<div class="row">
+	<!--{hook index_main_left.htm}-->
+	<div class="<?php echo $main_switch;?> main">
+		<!--{hook mobile_index_main_start.htm}-->
+		<!--{hook index_main_start.htm}-->
+		<div class="card card-threadlist">
+			<div class="card-header <?php echo $index_header_switch;?>">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>"
+							href="./<?php echo url("$route");?>"><?php echo lang('new_thread');?></a>
+					</li>
+					<!--{hook index_thread_list_nav_item_after.htm}-->
+					<!--{hook index_thread_list_nav_item_right.htm}-->
+				</ul>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist mb-0">
+					<!--{hook index_threadlist_before.htm}-->
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+					<!--{hook index_threadlist_after.htm}-->
+				</ul>
+			</div>
+		</div>
+
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+
+		<!--{hook index_page_before.htm}-->
+		<nav class="my-3">
+			<ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul>
+		</nav>
+		<!--{hook mobile_index_page_end.htm}-->
+		<!--{hook index_page_end.htm}-->
+	</div>
+	
+
+	<div class="col-lg-3 d-none d-lg-block aside">
+		<!-- <a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a> -->
+		<!--{hook index_site_brief_before.htm}-->
+		<div class="card card-site-info overflow-hidden">
+			<!--{hook index_site_brief_start.htm}-->
+			<?php if (isset($light_config['site_info_switch']) && $light_config['site_info_switch'] == 1) { ?> 
+			<div class="px-3">
+			<img class="avatar-3-5 rounded shadow-sm site-info-logo bg-white"  src="<?php echo $light_config['site_info_logo'];?>" alt="logo" srcset="">
+
+			</div>
+			<?php }?>
+			<div class="m-3">
+				<div class="d-flex justify-content-between mb-2"><div class="font-weight-bold break-all text-truncate"><?php echo $conf['sitename'];?></div><i class="fas fa-angle-down align-items-center mt-1 text-muted" type="button" data-toggle="collapse" data-target="#siteInfocollapseExample" ></i></div>
+				<div id="siteInfocollapseExample" class="small line-height-3 text-black-50 collapse show"><?php echo $conf['sitebrief'];?></div>
+				<?php if($uid) { ?>
+					<a role="button" class="btn btn-primary jb-blue mt-2" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+					<?php } ?>
+			</div>
+<?php if (isset($light_config['site_info_total']) && $light_config['site_info_total'] == 1) { ?> 
+
+			<div class="card-footer p-2">
+				<table class="w-100 small">
+					<tr align="center">
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('threads');?></span>
+							<b><?php echo $runtime['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('posts');?></span>
+							<b><?php echo $runtime['posts'];?></b>
+						</td>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('users');?></span>
+							<b><?php echo $runtime['users'];?></b>
+						</td>
+						<?php if($runtime['onlines'] > 0) { ?>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('online');?></span>
+							<b><?php echo $runtime['onlines'];?></b>
+						</td>
+						<?php } ?>
+					</tr>
+				</table>
+			</div>
+			<?php } ?>
+			<!--{hook index_site_brief_end.htm}-->
+		</div>
+		<!--{hook index_site_brief_after.htm}-->
+	</div>
+</div>
+
+<!--{hook index_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+	$('li[data-active="fid-0"]').addClass('active');
+</script>
+
+<!--{hook index_js.htm}-->

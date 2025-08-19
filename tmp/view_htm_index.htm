@@ -1,0 +1,785 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+<div class="row">
+	<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 1) { ?>
+<div class="col-lg-2 pr-0 hidden-md hidden-sm ">
+  <div class="func_left">
+	<div class="card ">
+	<div class="card-body p-3">
+    <div class="nav thread-left-nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <li class="nav-item">
+      <a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="./<?php echo url("$route");?>">
+        <i class="iconfont icon-faxian1  ml-1 mr-2 hidden-sm hidden-md"></i>
+        <?php echo lang('new_thread');?></a>
+      </li>
+     					<li class="nav-item">
+						<a class="nav-link  <?php echo $active == 'digest' ? 'active' : '';?>" href="<?php echo url("$route-0-1");?>">
+							<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-huiyuan1 ml-1 mr-2"></i></span>
+							<?php echo lang('digest_thread');?></a>
+					</li>	<?php if (isset($light_config['new_threadlist']) && $light_config['new_threadlist'] == 1) { ?>
+	<li class="nav-item">
+		<a class="nav-link  <?php echo $active == 'newpost' ? 'active' : '';?>" href="<?php echo url("$route-1-5");?>">
+			<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-shijian1 ml-1 mr-2 hidden-sm hidden-md"></i></span>
+			新帖</a>
+	</li>
+ <?php } ?>
+     <div class="divide"></div>
+     <div class="forumList overflow-auto">
+     <?php foreach($forumlist_show as $_forum) { ?>
+      
+      <li  fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+        <a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><img class="avatar-2 mr-2 rounded" src="<?php echo $_forum['icon_url'];?>"><?php echo $_forum['name'];?></a>
+      </li>
+      
+      <?php } ?>
+      </div>
+    </div>
+	</div>
+	</div>
+      <?php echo $light_config['func_left_custom_content'] ;?>
+</div>
+  </div>
+  <?php } ?>
+	<div class="<?php echo $main_switch;?> main">
+		<?php if (isset($light_config['index_mobile_statistic']) && $light_config['index_mobile_statistic'] == 1) { ?>  
+<div class=" hidden-lg">
+	<div class="d-flex justify-content-between breadcrumb">
+  <div>
+    <span class="text-small mr-2" data-toggle="tooltip" data-placement="top" title="<?php echo lang('mb_threads');?>"><i class="far fa-comment-alt text-muted"></i> <span class="text-muted "><?php echo lang('mb_threads');?></span> <b><?php echo $runtime['threads'];?></b></span>
+	<span class="text-small mr-2" data-toggle="tooltip" data-placement="top" title="<?php echo lang('mb_posts');?>"><i class="far fa-comments   text-muted"></i> <span class="text-muted "><?php echo lang('mb_posts');?></span> <b><?php echo $runtime['posts'];?></b></span>
+	<span class="text-small" data-toggle="tooltip" data-placement="top" title="<?php echo lang('mb_users');?>"><i class="far fa-user-circle  text-muted"></i> <span class="text-muted"><?php echo lang('mb_users');?></span> <b><?php echo $runtime['users'];?></b></span>
+	</div>
+	<div>
+	<span tabindex="0"  data-toggle="popover" data-trigger="focus" data-html="true"  data-placement="bottom" title="<?php echo $conf['sitename'];?>" data-content="<?php echo $conf['sitebrief'];?>"><i class="fas fa-info-circle text-muted"></i></span>
+	</div>
+</div>
+</div>
+<?php }?>
+		<!--只需要更换img文件夹内图片即可-->
+<div class="card">
+    <div class="card-header">
+        <a href="https://ziyuanmiao.com/thread-715.htm" rel="noreferrer noopener" target="blank"><img src="plugin/xn_pic/img/home_top.webp" style="border-radius: 3px;margin-bottom: 0px;" width="100%" height="270px" class="hidden-sm hidden-md"></a>
+        <a href="https://ziyuanmiao.com/thread-715.htm" rel="noreferrer noopener" target="blank"><img src="plugin/xn_pic/img/home_top.webp" width="100%" height="130" style="border-radius: 3px;margin-top: 0px;" class="hidden-lg"></a>
+        </div>
+</div>
+<?php 
+if (isset($light_config['thread_top_ind']) && $light_config['thread_top_ind'] == 1) { 
+/* 普通帖子 */
+if($page === 1) {
+    $threadlist =  thread_find_by_fids($fids, $page, $pagesize, $order, $threads); 
+    thread_list_access_filter($threadlist, $gid); 
+}
+}
+?>
+
+<?php if (isset($light_config['site_annoucement_switch']) && $light_config['site_annoucement_switch'] == 1 && isset($light_config['site_annoucement_position']) && $light_config['site_annoucement_position'] == 1 && $light_config['site_annoucement_content']) {
+    $site_annoucement_style = "";
+    switch($light_config['site_annoucement_style']){
+        case 0: $site_annoucement_style = "primary";break;
+        case 1: $site_annoucement_style = "secondary";break;
+        case 2: $site_annoucement_style = "success";break;
+        case 3: $site_annoucement_style = "danger";break;
+        case 4: $site_annoucement_style = "warning";break;
+        case 5: $site_annoucement_style = "info";break;
+    }
+    ?> 
+<div class="alert  alert-<?php echo $site_annoucement_style;?> alert-dismissible fade show" role="alert">
+    <i class="<?php echo $light_config['site_annoucement_icon'] ;?> mr-2"></i>
+    <?php echo $light_config['site_annoucement_content'] ;?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <?php }?>
+
+<?php 
+if (isset($light_config['thread_top_ind']) && $light_config['thread_top_ind'] == 1) { 
+
+if($active == 'default'){
+if($page === 1 ) {
+    $threadlist_top = $toplist3;
+    thread_list_access_filter($threadlist_top, $gid); //过滤没有权限访问的帖子，必须要做
+    if($threadlist_top) { 
+        $have_allowtop = 0;
+        foreach($threadlist_top as &$_thread) {
+            $_thread['allowtop'] = forum_access_mod($_thread['fid'], $gid, 'allowtop');
+            if($_thread['allowtop']) $have_allowtop = 1;
+        }
+    }
+}?>
+
+
+
+<?php if($page === 1 && $threadlist_top ) { ?>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active"
+                    href="."><?php echo lang('all_top');?></a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="card-body py-1">
+        <ul class="list-unstyled  mb-0">
+           <?php if($threadlist_top ) { foreach($threadlist_top as &$_thread) { ?>
+					<li class="tap <?php echo $_thread['top_class'];?>" data-href="<?php echo url("thread-$_thread[tid]");?>" data-tid="<?php echo $_thread['tid'];?>">
+                        <div class="d-flex justify-content-between my-2">
+							<div class="break-all text-truncate">
+                                <?php if($_thread['top'] > 0) { ?>
+                                    <i class="icon-top-<?php echo $_thread['top']; ?>"></i>
+                                <?php } ?>
+								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+								<?php if($_thread['closed'] > 0) { ?><i class="icon-lock"></i><?php } ?>
+							</div>
+                            <div class="text-nowrap">
+                                <span class="text-muted align-middle"><?php echo $_thread['create_date_fmt'];?></span>
+                            </div>
+                        </div>
+					</li>
+					<?php }} else { ?>
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<div class="text-center my-5" style="color:gainsboro"><i
+									class="fa fa-bug display-1"></i><br /><?php echo lang('none');?></div>
+						</div>
+					</div>
+					<?php } ?>
+        </ul>
+    </div>
+</div>
+<?php }}} ?><?php
+
+echo setting_get('index_main_start_htm');
+
+?>
+
+		<div class="card card-threadlist">
+			<div class="card-header <?php echo $index_header_switch;?>">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>"
+							href="./<?php echo url("$route");?>"><?php echo lang('new_thread');?></a>
+					</li>
+										<li class="nav-item">
+						<a class="nav-link  <?php echo $active == 'digest' ? 'active' : '';?>" href="<?php echo url("$route-0-1");?>">
+							<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-huiyuan1 ml-1 mr-2"></i></span>
+							<?php echo lang('digest_thread');?></a>
+					</li>	<?php if (isset($light_config['new_threadlist']) && $light_config['new_threadlist'] == 1) { ?>
+	<li class="nav-item">
+		<a class="nav-link  <?php echo $active == 'newpost' ? 'active' : '';?>" href="<?php echo url("$route-1-5");?>">
+			<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-shijian1 ml-1 mr-2 hidden-sm hidden-md"></i></span>
+			新帖</a>
+	</li>
+ <?php } ?>
+					<?php if($uid){$today0 = strtotime(date('Y-m-d',time()))-1;$num=0; ?>
+<li id="sign_mobile" style="position: absolute;right: 10px;margin-top: 2px;">
+	<a role="button" class="btn btn-primary ft" style="padding: 0px 0.5rem;" href="javascript:;"><i class="icon-calendar-check-o"></i> <?php echo db_find_one('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)))?'已签':'签到';?></a>
+</li>
+<?php } ?>
+				</ul>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist mb-0">
+					<?php 
+if (isset($light_config['thread_top_ind']) && $light_config['thread_top_ind'] == 1) { 
+/* 普通帖子 */
+if($page === 1) {
+    $threadlist =  thread_find_by_fids($fids, $page, $pagesize, $order, $threads); 
+    thread_list_access_filter($threadlist, $gid); 
+}
+}
+?>
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+					
+				</ul>
+			</div>
+		</div>
+
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+
+		
+		<nav class="my-3">
+			<ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul>
+		</nav>
+		
+		
+	</div>
+	
+
+	<div class="col-lg-3 d-none d-lg-block aside">
+		<!-- <a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a> -->
+		
+		<div class="card card-site-info overflow-hidden">
+			<?php if (isset($light_config['site_info_switch']) && $light_config['site_info_switch'] == 1) { ?> 
+<div class="jb-dark rounded-0 mb-0 index-siteInfo-bg " <?php if ($light_config['site_info_bg'] != '') { ?> style="background-image: url('<?php echo $light_config['site_info_bg'] ;?>');"<?php }?>>
+</div>
+<?php }?>
+			<?php if (isset($light_config['site_info_switch']) && $light_config['site_info_switch'] == 1) { ?> 
+			<div class="px-3">
+			<img class="avatar-3-5 rounded shadow-sm site-info-logo bg-white"  src="<?php echo $light_config['site_info_logo'];?>" alt="logo" srcset="">
+
+			</div>
+			<?php }?>
+			<div class="m-3">
+				<div class="d-flex justify-content-between mb-2"><div class="font-weight-bold break-all text-truncate"><?php echo $conf['sitename'];?></div><i class="fas fa-angle-down align-items-center mt-1 text-muted" type="button" data-toggle="collapse" data-target="#siteInfocollapseExample" ></i></div>
+				<div id="siteInfocollapseExample" class="small line-height-3 text-black-50 collapse show"><?php echo $conf['sitebrief'];?></div>
+				<?php if($uid) { ?>
+					<a role="button" class="btn btn-primary jb-blue mt-2" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+					<?php } ?>
+			</div>
+<?php if (isset($light_config['site_info_total']) && $light_config['site_info_total'] == 1) { ?> 
+
+			<div class="card-footer p-2">
+				<table class="w-100 small">
+					<tr align="center">
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('threads');?></span>
+							<b><?php echo $runtime['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('posts');?></span>
+							<b><?php echo $runtime['posts'];?></b>
+						</td>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('users');?></span>
+							<b><?php echo $runtime['users'];?></b>
+						</td>
+						<?php if($runtime['onlines'] > 0) { ?>
+						<td>
+							<span class="text-black-50 d-block mb-1"><?php echo lang('online');?></span>
+							<b><?php echo $runtime['onlines'];?></b>
+						</td>
+						<?php } ?>
+					</tr>
+				</table>
+			</div>
+			<?php } ?>
+			
+		</div>
+		<?php if (isset($light_config['index_userinfo']) && $light_config['index_userinfo'] == 1) { ?>  
+      <?php if($uid){?>
+        <div class="card card-widget widget-user-2">
+          
+          <div class="widget-user-header p-3 d-flex justify-content-between">
+            <div>
+              <a href="<?php echo url('my');?>">
+            <img src="<?php echo $user['avatar_url'];?>" class="avatar-2 rounded-circle mr-2">
+            <span class="font-weight-bold"><?php echo $user['username'];?></span>
+          <?php if (isset($light_config['groupicon_display']) && $light_config['groupicon_display'] == 1) {
+  $groupImg = './plugin/zaesky_theme_light/view/img/groupicon/'.$user['gid'].'.png';
+  if(file_exists($groupImg))
+    echo '<img src="./plugin/zaesky_theme_light/view/img/groupicon/'.$user['gid'].'.png" class="user-group-icon" data-toggle="tooltip" data-placement="top" title="'.$user['groupname'].'">';
+  }?>
+          </a>
+          </div>
+          </div>
+          <div class="card-footer p-0">
+          <ul class="nav flex-column">
+          <li class="nav-item">
+          <a href="<?php echo url('my-thread');?>" class="nav-link text-muted">
+            <i class="iconfont icon-pinglun"></i> <?php echo lang('mb_threads');?> <span class="float-right badge bg-light text-muted"><?php echo $user['threads'];?></span>
+          </a>
+          </li>
+          <li class="nav-item">
+          <a href="<?php echo url('my-thread');?>" class="nav-link text-muted">
+          <i class="iconfont icon-taolunqu"></i> <?php echo lang('mb_posts');?> <span class="float-right badge bg-light text-muted"><?php echo $user['posts'];?></span>
+          </a>
+          </li>
+          
+<li class="nav-item">
+  <a href="<?php echo url('my-favorite'); ?>" class="nav-link text-muted">
+  <i class="iconfont icon-shoucang"></i> 收藏 <span class="float-right badge bg-light text-muted"><?php echo intval($user['favorites']);?></span>
+  </a>
+  </li><li class="nav-item">
+  <a href="<?php echo url('my-follow');?>" class="nav-link text-muted">
+  <i class="iconfont  icon-guanzhu"></i> <?php echo lang('mb_follow');?> <span class="float-right badge bg-light text-muted"><?php echo intval($user['follows']); ?></span>
+  </a>
+  </li>
+  <li class="nav-item">
+  <a href="<?php echo url("my-follow-fans");?>" class="nav-link text-muted">
+   <i class="iconfont icon-wodeguanzhu"></i> <?php echo lang('mb_followed');?> <span class="float-right badge bg-light text-muted"><?php echo intval($user['followeds']); ?></span>
+  </a>
+  </li><li class="nav-item">
+  <a href="<?php echo url("my-digest");?>" class="nav-link text-muted">
+  <i class="iconfont icon-huiyuan"></i> 精华 <span class="float-right badge bg-light text-muted"><?php echo $user['digests'];?></span>
+  </a>
+  </li>
+          </ul>
+          </div>
+          </div>
+    <?php }else{?>
+      <div class="card overflow-hidden">
+        <div class=" card-body">
+          <div class="media">
+        <i class="<?php echo $light_config['login_guide_icon'] ;?> display-4 mr-3 mt-2 text-secondary"></i>
+            <div class="mediabody">
+              <h6 class="font-weight-bold mt-2"><?php echo $light_config['login_guide_1'] ;?></h6>
+        <p class="text-muted small"><?php echo $light_config['login_guide_2'] ;?></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer d-flex">
+            <a role="button" class="btn btn-primary mr-2" style="width: 48%;" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+            <a role="button" class="btn btn-outline-primary" style="width: 48%;" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a>
+            
+        </div>
+    </div>
+   <?php } ?>
+<?php }?><?php
+$today0 = strtotime(date('Y-m-d',time()))-1;$num=0;
+$signed = db_find('sign',array('time'=>array('>'=>$today0)),array('time'=>-1),1,5);
+$user_signed = db_count('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)));
+?>
+
+	<div class="card">
+		<div class="card-header">
+
+		<div class="row" id="start">
+		<div  class="tt_signpanel JD_sign d-block col-6 pr-0">
+		<div class="btn <?php if($user_signed){?>btn-light<?php }else{ ?>btn-primary<?php } ;?> btn-block h-100" id="tt_sign">
+			<?php if($uid){?>
+			<span id="sign_title" class="d-block pt-2" ><?php echo db_find_one('sign',array('uid'=>$uid,'time'=>array('>'=>$today0)))?'已签':'签到';?></span>
+			<?php }else{?>
+				<span id="sign_title" class="d-block pt-2" >请先登录</span>
+			<?php }?>
+		</div>
+	</div>
+	<div class="fblock col-6">
+		<div class="all text-muted" >
+			人数：<span class="badge badge-success badge-pill" id="peo"><?php $cache = cache_get('tt_sign'); if(isset($cache['num'])) {echo $cache['num'];$num=$cache['num'];} else {$num=db_count('sign',array('time'=>array('>'=>$today0)));cache_set('tt_sign',array('num'=>$num),600); echo $num;}  ?></span>
+		</div>
+		<div class="line"><span class="small text-gray" id="day"><?php echo date('Y-m-d',time());?></span></div>
+	</div>
+	</div>
+		</div>
+		<div class="card-body py-0">
+			<ul class="list-unstyled mb-0">
+			<?php 
+			if($signed){
+			
+			foreach($signed as $user){
+				$signed_user = db_find_one('user',array('uid'=>$user['uid']));
+				$avatar_link = 'upload/avatar/000/'.$user['uid'].'.png';
+
+				if(file_exists($avatar_link)==false){
+					$avatar_link = 'view/img/avatar.png';
+				}
+				
+				?>
+					<li class="my-2">
+						<div class="media">
+							<img class="avatar-3 mt-1 mr-2" src="<?php echo $avatar_link;?>" alt="">
+							<div class="media-body">
+								<span class="sign_name">
+								<?php echo $signed_user['username'];?>
+								</span>
+								<span class="sign_time d-block text-gray small mt-1">
+									签到时间：<?php echo humandate($user['time']);?>
+								</span>
+							</div>
+							<span class="badge mt-2 badge-light"><i class="fa fa-coins"></i> <?php echo $user['golds'] ;?></span>
+						</div>
+						
+					</li>
+			 <?php }
+				
+			}else{?>
+				<p class="text-center text-muted my-3">今日还没有人签到哦~</p>
+			<?php }?>
+			</ul>
+		</div>
+	</div><div class="form-group">
+	<form action="<?php echo url('search');?>" id="search_form">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" placeholder="<?php echo lang('keyword');?>" name="keyword">
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="submit"><?php echo lang('search');?></button>
+			</div>
+		</div>
+	</form>
+</div><?php include _include(APP_PATH.'plugin/ax_comment/htm/list.htm');?><?php 
+$haya_favorite_config = setting_get('haya_favorite');
+if ($haya_favorite_config['show_hot_favorite'] == 1) {
+
+	$haya_favorite_hot_favorite_count = intval($haya_favorite_config['hot_favorite_count']);
+	$haya_favorite_hot_favorite_cache_time = intval($haya_favorite_config['hot_favorite_cache_time']);
+	$haya_favorite_hot_favorite_find_time = intval($haya_favorite_config['hot_favorite_find_time']);
+	$haya_favorite_hot_threads = haya_favorite_hot_threads_base_user_favorite($haya_favorite_hot_favorite_count, $haya_favorite_hot_favorite_cache_time, $haya_favorite_hot_favorite_find_time); 
+?>
+
+	<div class="card">
+		<div class="card-header">
+			<?php echo lang('haya_favorite_hot_favorite_name'); ?>（<?php echo $haya_favorite_hot_favorite_count; ?>）
+		</div>
+	
+		<div class="card-body py-3">
+			
+			<ul class="list-unstyled postlist m-0">
+				<?php $haya_favorite_i = 1; ?>
+				<?php if($haya_favorite_hot_threads) { foreach($haya_favorite_hot_threads as & $haya_favorite_hot_thread) { ?>
+					<li class="media post line-height-2" data-tid="<?php echo $haya_favorite_hot_thread['tid'];?>">
+						<div class="media-body small">
+							<a title="<?php echo $haya_favorite_hot_thread['subject'];?>（<?php echo intval($haya_favorite_hot_thread['favorites']); ?> <?php echo lang('haya_favorite_name'); ?>）" href="<?php echo url("thread-$haya_favorite_hot_thread[tid]");?>">
+								<?php echo $haya_favorite_hot_thread['subject'];?>
+							</a>
+							
+							<span class="pull-right haya-favorite-count" title="<?php echo intval($haya_favorite_hot_thread['favorites']); ?> <?php echo lang('haya_favorite_name'); ?>">
+								<i class="icon icon-star-o text-muted" aria-label="<?php echo lang('haya_favorite_name'); ?>"></i>
+								<?php echo intval($haya_favorite_hot_thread['favorites']); ?>
+							</span>
+						</div>
+					</li>
+					<?php $haya_favorite_i ++; ?>
+				<?php }} else { ?>
+					<li class="media py-1">
+						<div class="text-center text-muted"><?php echo lang('haya_favorite_no_hot_favorite'); ?></div>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+<?php } ?><?php
+
+echo setting_get('index_site_brief_after_htm');
+
+?>
+<!-- 
+<div class="card">
+    <div class="card-header">
+			<a href="https://ka.kaduoduohk.com/index?k=TzJXQS9UOGVQYnc9" rel="noreferrer noopener" target="blank"><img src="plugin/xn_pic/img/home_ads.webp" style="border-radius: 6px;margin-bottom: 0px;" width="100%" height="140px" class="hidden-sm hidden-md"></a>
+	</div>
+</div>
+--><?php
+    $cachename = "lek8_hot_theme";//缓存key
+	//cache_delete($cachename);//删除缓存
+    $hotlist = cache_get($cachename);//获取缓存
+	if($hotlist === NULL) {
+		$times_tamp_a = strtotime("-1 week");//上周
+		//$times_tamp_a = mktime(0,0,0,date('m'),date('d')-1,date('Y'));//昨天
+		$hotlist = db_find('thread', array('create_date'=>array('>'=>$times_tamp_a)), array('views'=>-1), 1, 10, 'tid');
+		thread_list_access_filter($hotlist, $gid);
+		cache_set($cachename, $hotlist,3600);//设置缓存 和 过期时间
+	}
+?>
+
+<?php
+
+function console_log($text){
+    echo '<script type="text/javascript">console.log(\'log:'.$text.'\');</script>';
+}
+
+//获取回复最多的文章，默认10篇
+function get_site_top_list(){
+	$result = cache_get('get_site_top_list');
+	if(empty($result)){
+		$result = db_find('thread', array(), array('views'=>2));//按views倒序
+		cache_set('get_site_top_list',$result,86400);//有效期1天
+	}
+	return $result;
+}
+?>
+
+
+<div class="card">
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation">
+			  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#all_rank" role="tab" aria-controls="home" aria-selected="true">总排行</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link" id="profile-tab" data-toggle="tab" href="#week_rank" role="tab" aria-controls="profile" aria-selected="false">周排行</a>
+			  </li>
+		  </ul>
+	</div>
+	<div class="card-body  py-1 small">
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="all_rank" role="tabpanel" aria-labelledby="home-tab"><?php
+				$toplist = get_site_top_list();
+				thread_list_access_filter($toplist, $gid);
+				echo '<div class="site-top"><ul class="site-list-ul">';
+				foreach ($toplist as $key => $value){
+					$_class = $key < 3 ? 'jb-blue' : 'badge-secondary';
+					echo '<li><span class="badge badge-pill mr-2 '.$_class.'">'.($key+1).'</span><a href="thread-'.$value['tid'].'.htm">'.$value['subject'].'</a></li>';
+				}
+				echo '</ul></div>';
+			?></div>
+			<div class="tab-pane fade" id="week_rank" role="tabpanel" aria-labelledby="profile-tab">
+				<div class="site-top">
+				<ul class="site-list-ul">
+					<?php if($hotlist) {
+						$loopNum = 1;
+						foreach($hotlist as $_thread) {?>
+						
+					<li >
+							<span class="badge badge-pill mr-2 <?php if($loopNum <= 3) { ?> jb-green <?php } else { ?> badge-secondary <?php }?>"><?php echo  $loopNum++ ;?></span><a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+						
+					</li>
+					<?php }} else { ?>
+						<?php echo lang('none');?>
+					<?php } ?>
+			</ul>	
+			</div>	
+			</div>
+		  </div>
+	</div>
+	
+</div>
+
+
+
+<?php
+$kv = kv_cache_get('iqismart_com_autolink');
+if(empty($kv)  || empty($kv['position']) || $kv['position'] == 'right'){
+	$autolinks = cache_get('autolinks');
+    if(empty($autolinks)){
+    // 缓存10分钟更新一次
+    $autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+
+    foreach($autolinks as $l){
+    $str1 = $_SERVER['SERVER_NAME'];
+    $str2 = 'from='.$l['uid'];
+
+    $status = -1;
+
+    if($l['uid'] == 0){
+    $status = 1;
+    }else{
+    $status = auto_link_check($l['siteUrl'],$str1,$str2);
+    }
+    db_update('autolink',array('id'=>$l['id']),array('status'=>$status));
+    }
+    $autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+    cache_set('autolinks', $autolinks, 600);
+
+    }
+}
+
+?>
+<?php if(empty($kv)  || empty($kv['position']) || $kv['position'] == 'right') { ?>
+<script>
+
+    function down(id){
+        var r=confirm("确认下线吗!");
+        if (r==true){
+            $.xget("<?php echo url('my-autolink'); ?>?act=down&ajax=1&id="+id,function (code, message) {
+                if (code == 0) {
+                    $.alert(message);
+                    setTimeout("history.go(-1);location.reload()", 2000);
+                }  else {
+                    $.alert(message);
+                }
+            });
+        }
+        else{
+
+        }
+        return false;
+
+    }
+</script>
+<style>
+
+    .card:hover{
+        box-shadow: 0px 0px 10px rgba(26, 26, 26, .1);
+        transition: box-shadow .5s ease-in-out;
+    }
+    a:hover {
+        color: #1E90FF;
+        text-decoration: none;
+    }
+</style>
+
+<div id="taghot" class="card">
+
+    <div class="card-header text-bold">
+        <span class="icon-link"></span>&nbsp;友情链接
+        <span style="float:right;">
+            <a href="<?php echo url('my-autolink'); ?>?act=add" style="color:#0084ff;">自助上链</a>
+        </span>
+    </div>
+    <div class="card-body pt-3 pb-3 pb-3 pl-0 small">
+        <?php foreach ( $autolinks as $link ){ ?>
+        
+            <!--            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>-->
+            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"
+               style="display:inline-block;font-size:12px;"><i class="icon-link  hidden-lg hidden-sm"></i> <?php echo $link['siteTitle'] ?>
+
+            </a>
+            <?php if($gid == 1) { ?>
+            <span onclick="down(<?php echo $link['id'];?>)" style='color:red; cursor: pointer;'>(下线)</span>
+            <?php } ?>
+        
+        <?php } ?>
+    </div>
+    <!--    <ul>-->
+    <!--        <?php foreach ( $autolinks as $link ){ ?>-->
+    <!--        <li>-->
+    <!--            &lt;!&ndash;            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>&ndash;&gt;-->
+    <!--            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"-->
+    <!--               style="display:inline-block"><i class="icon-link"></i><?php echo $link['siteTitle'] ?></a>-->
+    <!--        </li>-->
+    <!--        <?php } ?>-->
+    <!--    </ul>-->
+</div>
+<?php }?>
+
+
+	</div>
+</div>
+
+<?php
+$kv = kv_cache_get('iqismart_com_autolink');
+ 
+$autolinks = cache_get('autolinks');
+if(empty($autolinks)){
+// 缓存10分钟更新一次
+$autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+
+foreach($autolinks as $l){
+$str1 = $_SERVER['SERVER_NAME'];
+$str2 = 'from='.$l['uid'];
+
+$status = -1;
+
+if($l['uid'] == 0){
+$status = 1;
+}else{
+$status = auto_link_check($l['siteUrl'],$str1,$str2);
+}
+db_update('autolink',array('id'=>$l['id']),array('status'=>$status));
+}
+$autolinks = db_find('autolink', array('status'=>1), array('id'=>-1), 1, 100);
+cache_set('autolinks', $autolinks, 600);
+
+}
+ 
+
+?>
+<?php if(!empty($kv)  && !empty($kv['position']) && $kv['position'] == 'bottom') { ?>
+<script>
+
+    function down(id){
+        var r=confirm("确认下线吗!");
+        if (r==true){
+            $.xget("<?php echo url('my-autolink'); ?>?act=down&ajax=1&id="+id,function (code, message) {
+                if (code == 0) {
+                    $.alert(message);
+                    setTimeout("history.go(-1);location.reload()", 2000);
+                }  else {
+                    $.alert(message);
+                }
+            });
+        }
+        else{
+
+        }
+        return false;
+
+    }
+</script>
+<style>
+
+    .card:hover{
+        box-shadow: 0px 0px 10px rgba(26, 26, 26, .1);
+        transition: box-shadow .5s ease-in-out;
+    }
+    a:hover {
+        color: #1E90FF;
+        text-decoration: none;
+    }
+</style>
+
+ 
+<div class="row hidden-sm">
+	<div class="col-lg-9">
+		<div class="card card-friendlink link-bottom">
+			<div class="card-header text-bold" style="padding: 0.45rem 1.25rem;">
+          		  <span class="icon-link"></span>&nbsp;友情链接
+                <span style="float:right;">
+                    <a href="<?php echo url('my-autolink'); ?>?act=add" style="color:#0084ff;">自助上链</a>
+                </span>
+          </div>
+			<div class="card-body p-a-sm p-b-xs" style='padding: .35rem;font-size: 1rem;'>
+              		 <?php foreach ( $autolinks as $link ){ ?>
+        
+            <!--            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>-->
+            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"
+               style="display:inline-block;"><i class="icon-link hidden-lg hidden-sm"></i> <?php echo $link['siteTitle'] ?>
+
+            </a>
+            <?php if($gid == 1) { ?>
+            <span onclick="down(<?php echo $link['id'];?>)" style='color:red; cursor: pointer;'>(下线)</span>
+            <?php } ?>
+        
+        <?php } ?>
+					 
+            </div>
+      </div>
+  </div>
+</div>
+<?php }?>
+
+<div class="row hidden-lg" >
+	<div class="col-lg-9">
+		<div class="card card-friendlink link-bottom">
+			<div class="card-header text-bold" style="padding: 0.45rem 1.25rem;">
+          		  <span class="icon-link"></span>&nbsp;友情链接
+                <span style="float:right;">
+                    <a href="<?php echo url('my-autolink'); ?>?act=add" style="color:#0084ff;">自助上链</a>
+                </span>
+          </div>
+			<div class="card-body p-a-sm p-b-xs" style='padding: .35rem;font-size: 1rem;'>
+              		 <?php foreach ( $autolinks as $link ){ ?>
+        
+            <!--            <a target="_blank" href='<?php echo $link['siteUrl']; ?>'><?php echo $link['siteTitle'] ?></a>-->
+            <a href="<?php echo $link['siteUrl']; ?>" target="_blank" class="ml-3 mb-2 text-nowrap"
+               style="display:inline-block;"><i class="icon-link hidden-lg hidden-sm"></i> <?php echo $link['siteTitle'] ?>
+
+            </a>
+            <?php if($gid == 1) { ?>
+            <span onclick="down(<?php echo $link['id'];?>)" style='color:red; cursor: pointer;'>(下线)</span>
+            <?php } ?>
+        
+        <?php } ?>
+					 
+            </div>
+      </div>
+  </div>
+</div>
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+	$('li[data-active="fid-0"]').addClass('active');
+</script>
+
+<?php if($uid){?>
+<script>
+var jsign = $("#tt_sign"); var jtitle=$("#sign_title"); var now_num = parseInt("<?php echo $num;?>",10)+1;
+jsign.on("click",function(){
+if(jtitle.text()=="签到")
+    $.xpost(xn.url("my-sign"),"",function(code,message){
+    {cocoMessage.info(message, 5000);$("#sign_title").text("已签");$("#peo").text(now_num);}
+    });
+else
+    window.location=xn.url("my-credits");
+});
+</script>
+<?php }?><script>
+jsearch_form = $('#search_form');
+jsearch_form.on('submit', function() {
+	var keyword = jsearch_form.find('input[name="keyword"]').val();
+	var url = xn.url('search-'+xn.urlencode(keyword));
+	window.location = url;
+	return false;
+});
+</script><script>
+    $('li[data-active="<?php echo empty($light_config['disc_page_index'] && $light_config['disc_page']) ? 'index' : 'bbs'; ?>"]').addClass('active');
+    $('a[data-active="<?php echo empty($light_config['disc_page_index'] && $light_config['disc_page']) ? 'index' : 'bbs'; ?>"]').addClass('active');
+</script>
+
+

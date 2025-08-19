@@ -1,0 +1,11 @@
+{
+    "name": "贴子访客修复版",
+    "brief": "贴子末尾，显示最近浏览该贴子的会员列表<br>云库论坛修复了游客浏览时报错的问题<br><br>更多插件请访问：<a target='_blank' href='https://cloudatabases.com/'>云库论坛</a>。",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

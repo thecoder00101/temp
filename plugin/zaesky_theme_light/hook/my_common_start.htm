@@ -1,0 +1,96 @@
+
+<div class="row d-lg-none">
+    <div class="col-12 p-0">
+        <div class="card mb-0 rounded-0 py-5 mm-background background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+            <div class="card-body text-white ">
+                <div class="media">
+                    <!--{hook my_common_avatar_before.htm}-->
+                    <img src="<?php echo $user['avatar_url'];?>" class="avatar-4 rounded-circle border border-white">
+                    <div class="media-body ml-3">
+                        <div class="d-flex justify-content-between user-page-username">
+                            <div class="break-all text-truncate">
+                                <span class="font-weight-bold h4"><?php echo $user['username'];?></span>
+                                <!--{hook my_common_username_after.htm}-->
+                            </div>
+                            <div class="text-nowrap">
+                                <a class="text-white" href="<?php echo url("user-$user[uid]");?>">个人主页>></a> 
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+                            <span class="badge badge-pill jb-cyan"><?php echo $user['groupname'];?></span>
+                            <!--{hook my_common_groupname_after.htm}-->
+                        </div>
+                    </div>
+                </div>
+                <!--{hook my_common_info_after.htm}-->
+            </div>
+        </div>
+    </div>
+    <div class="col-12 px-3" style="margin-top: -35px;">
+        <div class="card mb-0 user-info-count">
+            <div class="card-body">
+                <div class="d-flex justify-content-around text-center">
+                    <div><span class="text-muted"><?php echo lang('mb_threads');?></span><br/><b><?php echo $user['threads'];?></b></div>
+                    <div><span class="text-muted"><?php echo lang('mb_posts');?></span><br/><b><?php echo $user['posts'];?></b></div>
+                     
+                    <!--{hook user_page_info_count_after.htm}-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group my-3 hidden-lg my-mobile-btn-group" role="group" id="my_mobile_nav1" style="width: 100%;overflow:auto;">
+
+    <!--{hook my_common_mobile_my_before.htm}-->
+    <a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+    <!--{hook my_common_mobile_my_after.htm}-->
+    
+    <!--{hook my_common_mobile_my_thread_before.htm}-->
+    <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+    <!--{hook my_common_mobile_my_thread_after.htm}-->
+    
+</div>
+
+<div class="row justify-content-center d-none d-lg-block">
+    <div class="col-lg-12">
+        <div class="card user_header" style="overflow: hidden;">
+            <div class="w-100 background mp-background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+                
+            </div>
+            <div class="card-body">
+                    <div class="media" style="margin-top: -90px;">
+                        <!--{hook my_common_avatar_before.htm}-->
+                        <img class="avatar-6 rounded border mr-4 mt-3" src="<?php echo $user['avatar_url'];?>">
+                        <div class="media-body mt-5 pt-5">
+                            <div class="name-info">
+                                <div class="mb-3">
+                                    <span class="h4 font-weight-bold"><?php echo $user['username'];?></span>
+                                    <!--{hook my_common_username_after.htm}-->
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="badge jb-blue mr-1">UID:<?php echo $user['uid'];?></span><span class="badge badge-info jb-cyan"><?php echo $user['groupname'];?></span>
+                                    <!--{hook my_common_groupname_after.htm}-->
+                                </div>
+                                <div style="margin-top: -24px;">
+                                    <a class="btn btn-outline-primary" href="<?php echo url("user-$user[uid]");?>" role="button"><i class="iconfont icon-wode"></i> <?php echo lang('my_user');?></a>
+                                    <!--{hook my_profile_header_right.htm}-->
+                                </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!--{hook my_common_info_after.htm}-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

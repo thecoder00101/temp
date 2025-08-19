@@ -1,0 +1,11 @@
+<template include="./plugin/lcat_name/htm/my_name.template.htm">
+	<slot name="my_body">
+		<ul class="list-unstyled threadlist">
+			<?php include _include(APP_PATH.'plugin/lcat_name/htm/my_name_list.htm'); ?>
+		</ul>
+	</slot>
+</template>
+
+<script>
+$('a[data-active="my-name"]').addClass('active');
+</script>

@@ -1,0 +1,549 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+<div class="row d-lg-none">
+    <div class="col-12 p-0">
+        <div class="card mb-0 rounded-0 py-5 mm-background background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+            <div class="card-body text-white ">
+                <div class="media">
+                    
+                    <img src="<?php echo $user['avatar_url'];?>" class="avatar-4 rounded-circle border border-white">
+                    <div class="media-body ml-3">
+                        <div class="d-flex justify-content-between user-page-username">
+                            <div class="break-all text-truncate">
+                                <span class="font-weight-bold h4"><?php echo $user['username'];?></span>
+                                
+                            </div>
+                            <div class="text-nowrap">
+                                <a class="text-white" href="<?php echo url("user-$user[uid]");?>">个人主页>></a> 
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+                            <span class="badge badge-pill jb-cyan"><?php echo $user['groupname'];?></span>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 px-3" style="margin-top: -35px;">
+        <div class="card mb-0 user-info-count">
+            <div class="card-body">
+                <div class="d-flex justify-content-around text-center">
+                    <div><span class="text-muted"><?php echo lang('mb_threads');?></span><br/><b><?php echo $user['threads'];?></b></div>
+                    <div><span class="text-muted"><?php echo lang('mb_posts');?></span><br/><b><?php echo $user['posts'];?></b></div>
+                     
+                    <div><span class="text-muted">收藏</span><br/><b><?php echo intval($user['favorites']);?></b></div><div><span class="text-muted"><?php echo lang('mb_followed');?></span><br/><b><?php echo intval($user['followeds']); ?></b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group my-3 hidden-lg my-mobile-btn-group" role="group" id="my_mobile_nav1" style="width: 100%;overflow:auto;">
+
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+    
+    
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+    <a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+    
+</div>
+
+<div class="row justify-content-center d-none d-lg-block">
+    <div class="col-lg-12">
+        <div class="card user_header" style="overflow: hidden;">
+            <div class="w-100 background mp-background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+                
+            </div>
+            <div class="card-body">
+                    <div class="media" style="margin-top: -90px;">
+                        
+                        <img class="avatar-6 rounded border mr-4 mt-3" src="<?php echo $user['avatar_url'];?>">
+                        <div class="media-body mt-5 pt-5">
+                            <div class="name-info">
+                                <div class="mb-3">
+                                    <span class="h4 font-weight-bold"><?php echo $user['username'];?></span>
+                                    
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="badge jb-blue mr-1">UID:<?php echo $user['uid'];?></span><span class="badge badge-info jb-cyan"><?php echo $user['groupname'];?></span>
+                                    
+                                </div>
+                                <div style="margin-top: -24px;">
+                                    <a class="btn btn-outline-primary" href="<?php echo url("user-$user[uid]");?>" role="button"><i class="iconfont icon-wode"></i> <?php echo lang('my_user');?></a>
+                                    
+                                </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
+
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+	
+	
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+	
+</div>
+
+<div class="row">
+	<!-- 左侧菜单 -->
+	<div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
+		<div class="card">
+			<div class="card-body text-center">
+				
+				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
+				<br><?php echo $user['username'];?>
+				
+			</div>
+			<div class="list-group list-group-flush text-center">
+				
+				<a href="<?php echo url('my');?>" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
+				
+				
+				
+				<a href="<?php echo url('my-thread');?>" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
+				<a href="<?php echo url('my-follow');?>" class="list-group-item list-group-item-action" data-active="menu-my-follow">关注</a>
+		<a href="<?php echo url('my-notice');?>" class="list-group-item list-group-item-action" data-active="menu-my-notice"><?php echo lang('notice');?></a><a href="<?php echo url('my-name');?>" class="list-group-item list-group-item-action" data-active="menu-my-name">红名</a><a href="<?php echo url('my-credits');?>" class="list-group-item list-group-item-action" data-active="menu-my-credits"><?php echo lang('credits'); ?></a><!--<a href="<?php echo url('my-ranklist');?>" class="list-group-item list-group-item-action" data-active="menu-my-ranklist">排行榜</a>-->
+				
+			</div>
+		</div>
+	</div>
+	<!-- 右侧内容 -->
+	<div class="col-lg-10" id="my_main">
+		
+		<div class="card">
+			<div class="card-header">
+				
+				
+		<ul class="nav nav-tabs card-header-tabs">
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link " href="<?php echo url("my");?>" data-active="my-profile"><?php echo lang('my_basic_profile');?></a>
+			</li>
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-password");?>" data-active="my-password"><?php echo lang('modify_password');?></a>
+			</li>
+			
+			
+			
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-avatar");?>" data-active="my-avatar"><?php echo lang('modify_avatar');?></a>
+			</li>
+			<li class="nav-item"><a class="nav-link" href="<?php echo url("my-signature");?>" data-active="my-signature">签名</a></li><?php if( isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?>
+<li class="nav-item"><a class="nav-link" href="<?php echo url('my-background');?>" data-active="background"><?php echo lang('my_background');?></a></li>
+<?php } ?>
+			
+			
+		</ul>
+	
+				
+			</div>
+			<div class="card-body">
+				
+				
+<style>
+.my_box{
+    width:100px;
+    height:100px;
+    left:0;
+    right:0;
+    top:0px;
+    bottom:0;
+    margin:auto;
+    transition: .6s;
+    cursor: pointer;
+    z-index:999;
+}
+.my_box:hover{
+    animation:my_box 0.5s forwards;
+    transition: .5s;
+}
+@keyframes my_box{
+    form{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.my_box img{
+    width:100%;
+    height:100%;
+    border-radius:15px;
+    border:1px solid #ccc;
+}
+.avatar_img{
+    display: block;
+    width:86%;
+    height:1px;
+    border-bottom: 1px solid #ccc;
+    margin:0 auto;
+}
+
+.pic_box{
+    width:600px;
+    height:100%;
+    height:auto;
+    border-radius:8px;
+    background: #fff;
+    border:1px solid #ccc;
+    position: fixed;
+    top:-10000px;
+    left:0;
+    right:0;
+    margin:0 auto;
+    overflow:auto;
+    z-index:999;
+}
+.header{
+    height:45px;
+    text-align: center;
+}
+.close{
+    color:#000;
+    font-size: 21px;
+    line-height: 1;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+    position:absolute;
+    right:8px;
+    top:2px;
+    cursor: pointer;
+}
+.pic_box ul{
+    padding: 0;
+    margin:0;
+    width:96%;
+    height:511px;
+    margin:10px auto;
+}
+.pic_box ul li{
+    display: block;
+    list-style: none;
+    width:61px;
+    height:61px;
+    float: left;
+    border-radius: 15%;
+    border:1px solid #ccc;
+    margin:5px 5px;
+    transition: .6s;
+    cursor: pointer;
+    overflow: hidden;
+}
+.pic_box ul li:hover{
+    transform: scale(1.15);
+    transition: .5s;
+}
+.pic_box ul li img{
+    width:100%;
+}
+
+</style>
+<script src="./plugin/xn_avatar/view/js/touxiang_jquery.min.js"></script>
+
+
+    <div class="wrap">
+        <a class="t"></a>
+        <div class="pic_box" id="pic_box">
+            <div class="header">
+                <h2>选择头像</h2><span class="close">×</span>
+            </div>
+            <span class="avatar_img"></span>
+            <ul>
+                <li><img src="./plugin/xn_avatar/view/img/0.png" id="0"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/1.png" id="1"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/2.png" id="2"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/3.png" id="3"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/4.png" id="4"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/5.png" id="5"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/6.png" id="6"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/7.png" id="7"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/8.png" id="8"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/9.png" id="9"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/10.png" id="10"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/11.png" id="11"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/12.png" id="12"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/13.png" id="13"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/14.png" id="14"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/15.png" id="15"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/16.png" id="16"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/17.png" id="17"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/18.png" id="18"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/19.png" id="19"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/20.png" id="20"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/21.png" id="21"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/22.png" id="22"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/23.png" id="23"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/24.png" id="24"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/25.png" id="25"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/26.png" id="26"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/27.png" id="27"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/28.png" id="28"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/29.png" id="29"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/30.png" id="30"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/31.png" id="31"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/32.png" id="32"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/33.png" id="33"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/34.png" id="34"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/35.png" id="35"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/36.png" id="36"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/37.png" id="37"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/38.png" id="38"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/39.png" id="39"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/40.png" id="40"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/41.png" id="41"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/42.png" id="42"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/43.png" id="43"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/44.png" id="44"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/45.png" id="45"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/46.png" id="46"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/47.png" id="47"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/48.png" id="48"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/49.png" id="49"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/50.png" id="50"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/51.png" id="51"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/52.png" id="52"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/53.png" id="53"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/54.png" id="54"/></li>
+                <li><img src="./plugin/xn_avatar/view/img/55.png" id="55"/></li>
+            </ul>
+        </div>
+    </div>
+
+
+        <div class="col-lg-6 mx-auto">
+            <form action="<?php echo url('my-avatar');?>" method="post" id="uploadForm">
+        <div class="my_box form-group text-center">
+                <input class="imgsrc" id="imgsrc" name="imgsrc" type="hidden" value="" />
+                <img id="avatar_img" src="<?php echo $user['avatar_url'];?>" class="my_pic logo-3"/>
+        </div>
+<br>
+                <button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在保存...">保存头像</button>
+            </form>
+<br><br>
+
+            <div class="form-group custom-file">
+                <input type="file" id="avatar_upload" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"  class="upload custom-file-input" value="<?php echo lang('modify_avatar');?>"/>
+                <label class="custom-file-label" for="customFile">请选择头像图片</label>
+            </div>
+            <div class="progress mt-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"  id="avatar_progress"></div>
+            </div>
+        </div>
+    
+				
+			</div>
+		</div>
+		<?php 
+$haya_follow_config = setting_get('haya_follow');
+?>
+
+<?php 
+if (isset($haya_follow_config['show_my_dynamic']) 
+	&& $haya_follow_config['show_my_dynamic'] == 1
+	&& ($route == 'my' && $action == '')
+) { 
+?>
+
+	<?php 
+	$haya_follow_dynamic_post_num = intval($haya_follow_config['my_dynamic_post_num']);
+
+	$haya_follow_my_follow_user_count = haya_follow_count_cache(array('follow_uid' => $uid, 'show_dynamic' => 1), 86400);
+	$haya_follow_my_follow_uids = haya_follow_find_uids_by_follow_uid_cache($uid, $haya_follow_my_follow_user_count, 86400);
+	$haya_follow_my_follow_uids[] = $uid;		
+	
+	$haya_follow_user_post_list = post_find(array('uid' => $haya_follow_my_follow_uids), array('pid' => -1), 1, $haya_follow_dynamic_post_num);
+
+	$haya_follow_my_follow_user_remarks_uids = array();
+	if (!empty($haya_follow_user_post_list)) {
+		foreach ($haya_follow_user_post_list as & $haya_follow_user_post) {
+			$haya_follow_user_post['thread'] = thread_read_cache($haya_follow_user_post['tid']);
+	
+			if (!in_array($haya_follow_user_post['uid'], $haya_follow_my_follow_user_remarks_uids)) {
+				$haya_follow_my_follow_user_remarks_uids[] = $haya_follow_user_post['uid'];
+			}
+		}
+	}
+	
+	$haya_follow_my_follow_user_list = haya_follow__find(array('follow_uid' => $uid, 'uid' => $haya_follow_my_follow_user_remarks_uids), array('create_date' => -1), 1, count($haya_follow_my_follow_user_remarks_uids));
+	
+	$haya_follow_my_follow_user_remarks_list = array();
+	
+	if (!empty($haya_follow_my_follow_user_list)) {
+		foreach ($haya_follow_my_follow_user_list as $haya_follow_my_follow_user) {
+			$haya_follow_my_follow_user_remarks_list[$haya_follow_my_follow_user['uid']] = $haya_follow_my_follow_user;
+		}
+	}
+	?>
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<div class="haya-follow-name">
+						最新动态
+					</div>
+					
+					<div class="haya-follow-more">
+						<a href="<?php echo url("my-follow"); ?>" class="small">
+							更多 >>
+						</a>
+					</div>				
+				</div>
+				
+				<div class="card-body">			
+					<?php include _include(APP_PATH.'plugin/haya_follow/view/htm/my_follow_thread.htm'); ?>
+				</div>
+
+			</div>
+
+<?php } ?>
+
+	</div>
+</div>
+
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+<script>
+$('li[data-active="bbs"]').addClass('active');
+</script>
+<script>
+	$('a[data-active="my"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="menu-my"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="my"]').addClass('active');
+$('a[data-active="my-avatar"]').addClass('active');
+</script>
+
+<script>
+var javatar_upload = $('#avatar_upload');
+var jprogress = $('#avatar_progress');
+var jimg = $('#avatar_img');
+jprogress.hide();
+javatar_upload.on('change', function(e) {
+	var files = xn.get_files_from_event(e);
+	xn.upload_file(
+		files[0], 
+		xn.url('my-avatar'), 
+		{width: 128, height: 128, action: 'clip', filetype: 'png'}, 
+		function(code, message) {
+			if(code == 0) {
+				jimg.attr('src', message.url+'?'+Math.random());
+				$.alert('上传头像成功');
+				jprogress.delay(1000).hide();
+			} else {
+				$.alert(message);
+			}
+		}, 
+		function(percent) {
+			jprogress.show();
+			jprogress.width(percent+'%');
+		}
+	);
+});
+
+</script>
+<script type="text/javascript">
+    $(".close,.gb").click(function(){
+        $(".pic_box").animate({
+            'top':'-10000px'
+        },500);
+    }),
+    $(".my_box").click(function(){
+        $(".pic_box").animate({
+            'top':'50px',
+        },300);
+    }),
+
+
+
+    $(".queren").click(function(){
+        var src = $("#imgsrc").val();
+    });
+
+    var $box = document.getElementById('pic_box');
+    var $li = $box.getElementsByTagName('li');
+    var index = 0;
+    for(var i=0;i<$li.length;i++){
+        $li[i].index=i;
+        $li[i].onclick=function(){
+            $li[index].style.borderRadius="15%";
+            this.style.borderRadius="50%";
+            index = this.index;
+        }
+    }
+    $(".pic_box li img").click(function(){
+        var src=$(this).attr("src");
+        $("#imgsrc").val(src);
+        $(".my_pic").attr('src',src);
+        $(".pic_box").animate({
+              'top':'-10000px'
+          },500);
+    });
+
+
+
+
+
+
+
+var jform = $('#uploadForm');
+var jsubmit = $('#submit');
+jform.on('submit', function() {
+    var src = $("#imgsrc").val();
+    if(src==''){ $.alert('没有选择头像');}
+    jform.reset();
+    jsubmit.button('loading');
+    var postdata = jform.serializeObject();
+    postdata.imgsrc = src;
+    postdata.uid = <?php echo $user['uid'];?>;
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            $.alert(message);
+            jsubmit.button(message).delay(1000).button('reset');
+        } else if(xn.is_number(code)) {
+            alert(message);
+            jsubmit.button('reset');
+        } else {
+            jform.find('[name="'+code+'"]').alert(message).focus();
+            jsubmit.button('reset');
+        }
+    });
+    return false;
+});
+</script>

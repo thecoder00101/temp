@@ -1,0 +1,482 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+
+<div class="row">
+	<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 1) { ?>
+<div class="col-lg-2 pr-0 hidden-md hidden-sm">
+  <div class="func_left">
+	<div class="card ">
+	<div class="card-body p-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>"  href="<?php echo url("forum-$fid");?>">
+          <i class="iconfont icon-faxian1 ml-1 mr-2 hidden-sm hidden-md"></i>
+          <?php echo lang('new_thread');?></a>
+     					<li class="nav-item">
+						
+						<a class="nav-link nav-digest  <?php echo $active == 'digest' ? 'active' : '';?>" href="<?php echo url("forum-$fid-1", array('digest'=>1) + $_GET);?>">
+							<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-huiyuan1 ml-1 mr-2"></i></span>
+							<?php echo lang('digest_thread');?></a>
+					</li><?php if (isset($light_config['new_threadlist']) && $light_config['new_threadlist'] == 1) { ?>
+<li class="nav-item">
+	<a class="nav-link nav-digest  <?php echo $active == 'newpost' ? 'active' : '';?>" href="<?php echo url("forum-$fid-1", array('digest'=>5) + $_GET);?>">
+		<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-shijian1 ml-1 mr-2 hidden-sm hidden-md"></i></span>
+		新帖</a>
+</li>
+ <?php } ?>
+     <div class="divide"></div>
+     <div class="forumList">
+     <?php foreach($forumlist_show as $_forum) { ?>
+      
+      <li fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+        <a class="nav-link " fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>" href="<?php echo url("forum-$_forum[fid]");?>"><img class="avatar-2 mr-2 rounded bg-white" src="<?php echo $_forum['icon_url'];?>"><?php echo $_forum['name'];?></a>
+      </li>
+      
+      <?php } ?>
+    </div>
+    </div>
+	</div>
+	</div>
+      <?php echo $light_config['func_left_custom_content'] ;?>
+</div>
+  </div>
+  <?php } ?>
+
+	<div class="<?php echo $main_switch;?> main">
+		
+		<?php if(empty($hide_breadcrumb)) { ?>
+		<ol class="breadcrumb d-none">
+			<li class="breadcrumb-item"><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
+			<li class="breadcrumb-item active"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			
+		</ol>
+		<?php } ?>
+
+		<div class="card d-lg-none overflow-hidden">
+	<div class="media card-body">
+		<img class="avatar-4 mr-3 rounded" src="<?php echo $forum['icon_url'];?>">
+		<div class="media-body">
+			<h5 class="font-weight-bold"><?php echo $forum['name'];?><span class="badge badge-primary ml-2"><?php if($forum['todayposts']>0) echo $forum['todayposts'];?></span></h5>
+			<div class="mt-3"><span class="text-muted"><?php echo lang('threads');?>:
+					<?php echo $forum['threads'];?></span>
+				<span class="text-muted"><?php echo lang('today_posts');?>:
+					<?php echo $forum['todayposts'];?></span>
+			</div>
+			
+			<div class="text-small mt-3">
+			<span class="font-weight-bold text-muted"><?php echo lang('forum_moderator');?>：</span>
+			<?php if($forum['modlist']) { ?>
+				<?php foreach ($forum['modlist'] as $mod) { ?>
+				<a href="<?php echo url("user-$mod[uid]");?>"><img src="<?php echo $mod['avatar_url'];?>"
+						class="avatar-1"> <span class="hidden-sm"><?php echo $mod['username'];?></span></a> &nbsp;
+				<?php } ?>
+			<?php  } else {?>
+				<span class="text-gray"><?php echo lang('no_moderator');?> <i class="fa fa-frown"></i></span>
+				<?php } ?>
+				</div>
+		</div>
+	</div>
+	<?php if($forum['brief']) { ?>
+	<div class="card-footer">
+		<div class="font-weight-bold"><?php echo lang('forumBrief');?><span class="float-right" data-toggle="modal"
+				data-target="#forumBriefModal"><i class="fa fa-chevron-circle-down"></i></span></div>
+		<div class="line-height-2 forumBrief mt-2" title="可点击查看详情" data-toggle="modal" data-target="#forumBriefModal">
+			<?php echo $forum['brief'];?></div>
+	</div>
+	<?php  } ?>
+</div>
+<?php if($forum['announcement']) { ?>
+<div class="alert alert-success fade show" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<div class="alert-heading">
+		<h5><i class="fa fa-volume-up"></i> <?php echo lang('forum_anouncement');?></h5>
+	</div>
+	<hr>
+	<p>
+		<?php echo $forum['announcement'];?>
+	</p>
+</div>
+
+<?php  } ?>
+
+
+<!-- 板块简介详情弹窗 -->
+<div class="modal fade" id="forumBriefModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel"><?php echo lang('forumBrief');?></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<?php echo $forum['brief'];?>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"><?php echo lang('IKnow');?></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+		
+<style>
+table.nav_tag_list {margin-bottom: 0.5rem;}
+table.nav_tag_list td a{background:white;padding:0.3rem .83rem;border-radius:1rem;font-size:12px;color: #8a9aa9;}
+table.nav_tag_list td a:hover{color: #0084ff;}
+.nav_tag_list .active {background:#0084ff;color:#fff;font-weight:500;}
+table li{float:left;margin:5px 0px;}
+</style>
+
+		<table class="small nav_tag_list">
+		<?php if(!empty($forum['tagcatelist'])) {foreach($forum['tagcatelist'] as $i=>$tagcate) { 
+				if(empty($tagcate['enable'])) continue;
+			?>
+			<tr>
+			
+				<td>
+					<?php
+						$tagidadd = '';
+						$tagactive = '';
+						switch ($i) {
+							case 0: $tagidadd = "0_{$tagid2}_{$tagid3}_{$tagid4}";
+								$tagactive = 0 == $tagid1 ? ' class="active"' : '';
+								break;
+							case 1: $tagidadd = "{$tagid1}_0_{$tagid3}_{$tagid4}";
+								$tagactive = 0 == $tagid2 ? ' class="active"' : '';
+								break;
+							case 2: $tagidadd = "{$tagid1}_{$tagid2}_0_{$tagid4}";
+								$tagactive = 0 == $tagid3 ? ' class="active"' : '';
+								break;
+							case 3: $tagidadd = "{$tagid1}_{$tagid2}_{$tagid3}_0";
+								$tagactive = 0 == $tagid4 ? ' class="active"' : '';
+								break;
+						}
+					?>
+                                 
+					<li><a href="<?php echo url("forum-$fid-1", array('tagids'=>$tagidadd));?>" <?php echo $tagactive;?>><?php echo lang('all');?></a><li>
+					<?php foreach($tagcate['taglist'] as $tag) { ?>
+					<?php 
+						if(empty($tag['enable'])) continue;
+						switch ($i) {
+							case 0: 
+								$tagidadd = "{$tag['tagid']}_{$tagid2}_{$tagid3}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid1 ? ' class="active"' : '';
+								break;
+							case 1: $tagidadd = "{$tagid1}_{$tag['tagid']}_{$tagid3}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid2 ? ' class="active"' : '';
+								break;
+							case 2: $tagidadd = "{$tagid1}_{$tagid2}_{$tag['tagid']}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid3 ? ' class="active"' : '';
+								break;
+							case 3: $tagidadd = "{$tagid1}_{$tagid2}_{$tagid3}_{$tag['tagid']}";
+								$tagactive = $tag['tagid'] == $tagid4 ? ' class="active"' : '';
+								break;
+						}
+					?>
+                                 
+					<li><a href="<?php echo url("forum-$fid-1", array('tagids'=>$tagidadd));?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a></li>
+					<?php } ?>
+				</td>
+			</tr>
+		<?php }} ?>
+		</table>
+		
+<?php 
+if (isset($light_config['thread_top_ind']) && $light_config['thread_top_ind'] == 1) { 
+if($page === 1) {
+    $threadlist_forum_top = thread_top_find($fid);
+    thread_list_access_filter($threadlist_forum_top, $gid);
+    if($threadlist_forum_top) { 
+        $have_allowtop = 0;
+        foreach($threadlist_forum_top as &$_thread) {
+            $_thread['allowtop'] = forum_access_mod($_thread['fid'], $gid, 'allowtop');
+            if($_thread['allowtop']) $have_allowtop = 1;
+        }
+    }
+}?>
+
+
+<?php if($page === 1 && $threadlist_forum_top ) { ?>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active"
+                        href="#"><?php echo lang('forum_top');?></a>
+                </li>
+            </ul>
+            <a  class="btn btn-primary" style="position: absolute; top:0.75rem;right:1.25rem;" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+        </div>
+        <div class="card-body py-1">
+            <ul class="list-unstyled  mb-0">
+               <?php if($threadlist_forum_top ) { foreach($threadlist_forum_top as &$_thread) { ?>
+                        <li class="tap <?php echo $_thread['top_class'];?>" data-href="<?php echo url("thread-$_thread[tid]");?>" data-tid="<?php echo $_thread['tid'];?>">
+                            <div class="d-flex justify-content-between my-2">
+                                <div class="break-all text-truncate">
+                                    <?php if($_thread['top'] > 0) { ?>
+                                        <i class="icon-top-<?php echo $_thread['top']; ?>"></i>
+                                    <?php } ?>
+                                    <a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+                                    <?php if($_thread['closed'] > 0) { ?><i class="icon-lock"></i><?php } ?>
+                                </div>
+                                <div class="text-nowrap">
+                                    <span class="text-muted align-middle"><?php echo $_thread['create_date_fmt'];?></span>
+                                </div>
+                            </div>
+                        </li>
+                        <?php }} else { ?>
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="text-center my-5" style="color:gainsboro"><i
+                                        class="fa fa-bug display-1"></i><br /><?php echo lang('none');?></div>
+                            </div>
+                        </div>
+                        <?php } ?>
+            </ul>
+        </div>
+    </div>
+    <?php } }?>
+
+    
+
+		<div class="card card-threadlist">
+			<div class="<?php echo $index_header_switch;?>">
+			<div class="card-header d-flex justify-content-between bg-white">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>"
+							href="<?php echo url("forum-$fid");?>"><?php echo lang('new_thread');?></a>
+					</li>
+										<li class="nav-item">
+						
+						<a class="nav-link nav-digest  <?php echo $active == 'digest' ? 'active' : '';?>" href="<?php echo url("forum-$fid-1", array('digest'=>1) + $_GET);?>">
+							<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-huiyuan1 ml-1 mr-2"></i></span>
+							<?php echo lang('digest_thread');?></a>
+					</li><?php if (isset($light_config['new_threadlist']) && $light_config['new_threadlist'] == 1) { ?>
+<li class="nav-item">
+	<a class="nav-link nav-digest  <?php echo $active == 'newpost' ? 'active' : '';?>" href="<?php echo url("forum-$fid-1", array('digest'=>5) + $_GET);?>">
+		<span class="<?php echo $icon_switch;?>"><i class="iconfont icon-shijian1 ml-1 mr-2 hidden-sm hidden-md"></i></span>
+		新帖</a>
+</li>
+ <?php } ?>
+				</ul>
+				
+				<div class="text-right text-small pt-1 card-header-dropdown">
+					<div class="btn-toolbar" role="toolbar">
+						<span class="text-muted"><?php echo lang('orderby');?>：</span>
+						<div class="dropdown btn-group">
+							<a href="#" class="dropdown-toggle" id="ordery_dropdown_menu" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<?php echo $orderby == 'tid' ? lang('thread_create_date') : lang('post_create_date');?>
+								
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="ordery_dropdown_menu">
+								<a class="dropdown-item"
+									href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i
+										class="icon text-primary <?php echo $orderby == 'tid' ? 'icon-check' : '';?>"></i>&nbsp;
+									<?php echo lang('thread_create_date');?></a>
+								<a class="dropdown-item"
+									href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i
+										class="icon text-primary <?php echo $orderby == 'lastpid' ? 'icon-check' : '';?>"></i>&nbsp;
+									<?php echo lang('post_create_date');?></a>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist mb-0">
+					<?php 
+if (isset($light_config['thread_top_ind']) && $light_config['thread_top_ind'] == 1) { 
+/* 普通帖子 */
+if($page === 1 && $active == 'default') {
+    if(!$tagids || $tagids=='0___' ||$tagids=='0_0_0_0' ){
+    $threadlist =  thread_find_by_fids($fid, $page, $pagesize, $orderby, $_thread); //把1换成要显示的板块ID（可在后台看到）
+    thread_list_access_filter($threadlist, $gid); //过滤没有权限访问的帖子，必须要做
+    }
+}
+}
+?>
+					<?php
+					if (isset($light_config['thread_list_style']) && $light_config['thread_list_style'] == 1) {
+					include _include(APP_PATH.'view/htm/thread_list.inc.htm');
+					}else if(isset($light_config['thread_list_style']) && $light_config['thread_list_style'] == 2){
+					include _include(APP_PATH.'plugin/zaesky_theme_light/view/htm/thread_list.inc2.htm');
+					}else if(isset($light_config['thread_list_style']) && $light_config['thread_list_style'] == 3){
+					include _include(APP_PATH.'plugin/zaesky_theme_light/view/htm/thread_list.inc3.htm');
+					}?>
+					
+				</ul>
+			</div>
+		</div>
+
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+
+		
+		<nav class="my-3">
+			<ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul>
+		</nav>
+		
+	</div>
+	<div class="col-lg-3 d-none d-lg-block aside">
+
+		<!-- <a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a> -->
+		
+		<div class="card card-forum-info">
+			<div class="card-body">
+				<div class="forumAvator">
+					<img class="avatar-3 rounded-circle " src="<?php echo $forum['icon_url'];?>" style="width: 40px;height: 40px;">
+					<span class="font-weight-bold"><?php echo $forum['name'];?></span>
+				</div>
+				<div class="my-2">
+					<?php if($forum['brief']) { ?>
+					<div class="line-height-2"><?php echo $forum['brief'];?></div>
+					<?php  }else {?>
+					<span class="text-muted"><?php echo lang('no_forumBrief');?></span>
+					<?php  }?>
+				</div>
+				<hr>
+				<div>
+				<table class="w-100 small">
+					<tr>
+						<td>
+							<span class="text-muted"><?php echo lang('threads');?></span><br>
+							<b class="h5 font-weight-bold"><?php echo $forum['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('today_posts');?></span><br>
+							<b class="h5 font-weight-bold"><?php echo $forum['todayposts'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('today_threads');?></span><br>
+							<b class="h5 font-weight-bold"><?php echo $forum['todaythreads'];?></b>
+						</td>
+						
+					</tr>
+				</table>
+			</div>
+			<hr>
+				<div class="text-small">
+					<span class=" text-muted"><?php echo lang('forum_moderator');?>：</span>
+					<?php if($forum['modlist']) { ?>
+					<?php foreach ($forum['modlist'] as $mod) { ?>
+					<a href="<?php echo url("user-$mod[uid]");?>"><img src="<?php echo $mod['avatar_url'];?>"
+							class="avatar-2" data-toggle="tooltip" data-placement="top"
+							title="<?php echo $mod['username'];?>"></a>
+					<?php } ?>
+					<?php  } else {?>
+					<span class="text-gray"><?php echo lang('no_moderator');?><i class="fa fa-frown"></i></span>
+					<?php } ?>
+				</div>
+				
+			</div>
+			<div class="card-footer p-2">
+				<a  class="btn btn-primary btn-block" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+			</div>
+		</div>
+
+		<?php include _include(APP_PATH.'plugin/ax_comment/htm/list.htm');?><div class="form-group">
+	<form action="<?php echo url('search');?>" id="search_form">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" placeholder="<?php echo lang('keyword');?>" name="keyword">
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="submit"><?php echo lang('search');?></button>
+			</div>
+		</div>
+	</form>
+</div>
+		<!-- <?php if($forum['announcement'] || $forum['modlist']) { ?>
+		<div class="card card-mod-info">
+			<div class="card-body">
+				<?php if($forum['announcement']) { ?>
+				<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
+				<p class="small">
+					<?php echo $forum['announcement'];?>
+				</p>
+				<?php  } ?>
+				
+				<?php if($forum['modlist']) { ?>
+				<h6 class="card-title"><?php echo lang('forum_moderator');?>：</h6>
+				<div class="row">
+					<?php foreach ($forum['modlist'] as $mod) { ?>
+					<div class="col-3 mb-1 text-center">
+						<a href="#"><img src="<?php echo $conf['view_url'];?>img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
+					</div>
+					<?php } ?>
+				</div>
+				<?php  } ?>
+			</div>
+		</div>
+		<?php  } ?> -->
+		<!--div class="card">
+			<div class="card-header">
+				<i class="fa fa-user-friends"></i> <?php echo lang('forumBrief');?>
+			</div>
+			<div class="card-body">
+				<?php if($forum['brief']) { ?>
+				<div class="line-height-2"><?php echo $forum['brief'];?></div>
+				<?php  }else {?>
+				<span class="text-muted"><?php echo lang('no_forumBrief');?></span>
+				<?php  }?>
+			</div>
+		</div-->
+		<?php
+			$_forumlist = thread__find(array('fid'=>$forum['fid']), array('views'=>-1), 1, 10);
+			thread_list_access_filter($_threadlist, $gid);
+
+?>
+<div class="card">
+			<div class="card-header">
+				<span class="card-title">版块热门</span>
+			</div>
+				<div class="card-body py-2">
+
+					<div class="site-top">
+						<ul class="site-list-ul">
+							<?php 
+							$loopNum = 1;
+					if($_forumlist){
+					foreach($_forumlist as $_fthread) { ?>
+								
+							<li >
+									<span class="badge badge-pill mr-2 <?php if($loopNum <= 3) { ?> jb-pink <?php } else { ?> badge-secondary <?php }?>"><?php echo  $loopNum++ ;?></span><a href="<?php echo url("thread-$_fthread[tid]");?>" style='font-size:12px;color:#343a40;'><?php echo $_fthread['subject'];?></a>
+								
+							</li>
+							<?php }} else { ?>
+								<?php echo lang('none');?>
+							<?php } ?>
+					</ul>	
+					</div>
+</div>
+</div>
+
+	</div>
+</div>
+
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+	$('a[data-active="fid-<?php echo $fid;?>"]').addClass('active');
+	$('li[data-active="fid-<?php echo $fid;?>"]').addClass('active');
+</script>
+<script>
+jsearch_form = $('#search_form');
+jsearch_form.on('submit', function() {
+	var keyword = jsearch_form.find('input[name="keyword"]').val();
+	var url = xn.url('search-'+xn.urlencode(keyword));
+	window.location = url;
+	return false;
+});
+</script>

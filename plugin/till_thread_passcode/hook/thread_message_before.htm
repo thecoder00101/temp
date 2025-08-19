@@ -1,0 +1,13 @@
+<?php if(!(isset($_SESSION['passcode_expire_time_for_tid_' . $tid]) && time() < $_SESSION['passcode_expire_time_for_tid_' . $tid]) && !empty($thread['passcode'])): $first['message'] = ''; $first['message_fmt'] = ''; ?>
+<div class="alert alert-danger">
+    <h2 class="h5">本文有密码保护！</h2>
+    <form action="<?= url('pass-ckpass-' . $thread['tid']); ?>" method="post" id="ckpass_form">
+        <div class="input-group">
+            <input placeholder="请输入密码..." type="text" name="passcode" value="" id="passcode" class="form-control" />
+            <button class="btn btn-primary" onclick="ckpass();">确认</button>
+        </div>
+    </form>
+</div>
+<?php elseif(!(isset($_SESSION['passcode_expire_time_for_tid_' . $tid]) && time() < $_SESSION['passcode_expire_time_for_tid_' . $tid])) : 
+/* do nothing */
+endif; ?>

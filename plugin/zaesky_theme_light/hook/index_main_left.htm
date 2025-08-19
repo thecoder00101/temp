@@ -1,0 +1,29 @@
+<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 1) { ?>
+<div class="col-lg-2 pr-0 hidden-md hidden-sm ">
+  <div class="func_left">
+	<div class="card ">
+	<div class="card-body p-3">
+    <div class="nav thread-left-nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <li class="nav-item">
+      <a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="./<?php echo url("$route");?>">
+        <i class="iconfont icon-faxian1  ml-1 mr-2 hidden-sm hidden-md"></i>
+        <?php echo lang('new_thread');?></a>
+      </li>
+     <!--{hook index_thread_list_nav_item_after.htm}-->
+     <div class="divide"></div>
+     <div class="forumList overflow-auto">
+     <?php foreach($forumlist_show as $_forum) { ?>
+      <!--{hook header_nav_forumlist_loop_start.htm}-->
+      <li  fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+        <a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><img class="avatar-2 mr-2 rounded" src="<?php echo $_forum['icon_url'];?>"><?php echo $_forum['name'];?></a>
+      </li>
+      <!--{hook header_nav_forumlist_loop_end.htm}-->
+      <?php } ?>
+      </div>
+    </div>
+	</div>
+	</div>
+      <!--{hook index_func_left_end.htm}-->
+</div>
+  </div>
+  <?php } ?>

@@ -1,0 +1,50 @@
+
+<style>
+.log-list {
+    margin: 10px 0;
+    padding: 0;
+    list-style: none;
+}
+.log-list {
+    overflow: auto;
+}
+    .log-list li {
+        width: 60px;
+        float: left;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .log-list .logavatar {
+        margin: 10px;
+    }
+    .log-list .log-name {
+        font-size: 12px;
+        line-height: 30px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="card" style="margin-top:10px;">
+    <div class="card-body" style="padding-bottom:0px;">
+        <div class="card-title">
+            <b><?php echo $viewlog['title'];?></b>
+          	(<span class="posts"><?php echo $logs_count;?></span>)
+            <ul class = "log-list">
+                <?php
+                foreach($logs as $log):
+                    $_user = user_read_cache($log['uid']);
+                ?>
+                <li title="<?php echo humandate($log['dateline'])?>">
+                    <a href="<?php echo url("user-$_user[uid]");?>" class="logavatar">
+                    <img class="avatar-3" src="<?php echo $_user['avatar_url'];?>">
+                    </a>
+                    <div class = "log-name text-muted font-weight-bold"><?php echo $_user['username'];?></div>
+                </li>
+                <?php
+                endforeach;
+                ?>
+            </ul>
+        </div>
+    </div>
+</div>

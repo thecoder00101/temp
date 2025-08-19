@@ -1,0 +1,16 @@
+{
+    "name": "奇狐网 · 小黑屋",
+    "brief": "小黑屋，主要用于把指定用户拉进禁止用户组，同时屏蔽所有主题帖和回帖内容，屏蔽内容管理员可见。 <a href='https://bbs.oddfox.cn' target='_blank' class='text-danger'>更多精品插件请访问奇狐官网</a>",
+    "version": "1.01",
+    "bbs_version": "4.0.4",
+    "uid": "20394",
+    "username": "༺凨影༻",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "admin_user_update_group_after.htm": 99999,
+        "post_list_inc_message_before.htm": -99999
+    },
+    "overwrites_rank": [],
+    "dependencies": []
+}

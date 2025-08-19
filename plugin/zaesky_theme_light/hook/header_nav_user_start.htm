@@ -1,0 +1,16 @@
+<?php if (isset($light_config['dark_mode_switch']) && $light_config['dark_mode_switch'] == 1) { ?>
+<li class="nav-item">
+	<a class="nav-link" id="theme" onclick="theme_switch()" style="cursor:pointer;">
+		<script type="text/javascript">
+			Theme = getCookie('Theme');
+			if (Theme == "1") {
+				document.write("<i class='iconfont icon-shuaxin1' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>自动切换模式</span>");
+			} else if (Theme == "2") {
+				document.write("<i class='iconfont icon-rijian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>日间模式</span>");
+			} else {
+				document.write("<i class='iconfont icon-yejian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>夜间模式</span>");
+			}
+		</script>
+	</a>
+</li>
+<?php }?>

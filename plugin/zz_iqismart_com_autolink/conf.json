@@ -1,0 +1,11 @@
+{
+    "name": "自助友链",
+    "brief": "详情更多信息请访问 <a href='https://www.iqismart.com'>一起smart</a>",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

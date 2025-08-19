@@ -1,0 +1,16 @@
+{
+    "name": "签到",
+    "brief": "本插件需要预先安装积分插件！签到插件，提升用户黏性。<br/>此版本为主题（xiuno Light）适配版。主题下载请访问><a class='text-danger' href='https://www.noteweb.top/'>NOTEWEB</a>",
+    "version": "1.1.1",
+    "bbs_version": "4.0.3",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "index_site_brief_after.htm": 999,
+        "index_thread_list_nav_item_after.htm": 9999
+    },
+    "overwrites_rank": [],
+    "dependencies": {
+        "tt_credits": "1.09"
+    }
+}

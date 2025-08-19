@@ -1,0 +1,11 @@
+{
+    "name": "首页自定义图标列表",
+    "brief": "1、可外链可排序，导航站下载站必备！ <br>2、可无限添加图标,可自定义排序<br> 插件请勿外传!</b></span> ",
+    "version": "1.1",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

@@ -1,0 +1,48 @@
+<?php if (isset($light_config['index_userinfo']) && $light_config['index_userinfo'] == 1) { ?>  
+      <?php if($uid){?>
+        <div class="card card-widget widget-user-2">
+          
+          <div class="widget-user-header p-3 d-flex justify-content-between">
+            <div>
+              <a href="<?php echo url('my');?>">
+            <img src="<?php echo $user['avatar_url'];?>" class="avatar-2 rounded-circle mr-2">
+            <span class="font-weight-bold"><?php echo $user['username'];?></span>
+          <!--{hook index_site_brief_profile_username_end.htm}-->
+          </a>
+          </div>
+          </div>
+          <div class="card-footer p-0">
+          <ul class="nav flex-column">
+          <li class="nav-item">
+          <a href="<?php echo url('my-thread');?>" class="nav-link text-muted">
+            <i class="iconfont icon-pinglun"></i> <?php echo lang('mb_threads');?> <span class="float-right badge bg-light text-muted"><?php echo $user['threads'];?></span>
+          </a>
+          </li>
+          <li class="nav-item">
+          <a href="<?php echo url('my-thread');?>" class="nav-link text-muted">
+          <i class="iconfont icon-taolunqu"></i> <?php echo lang('mb_posts');?> <span class="float-right badge bg-light text-muted"><?php echo $user['posts'];?></span>
+          </a>
+          </li>
+          <!--{hook index_site_brief_profile_items_after.htm}-->
+          </ul>
+          </div>
+          </div>
+    <?php }else{?>
+      <div class="card overflow-hidden">
+        <div class=" card-body">
+          <div class="media">
+        <i class="<?php echo $light_config['login_guide_icon'] ;?> display-4 mr-3 mt-2 text-secondary"></i>
+            <div class="mediabody">
+              <h6 class="font-weight-bold mt-2"><?php echo $light_config['login_guide_1'] ;?></h6>
+        <p class="text-muted small"><?php echo $light_config['login_guide_2'] ;?></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer d-flex">
+            <a role="button" class="btn btn-primary mr-2" style="width: 48%;" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+            <a role="button" class="btn btn-outline-primary" style="width: 48%;" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a>
+            
+        </div>
+    </div>
+   <?php } ?>
+<?php }?>

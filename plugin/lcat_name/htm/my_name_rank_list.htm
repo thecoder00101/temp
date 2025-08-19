@@ -1,0 +1,36 @@
+<div class="alert alert-warning">以 UID 先后排序 / 统计数为30天内数据</div>
+
+
+		<?php 
+		$threadss = setting_get('threadss');
+		$postss = setting_get('postss');
+		$today0 = strtotime("-1 month");
+		
+		
+		
+		$num_pid = db_count('user');
+		$page = param(2,1);
+		$data =  db_find('user',array(), array('uid'=>$uid), $page, $pagesize = 10000);
+		
+		$pagination = pagination(url("my-namerank-{page}"), $num_pid, $page, $pagesize);
+		$i=1;
+		
+		?>
+
+		<table class="table"><tr><th>排名</th><th>用户名</th><th class="num_thread text-center">主题数</th><th class="num_thread text-center">帖子数</th></tr>
+		<?php foreach($data as $v){
+			$userimg = 'upload/avatar/000/'.$v['uid'].'.png'; 
+				if(file_exists($userimg)==false){
+					$userimg = 'view/img/avatar.png';
+				}
+				$new_threads = db_count('thread',array('uid'=>$v['uid'],'create_date'=>array('>'=>$today0)));
+		$new_posts = db_count('post',array('uid'=>$v['uid'],'isfirst'=>0,'create_date'=>array('>'=>$today0)));
+		
+			if($new_threads >= $threadss & $new_posts >= $postss){
+			?><tr style="<?php if($v['uid']==$uid)echo 'font-weight:bold;';?>">
+		<?php if(!$page){$ranknum = $i++;}else{ $ranknum = ($page-1)*$pagesize+$i++;};?>
+			<td><span class="badge badge-pill badge-<?php if($ranknum==1){echo 'warning';}elseif($ranknum==2){echo 'success';}elseif($ranknum==3){echo 'primary';}else{echo 'light';}?>"><?php echo $ranknum;?></span></td>
+		<td><a style="color:red;" href="/<?php echo url("user-$v[uid]")?>" > <img class="avatar-2 mr-1" src="<?php echo $userimg;?>" > <?php echo $v['username'];?></a></td>
+				<td class="num_thread text-center"><?php echo $new_threads;?></td><td class="num_thread text-center"><?php echo $new_posts;?></td>
+		</tr><?php }}?>
+		</table>

@@ -1,0 +1,60 @@
+<template include="./view/htm/my.template.htm">
+	<slot name="my_body">
+		<div class="col-lg-6 mx-auto">
+			<style>.label-char-count{position: absolute;right: 0.3125rem;bottom: 0.3125rem;background: #dd4b39;color:#fff;border-radius: 0.25rem;padding:0.0625rem 0.25rem;}</style>
+			<form action="<?php echo url('my-signature');?>" method="post" id="form">
+				<div class="form-group position-relative" id="count">
+					<textarea class="form-control" id="my_signature" name="my_signature" placeholder="输入你的个性签名，限制<?php echo $get_signature['characters'];?>个字符。"
+					 rows="8"><?php echo htmlspecialchars_decode($user['signature']);?></textarea>
+				</div>
+				<?php if (isset($get_signature['html']) && $get_signature['html'] == 1) { ?>
+				<a class="btn bg-info btn-block text-white">
+					签名支持超链接，点我添加一个链接
+				</a>
+				<?php } ?>
+				<button type="submit" class="btn btn-primary btn-block" id="submit" name="submit" data-loading-text="<?php echo lang('submiting');?>...">确定</button>
+		</div>
+		</form>
+		</div>
+	</slot>
+</template>
+<script src="plugin/art_signature/view/js/count.js"></script>
+<script>
+	//统计字符	
+	$(function() {
+		$("#my_signature").char_count({
+			maxValue: <?php echo $get_signature['characters'];?>,
+			showMaxValue: true,
+			hideOnBlur: true,
+		});
+	})
+	//插入链接	
+	$(".bg-info").click(function() {
+		var link = $("#my_signature").val() + "<a href=\"链接地址\">链接名称</a>";
+		$("#my_signature").val(link);
+	});
+	//添加tab active样式
+	$('a[data-active="my"]').addClass('active');
+	$('a[data-active="my-signature"]').addClass('active');
+	//submit	
+	var jform = $('#form');
+	var jsubmit = $('#submit');
+	jform.on('submit', function() {
+		jform.reset();
+		jsubmit.button('loading');
+		var postdata = jform.serializeObject();
+		$.xpost(jform.attr('action'), postdata, function(code, message) {
+			if (code == 0) {
+				$.alert(message);
+				jsubmit.button(message).delay(3000).button('reset');
+			} else if (xn.is_number(code)) {
+				alert(message);
+				jsubmit.button('reset');
+			} else {
+				jform.find('[name="' + code + '"]').alert(message).focus();
+				jsubmit.button('reset');
+			}
+		});
+		return false;
+	});
+</script>

@@ -1,0 +1,11 @@
+{
+    "name": "超连接自动转换",
+    "brief": "检测用户发帖输入以及评论区的连接将其自动转换为超链接。<a href='https://xiu.no' target='_blank'>XIUNO爱好者<a> ",
+    "version": "2.0.0",
+    "bbs_version": "4.0.3",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

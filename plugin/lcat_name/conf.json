@@ -1,0 +1,11 @@
+{
+    "name": "红名插件",
+    "brief": "老猫出品：<a href='http://clih.cn/'>超论 clih.cn</a>",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

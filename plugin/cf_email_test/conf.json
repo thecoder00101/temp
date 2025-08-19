@@ -1,0 +1,11 @@
+{
+    "name": "邮件测试",
+    "brief": "在后台SMTP设置下面增加一个发送邮件测试功能。<br><br>更多插件请访问：<a target='_blank' href='https://cloudatabases.com/'>云库论坛</a>。",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

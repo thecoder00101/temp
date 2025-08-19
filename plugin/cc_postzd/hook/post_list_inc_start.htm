@@ -1,0 +1,86 @@
+<!---->
+<?php if(isset($thread['pinned_comment']) && $thread['pinned_comment'] != 0 && $method == 'GET' && (!isset($return_html) && !$return_html)):
+$_post = post_read_cache($thread['pinned_comment']);
+
+if( $postlist && isset($postlist[$_post['pid']])){
+    unset($postlist[$_post['pid']]);
+}
+?>
+
+<li class="media border-bottom pb-2 mb-2 <?= $_post['classname'];?>" data-pid="<?= $_post['pid'];?>" data-uid="<?= $_post['uid'];?>">
+    <?php if($abs_theme_stately_setting['ui_tweek']['postlist']['show_avatar']): ?>
+    <a href="<?= url('user-'.$_post['uid']);?>" class="mr-3 v_avatar v_avatar-post" tabindex="-1">
+        <img class="avatar-3" src="<?= $_post['user_avatar_url'];?>">
+        <!--{hook post_list_inc_avatar_after.htm}-->
+    </a>
+    <?php endif; ?>
+    <div class="media-body col p-0">
+        <div class="d-flex justify-content-between small text-muted">
+            <div>
+                <div>
+                    <!--{hook post_list_inc_username_before.htm}-->
+                    <span class="username">
+                        <a href="<?= url('user-'.$_post['uid']);?>" class="text-muted font-weight-bold">
+                            <?= $_post['username'];?>
+                        </a>
+                    </span>
+                    <!--{hook post_list_inc_username_after.htm}-->
+                </div>
+                <div>
+                    <!--{hook post_list_inc_create_date_before.htm}-->
+                    <time datetime="<?= $_post['create_date'];?>" class="date text-muted mr-2">
+                        <?= $_post['create_date_fmt'];?>
+                    </time>
+                    <!--{hook stately_postlist_floor_count.htm}-->
+                    <!--{hook post_list_inc_create_date_after.htm}-->
+                </div>
+                
+                
+            </div>
+            <div class="text-right text-muted">
+                <!--{hook post_list_inc_quote_before.htm}-->
+                <?php if($user && $allowpost) { ?>
+                <a href="javascript:void(0)" data-tid="<?= $_post['tid'];?>" data-pid="<?= $_post['pid'];?>" class="text-muted post_reply mr-3"><i class="la la-reply" title="<?= lang('quote');?>"></i> <span class="d-none">
+                        <?= lang('quote');?>
+                    </span></a>
+                <?php } ?>
+                <!--{hook post_list_inc_quote_after.htm}-->
+                <!--{hook post_list_inc_update_before.htm}-->
+                <?php if(($allowupdate && $abs_theme_stately_setting['global']['reply']['show_edit_button']) && ($allowupdate || $_post['allowupdate'])) { ?>
+                <a href="<?= url('post-update-'.$_post['pid']);?>" class="text-muted post_update mr-3"><i class="la la-edit" title="<?= lang('edit');?>"></i> <span class="d-none">
+                        <?= lang('edit');?>
+                    </span></a>
+                <?php } ?>
+                <!--{hook post_list_inc_update_after.htm}-->
+                <!--{hook post_list_inc_delete_before.htm}-->
+                <?php if(($allowdelete && $abs_theme_stately_setting['global']['reply']['show_delete_button']) && ($allowdelete || $_post['allowdelete'])) { ?>
+                <a data-href="<?= url('post-delete-'.$_post['pid']);?>" data-confirm-text="<?= lang('confirm_delete');?>" href="javascript:void(0);" class="text-muted post_delete _confirm mr-3"><i class="la la-remove" title="<?= lang('delete');?>"></i> <span class="d-none">
+                        <?= lang('delete');?>
+                    </span>
+                </a>
+                <?php } ?>
+                <!--{hook post_list_inc_delete_after.htm}-->
+                
+            </div>
+        </div>
+        <div class="message mt-1 break-all">
+            <!--{hook post_list_inc_subject_before.htm}-->
+            <?php if(!empty($_post['subject'])) { ?>
+            <h6> <i class="la la-mail-forward"></i> <a href="<?= url('thread-'.$_post['tid']);?>" target="_blank">
+                    <?= $_post['subject'];?>
+                </a></h6>
+            <?php } ?>
+            <!--{hook post_list_inc_subject_after.htm}-->
+            <!--{hook post_list_inc_message_before.htm}-->
+            <b class="badge border border-primary text-primary"><?php echo lang('pinned_comment');?></b>
+            <?= $_post['message_fmt'];?>
+            <!--{hook post_list_inc_message_after.htm}-->
+            <!--{hook post_list_inc_filelist_before.htm}-->
+            <?= post_file_list_html($_post['filelist']);?>
+            <!--{hook post_list_inc_filelist_after.htm}-->
+        </div>
+    </div>
+</li>
+
+<?php endif; ?>
+<!---->

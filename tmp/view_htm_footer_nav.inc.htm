@@ -1,0 +1,62 @@
+<footer class="text-muted small bg-white py-4 mt-3" id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 text-center text-lg-left">
+				<?php if (isset($light_config['config_exc_info']) && $light_config['config_exc_info'] == 1) { ?>
+				<div>
+					<a href="/hei.htm" target="_blank" class="text-muted">小黑屋</a> | 
+
+					Processed: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b><span class="mx-2">|</span>SQL: <b><?php echo count($db->sqls);?></b>
+					<?php
+
+echo setting_get('footer_footer_right_end_htm');
+
+?>
+				</div>
+				<?php }?>
+				<div>
+				
+				Powered by <a href="#" target="_blank" class="text-muted"><b>Xiuno BBS <span><?php echo $conf['version'];?></span></b></a>
+				<!--XIUNO爱好者论坛https://xiu.no-->
+<?php
+//获取统计数据
+$xn_accesscount = setting_get('xn_accesscount');
+$xn_accesscount['count'] = !empty($xn_accesscount['count']) ? $xn_accesscount['count'] : 0;
+$words = !empty($xn_accesscount['words']) ? $xn_accesscount['words'] : '您是第<b>{count}</b>位访客';
+
+//统计访客
+if(!_COOKIE('_xn_accesscount_visited')){
+    $xn_accesscount['count']++;
+    setting_set('xn_accesscount', $xn_accesscount);
+    //服务器端设置cookie，会报headers already sent错误
+    //setcookie('_xn_accesscount_visited', 1, time()+86400, '/', "", false, true);
+}
+
+//展示文字
+$words = str_replace('{count}', $xn_accesscount['count']?:1, $words);
+echo $words;
+?><?php
+
+echo setting_get('footer_footer_left_end_htm');
+
+?><?php if(isset($light_config['theme_copyright_switch']) && $light_config['theme_copyright_switch'] == 1) { ?>
+<div class="text-muted">Theme By <a href="https://www.noteweb.top/" data-toggle="tooltip" data-placement="top" title="xiuno" target="_blank" class="text-muted"> NOTEWEB</a></div>
+<?php } ;?>
+			</div>
+			
+			</div>
+			<div class="col-lg-6 text-center text-lg-right contact ">
+			<?php if (isset($light_config['contact_qq']) && $light_config['contact_qq'] == 1) { ?>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $light_config['contact_qq_number']?>&site=qq&menu=yes" target="_blank" class="text-muted" data-toggle="tooltip" data-placement="top" title="QQ"><i class="fab fa-qq"></i></a>
+				<?php }?>
+				
+				<?php if (isset($light_config['contact_wx']) && $light_config['contact_wx'] == 1) { ?>
+				<a href="JavaScript:;" data-toggle="tooltip" data-html="true" title="<img src='<?php echo $light_config['contact_wx_img']?>'/>" class="text-muted ml-2"><i class="fab fa-weixin"></i></a>
+				<?php }?>
+					<?php if (isset($light_config['contact_email']) && $light_config['contact_email'] == 1) { ?>
+				<a href="mailto:<?php echo $light_config['contact_email_number']?>" data-toggle="tooltip" data-placement="top" title="邮箱" class="text-muted ml-2"><i class="fas fa-envelope"></i></a>
+			<?php }?>
+			</div>
+		</div>
+	</div>
+</footer>

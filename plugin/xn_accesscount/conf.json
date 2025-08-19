@@ -1,0 +1,11 @@
+{
+    "name": "访客统计（您是第N位访客）",
+    "brief": "每个访客每天只记录一次，需要改进或定制的可以联系我。使用交流：https://xiu.no<br /><a href='https://xiu.no' target='_blank'>XIUNO爱好者论坛</a>&nbsp;&nbsp;<a href='http://wpa.qq.com/msgrd?v=3&uin=951869&site=qq&menu=yes' target='_blank'>点击联系</a>",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

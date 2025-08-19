@@ -1,0 +1,48 @@
+<?php
+    $pconfig = kv_get('nciaer_copyright');
+?>
+<style>
+    .copyright {
+        margin-top: 10px;
+        padding: 10px;
+        background: <?php echo $pconfig['bgcolor'];?>;
+        border-radius: 5px;
+        color : <?php echo $pconfig['color'];?>;
+    }
+
+    .copyright .copyright-title {
+        padding: 5px;
+        text-align: center;
+    }
+    .copyright .copyright-title h3 {
+        font-size: 18px;
+    }
+
+    .copyright .copyright-text {
+        font-size: 15px;
+        line-height: 25px;
+    }
+    .copyright .copyright-url {
+        margin: 5px 0;
+    }
+</style>
+<div id="copyright" class = "copyright">
+    <div class="copyright-title"><h3><?php echo $pconfig['title'];?></h3></div>
+    <div class="copyright-text"><?php echo $pconfig['copyright'];?></div>
+    <div class = "copyright-url">
+        <?php
+        if($pconfig['showurl']):
+        ?>
+        本贴地址：<a target="_blank" href = "<?php echo http_url_path().url('thread-'.$tid);?>"><?php echo http_url_path().url('thread-'.$tid);?></a>
+        <?php
+        endif;
+        ?>
+    </div>
+</div>
+
+
+
+
+
+	
+

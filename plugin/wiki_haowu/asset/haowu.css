@@ -1,0 +1,28 @@
+.haowu-content{margin-left:0;margin-right:0}
+.haowu-content-item{display:inline-block;width:100%;max-width:300px;margin:8px 6px;border-radius:8px;background-color:#fff;border:1px solid #eee}
+.haowu-header{display:flex;justify-content:center;align-items:center;background:#f5f5f5;height:200px;border-radius:8px 8px 0 0}
+.haowu-header-banner{width:100%;max-width:200px;height:auto;transition:transform .2s ease-in-out;cursor:pointer}
+.haowu-header-banner:hover{transform:translateY(-4px)}
+.haowu-body{padding: 12px;}
+.haowu-specification-block{padding:12px 12px 0 12px}
+.haowu-body-specification{width:100%;height:50px;padding: 0 12px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;/* background: #00BCD4; */border: 1px solid #8f8f94;color: rgba(0, 0, 0, 0.88);overflow:hidden;cursor:default;border-radius: 13px;}
+.haowu-body-specification .unit{font-size:28px;font-weight:700;margin-bottom:0!important;cursor:default}
+.haowu-body-specification .current{font-size: 28px;font-weight:700;margin-left:4px;margin-bottom:0!important;cursor:default}
+.haowu-body-specification .discount-info{margin-left:10px}
+.haowu-body-specification .discount-info .desc{margin-top:-1px;height:14px;font-weight:400;line-height:14px;font-size:10px;margin-bottom:5px;white-space:nowrap}
+.haowu-body-specification .discount-info .discount-off{display:-webkit-box;display:-ms-flexbox;display:flex}
+.haowu-body-specification .discount-info .discount-box{margin-right:6px;height:14px;border-radius:1px;overflow:hidden;display:-webkit-box;display:-ms-flexbox;display:flex}
+.haowu-body-specification .discount-info .discount-box .discount{/* background-color: hsla(0,0%,100%,.3); *//* padding:0 3px; */font-weight: 400;font-size:12px;height:14px;line-height:14px;}
+.haowu-body-specification .discount-info .discount-box .original{/* background-color:hsla(0,0%,100%,.1); */padding:0 4px;font-family:PingFang SC;font-size:11px;font-weight:400;line-height: 13px;margin-bottom: 0;}
+.haowu-body-specification i{color: rgba(0, 0, 0, 0.88);display: inline-block;}
+.haowu-body-title{font-size:18px;font-weight:700;line-height:1;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:fit-content}
+.haowu-body-description{line-height:20px;color:#999;height:60px;display:-webkit-box;overflow:hidden;-webkit-line-clamp:3;-webkit-box-orient:vertical;font-size:14px}
+.haowu-toolbar{display:flex;justify-content:flex-end;padding: 0 12px 12px 12px;}
+.haowu-toolbar-item{width:100%;display: flex;}
+.haowu-toolbar-item-link{display:inline-block;width:100%;text-align:center;padding: 8px 16px;/* margin-left: 10px; */border-radius:13px;background-color: #0071e3;/* background-image: linear-gradient(135deg,#f44336,#e91e63); */color:#fff;text-decoration:none;font-size:12px;transition:all .3s ease-in-out;box-shadow:none!important}
+.haowu-toolbar-item-shop span,.haowu-toolbar-item-review span{display:inline-block;position:relative;transition:all .2s ease-out;will-change:transform}
+.haowu-toolbar-item-review{background: rgba(0, 0, 0, 0.88);margin-right: 12px;color: #fff;}
+.haowu-toolbar-item-stop{background:#eee;color: rgba(0, 0, 0, 0.88);}
+.haowu-toolbar-item-link.active span,.haowu-toolbar-item-link:focus span,.haowu-toolbar-item-link:hover span{transform:translate3d(-.5rem,0,0);color:#fff;}
+.haowu-toolbar-item-shop i,.haowu-toolbar-item-review i{position:absolute;top:50%;right:0;width:1.25em;/*font-size:1.25rem;*/opacity:0;transform:translateY(-50%);transition:all .2s ease-out;will-change:right,opacity}
+.haowu-toolbar-item-link.active i,.haowu-toolbar-item-link:focus i,.haowu-toolbar-item-link:hover i{opacity:1;right:-1.3rem}

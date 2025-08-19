@@ -1,0 +1,13 @@
+{
+    "name": "首页图片",
+    "brief": "手机端与PC端显示首图增加美观",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "index_main_start.htm": 10000
+    },
+    "overwrites_rank": [],
+    "dependencies": []
+}

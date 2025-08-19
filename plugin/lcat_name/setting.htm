@@ -1,0 +1,45 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+		  <div class="card">
+		     <div class="card-body">		
+
+    <form action="<?php echo url("plugin-setting-lcat_name");?>" method="post" id="form">
+     <h4 class="card-title">红名设置</h4>
+       <hr>
+                  
+          <div class="input-group mb-3"><div class="input-group-prepend"><span style="width:67px;text-align:center;" class="input-group-text" >主题数</span></div><input style="width:40%;" type="text" name="threadss" class="form-control" placeholder="请输入主题数" value="<?php echo $setting['threadss'];?>">
+          </div>
+          <div class="input-group mb-3"><div class="input-group-prepend"><span style="width:67px;text-align:center;" class="input-group-text" >帖子数</span></div><input style="width:40%;" type="text" name="postss" class="form-control" placeholder="请输入帖子数" value="<?php echo $setting['postss'];?>">
+          </div>
+          
+          <div>
+                 <button style="background:#000;border-color:#000;border-radius: 3px;width:100%;" type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button></div>
+     
+    </form><br/>
+    <hr>
+    <h4 style="text-align:right;color:#888;font-size:9px;" class="card-title"><span>Ps:由[ <a style="color:red;" href='http://lcat.top' target='_blank'>老猫论坛<a> ]出品</span></h4>
+   </div></div>
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+
+<script>
+var jform = $("#form");
+var jsubmit = $("#submit");
+var referer = '<?php echo http_referer();?>';
+jform.on('submit', function(){
+ jform.reset();
+ jsubmit.button('loading');
+ var postdata = jform.serialize();
+ $.xpost(jform.attr('action'), postdata, function(code, message) {
+  if(code == 0) {
+   $.alert(message);
+   jsubmit.text(message).delay(2000).button('reset').location(referer);
+   return;
+  } else {
+   $.alert(message);
+   jsubmit.button('reset');
+  }
+ });
+ return false;
+});
+</script>

@@ -1,0 +1,4 @@
+<!-- 限制只在显示签名的页面（帖子页)加载css，避免增加其它页面负担。 -->
+<?php if($route == 'thread') { ?>
+<style>.signature{overflow:hidden;margin-bottom:10px;margin-top:15px;padding-top:20px;line-height:1.6em;font-size:1rem!important;background:url(/plugin/art_signature/view/img/sign.png) no-repeat 0 0}</style>
+<?php } ?>

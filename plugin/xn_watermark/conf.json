@@ -1,0 +1,10 @@
+{
+    "name": "图片水印功能",
+    "brief": "本插件可设置上传图片添加文字和图片水印。<br>插件为<a target='_blank' href='https://xiu.no'>修罗学院</a>整理</a>",
+    "version": "1.7",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "dependencies": []
+}

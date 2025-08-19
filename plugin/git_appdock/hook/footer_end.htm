@@ -1,0 +1,88 @@
+<div class="position-fixed w-100 header_fiexd bottom-nav" style="width: 100%; height: 55px; bottom: 0; z-index: 1000;border-top: 1px solid rgb(239, 239, 239);">
+
+    <div class="row mx-0 text-center align-items-center" style="height: 55px;">
+        <a href="./" class="col" data-active="index">
+            <div>
+                <i class="iconfont icon-zhuye"></i>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_home');?>
+            </div>
+        </a>
+        <a  class="col" data-toggle="modal" data-target="#forum">
+            <div>
+                <i class="iconfont icon-gengduo text-dark"></i>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_category');?>
+            </div>
+        </a>
+		<?php if($uid){ ?>
+		<a href="<?php echo url("thread-create-$fid");?>" class="col">
+		    <button type="button" class="btn btn-primary rounded-circle"><i class="iconfont icon-iconjia"></i></button>
+		</a>
+		<?php  } ?>
+        <a href="<?php echo url("my-notice");?>" class="col">
+            <div>
+                <i class="iconfont icon-xiaoxi"></i>
+				<?php if(!empty($user['unread_notices'])) { ?>
+      <span class="badge badge-danger badge-pill position-absolute"><?php echo $user['unread_notices']; ?></span>
+<?php  } ?>
+            </div>
+            <div class="nav_font">
+                <?php echo lang('dock_notice');?>
+            </div>
+        </a>
+        <a href="<?php echo url("my");?>" class="col">
+            <div>
+                <i class="iconfont icon-wode"></i>
+            </div>
+            <div class="nav_font" >
+                <?php echo lang('dock_my');?>
+            </div>
+        </a>
+    </div>
+</div> 
+<?php if(empty($uid) & in_array($route, array('bbs', 'forum', 'thread', 'post','index'))) { ?>
+	<div  class="position-fixed header_fiexd text-center hidden-lg" style="width: 100%; height: 100px; bottom: 0; z-index: 999;"><a href="<?php echo url('user-login');?>" role="button" class="btn btn-primary rounded-pill"  style="box-shadow: 0 1px 3px rgba(26,26,26,.1);
+"><?php echo lang('dock_login');?></a></div>
+<?php  }?>
+
+<div class="modal fade" id="forum" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo lang('dock_section');?></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+					<div class="row row-cols-2 justify-content-between">
+						<?php foreach($forumlist_show as $_forum) { ?>
+						<!--{hook header_nav_forumlist_loop_start.htm}-->
+					    <div class="col py-2">
+							<a class="nav-link rounded media w-100 bg-light"
+								href="<?php echo url("forum-$_forum[fid]");?>">
+							<div class="media">
+							  <img class="avatar-3 mr-3 mt-1 rounded" src="<?php echo $_forum['icon_url'];?>">
+							  <div class="media-body">
+							    <span class="font-weight-bold"><?php echo $_forum['name'];?></span>
+							    <span class="d-block text-muted mt-2 w-100 text-truncate"><span><i
+							    			class="far fa-comment-alt"></i> :
+							    		<b><?php echo $_forum['threads'];?></b></span>
+							    	<span><i class="far fa-comments"></i> :
+							    		<b><?php echo $_forum['todayposts'];?></b></span>
+							    </span>
+							  </div>
+							</div>
+							</a>
+						</div>
+						<!--{hook header_nav_forumlist_loop_end.htm}-->
+						<?php } ?>	
+					  </div>
+					
+			</div>
+		</div>
+	</div>
+</div>  

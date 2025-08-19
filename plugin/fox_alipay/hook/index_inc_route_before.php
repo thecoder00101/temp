@@ -1,0 +1,1 @@
+<?php exit; $fox_alipay_arr = kv_cache_get('fox_alipay');?>

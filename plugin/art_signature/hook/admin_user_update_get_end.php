@@ -1,0 +1,1 @@
+$input['signature'] = form_textarea('my_signature', $_user['signature'], '100%', 150);

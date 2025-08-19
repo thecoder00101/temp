@@ -1,0 +1,3 @@
+<?php if( ($route == 'thread' && $action == 'create') || ( ($route == 'post' && $action == 'update') && $isfirst && isset($thread['passcode']))): ?>
+<input maxlength="250" name="passcode" id="passcode" class="form-control" placeholder="给帖子加个密码（留空为取消密码）" value="<?php echo isset($thread['passcode']) ? $thread['passcode'] : ''; ?>" type="text" />
+<?php endif; ?>

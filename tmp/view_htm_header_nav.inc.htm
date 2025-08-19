@@ -1,0 +1,458 @@
+<!-- 
+		轻论坛导航：默认头部
+		Bootstrap 4.0 推荐的 PC/Mobile 公共写法 
+		优点：公用性强
+		缺点：结构稍微有点复杂
+	-->
+	
+	<?php if ( $user) {
+	 $no_cache_user = user_read($uid);
+	$progress=100; $max=1; $now=$no_cache_user['credits'];
+	if($no_cache_user['gid']>100){
+		foreach($grouplist as $group) {
+			if($group['gid'] < 100) continue;
+			$n = $no_cache_user['credits'] ;
+			if($n > $group['creditsfrom'] && $n <= $group['creditsto']) {
+				$max=$group['creditsto'];
+				if($no_cache_user['groupname']!=$group['name']) {
+					$no_cache_user['groupname']=$group['name'];
+					user_update_group($uid);
+				}
+				break;
+			}
+		}
+		$progress = (int)($now/$max * 100.0);
+	}
+}
+	?>
+
+<header id="header">
+
+	<!-- PC Navigation start -->
+	<div class="navbar navbar-light navbar-expand-lg hidden-sm hidden-md">
+		<div class="container" id="pc_nav">
+
+			<!-- PC: logo -->
+			
+			<a class="navbar-brand text-truncate" href="<?php echo $header['mobile_link'];?>">
+				<img src="<?php echo $conf['logo_pc_url'];?>" class="logo-2">
+			</a>
+			
+
+			<!-- PC: 左侧：主要导航菜单 -->
+			<ul class="navbar-nav mr-auto">
+
+				
+				<li class="nav-item home" data-active="index"><a class="nav-link" href=".">
+					<i class="fas fa-home"></i> <?php echo lang('index_page');?></a></li>
+					<?php if(isset($light_config['disc_page']) && $light_config['disc_page'] && $light_config['disc_page_index'] && $light_config['disc_nav_bbs']) { ?>
+  <li class="nav-item bbs" data-active="bbs"><a class="nav-link" href="<?php echo url('bbs');?>"><i class="fas fa-comments"></i> <?php echo lang('bbs');?></a></li>
+  <?php } ?>
+<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 0 && $light_config['navbar_cate'] == 1 && $light_config['navbar_cate_func'] == 1) { ?>
+<div class="dropdown hidden-sm hidden-md">
+    <li class="nav-item" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" style="cursor:pointer;margin-top: 5px;"><a class="nav-link dropdown-toggle" ><i class="fas fa-layer-group"></i> <?php echo lang('catalog');?></a></li>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <?php foreach($forumlist_show as $_forum) { ?>
+        
+        <li fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+            <a class="dropdown-item" href="<?php echo url("forum-$_forum[fid]");?>"><img class="avatar-1 mr-1 rounded" src="<?php echo $_forum['icon_url'];?>"> <?php echo $_forum['name'];?></a>
+        </li>
+        
+        <?php } ?>
+    </div>
+  </div>
+  <?php } ?>
+
+<?php if (isset($light_config['disc_page']) && $light_config['disc_page'] == 1 && $light_config['disc_page_index'] == 0) { ?>
+<li class="nav-item discovery" data-active="discovery"><a class="nav-link" data-active="discovery" href="<?php echo url('discovery');?>"><i class="<?php echo $light_config['disc_page_icon'];?>"></i> <?php echo $light_config['disc_page_title'];?></a></li>
+<?php } ?>
+					<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 0 && $light_config['navbar_cate'] == 0) { ?>
+					<?php foreach($forumlist_show as $_forum) { ?>
+						
+						<li class="nav-item" fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-o d-md-none"></i> <?php echo $_forum['name'];?></a>
+						</li>
+						
+						<?php } ?>
+<?php } ?>
+				<li class="nav-item ranklist" data-active="ranklist"><a class="nav-link" href="<?php echo url('ranklist');?>"><i class="fa fa-users" aria-hidden="true"></i> <?php echo lang('ranklist');?></a></li><?php $links = db_sql_find("select * from {$db->tablepre}navlinks order by `rank`");
+foreach($links as $_lid=>$_link) { ?>
+<li class="nav-item">
+    <a class="nav-link" target="_blank" href="<?php echo $_link['link'];?>"><i class="<?php echo $_link['icon'] ? $_link['icon'] : '' ; ?>"></i> <?php echo $_link['name'];?></a>
+</li>
+<?php } ?><?php if (isset($light_config['nav_search_form']) && $light_config['nav_search_form'] == 1) {?>
+<div class="form-group nav-item hidden-sm hidden-md ml-4" style="margin-top: 10px;">
+	<form action="<?php echo url('search');?>" id="search_form">
+		<div class="input-group">
+			<input type="text" class="form-control border-0 search_form_input"  placeholder="<?php echo lang('keyword');?>" name="keyword" autocomplete="off">
+			<div class="input-group-append">
+				<button class="btn btn-light" type="submit"><span class="iconfont icon-sousuo"></span></button>
+			</div>
+		</div>
+	</form>
+</div>
+<?php } ?>
+			</ul>
+
+			<!-- PC: 右侧：用户 -->
+			<ul class="navbar-nav header-right">
+				<li class="nav-item hidden-lg">
+	<a class="nav-link" href="/hei.htm"><i class="icon-key"></i> 小黑屋</a>
+</li>
+<li class="nav-item hidden-sm">
+	<a class="nav-link" href="/hei.htm"><i class="icon-key"></i> 小黑屋</a>
+</li><?php if(!empty($uid)) { ?>
+	<li class="nav-item usernotice <?php echo $user['unread_notices'] !=0 ? 'current':''; ?>" id="nav-usernotice">
+		<a class="nav-link" href="<?php echo url("my-notice");?>"><i class="icon icon-bell"></i> <?php echo lang('notice');?> <span class="d-none unread badge badge-danger badge-pill" id="nav-usernotice-unread-notices"><?php echo $user['unread_notices']; ?></span>			
+		</a>
+	</li>
+<?php }?>
+			<li class="nav-item hidden-lg">
+	<a class="nav-link" href="<?php echo url('search');?>"><i class="icon-search"></i> <?php echo lang('search');?></a>
+</li><?php if (isset($light_config['dark_mode_switch']) && $light_config['dark_mode_switch'] == 1) { ?>
+<li class="nav-item">
+	<a class="nav-link" id="theme" onclick="theme_switch()" style="cursor:pointer;">
+		<script type="text/javascript">
+			Theme = getCookie('Theme');
+			if (Theme == "1") {
+				document.write("<i class='iconfont icon-shuaxin1' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>自动切换模式</span>");
+			} else if (Theme == "2") {
+				document.write("<i class='iconfont icon-rijian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>日间模式</span>");
+			} else {
+				document.write("<i class='iconfont icon-yejian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>夜间模式</span>");
+			}
+		</script>
+	</a>
+</li>
+<?php }?>
+
+
+				<?php if(empty($uid)) { ?>
+				
+					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>">
+						<?php echo lang('login');?>/<?php echo lang('register');?></a></li>
+				
+				<?php } else { ?>
+					<?php if (isset($light_config['navbar_create_icon']) && $light_config['navbar_create_icon'] == 1) { ?>
+					<li class="nav-item">
+						<a  class="nav-link" href="<?php echo url('thread-create-'.$fid);?>"><span class="iconfont icon-bianji" data-toggle="tooltip" data-placement="top" title="<?php echo lang('thread_create_new');?>"></span></a>
+					</li>
+					<?php }?>
+				<div class="dropdown">
+					<li class="nav-item username">
+						<a class="nav-link" id="profileDropdown"
+							data-toggle="dropdown" href="#"><img class="avatar-3 rounded header_dropdown"
+								src="<?php echo $user['avatar_url'];?>">
+							
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" style="width: 270px;">
+							<div class="widget-user-header p-3">
+								<div class="media">
+									<img src="<?php echo $user['avatar_url'];?>" class="avatar-3-5 rounded-circle mr-2">
+									<div class="media-body">
+										<span class="font-weight-bold"><?php echo $user['username'];?></span>
+										<div class="mt-2">
+											<span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+											<span class="badge badge-pill jb-cyan"><?php echo $user['groupname'];?></span>
+											
+										</div>
+									</div>
+								</div>
+								<?php if (isset($light_config['header_gold_count']) && $light_config['header_gold_count'] == 1) { ?>
+								<div class="row mt-3 small">
+									<div class="col-6 pr-2">
+										<div class="alert alert-warning mb-0" role="alert" data-toggle="tooltip" data-placement="top" title="<?php echo lang('credits2');?>">
+										<i class="iconfont icon-mingxinghuodong"></i> <?php echo $no_cache_user['golds'];?>
+										</div>
+									</div>
+									<div class="col-6 pl-2">
+										<div class="alert alert-danger mb-0" role="alert" data-toggle="tooltip" data-placement="top" title="<?php echo lang('credits3');?>">
+											<i class="iconfont icon-yulebao"></i> <?php echo $no_cache_user['rmbs']/100.0;?>
+										</div>
+									</div>
+								</div>
+								<?php }?>
+								<?php if (isset($light_config['credits_progress']) && $light_config['credits_progress'] == 1) { ?>
+									<div class="alert alert-primary mt-3 px-2 mb-0">
+									<div class="d-flex justify-content-between small text-muted">
+										<div>
+											<?php echo lang('credits1');?>：<?php echo $no_cache_user['credits'];?>
+										</div>
+										<div class="badge badge-primary">
+											<?php echo $progress,'%';?>
+										</div>
+									</div>
+									
+									<div class="progress mt-2" style="height:5px;">
+										<div class="progress-bar  jb-blue" role="progressbar" style="width: <?php echo $progress;?>%;" aria-valuenow="<?php echo $progress;?>" aria-valuemin="0" aria-valuemax="100"></div></div>
+									</div>
+										<?php }?>
+							</div>
+							<div class="d-flex justify-content-around">
+								
+							</div>
+							<div class="row px-3 dropdown-menu-items">
+								<div class="col-6">
+									<a class="dropdown-item text-muted" href="<?php echo url('my');?>"><i class="iconfont icon-wode"></i> <?php echo lang('my_profile');?></a>
+								</div>
+								<div class="col-6">
+									<a class="dropdown-item text-muted" href="<?php echo url('my-thread');?>"><i class="iconfont icon-pinglun"></i> <?php echo lang('my_threads');?></a>
+								</div>
+
+								<?php if (isset($light_config['header_my_favorite']) && $light_config['header_my_favorite'] == 1) { ?>  
+									<div class="col-6">
+										<a class="dropdown-item text-muted" href="<?php echo url('my-favorite');?>"><i class="iconfont icon-shoucang"></i> <?php echo lang('my_favorite');?></a>
+									</div>
+									<?php }?>
+
+									<?php if (isset($light_config['header_gold_count']) && $light_config['header_gold_count'] == 1) { ?>  
+									<div class="col-6">
+										<a class="dropdown-item text-muted" href="<?php echo url('my-credits');?>"><i class="iconfont icon-yinhangka"></i> <?php echo lang('my_credits');?></a>
+									</div>
+									<?php }?>
+								
+								<?php if($gid == 1) { ?>
+									<div class="col-6">
+										<a class="dropdown-item text-muted" href="admin/" target="_blank"><i class="iconfont icon-shezhi"></i> <?php echo lang('admin_page');?></a>
+									</div>
+									<?php } ?>
+									
+							</div>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item text-center text-danger" href="<?php echo url('user-logout');?>"><i class="fa-solid fa-arrow-right-to-bracket "></i> <?php echo lang('logout');?></a>
+						</div>
+						
+					</li>
+					
+				</div>
+				
+				<?php } ?>
+
+				
+			</ul>
+
+		</div>
+	</div>
+
+	<!-- Mobile Navigation start -->
+	<div class="navbar navbar-light  navbar-expand-lg  hidden-lg">
+		<div class="container" id="mobile_nav">
+
+			<!-- 左侧：菜单按钮 -->
+			
+			<span class="fa fa-bars MobilemenuBtn js-sidebar--open text-muted" 
+				aria-label="<?php echo lang('toggler_menu');?>"></span>
+			
+
+			<!-- 中间的 LOGO、网站标题 -->
+			
+			<a class="navbar-brand text-truncate" href="<?php echo $header['mobile_link'];?>">
+				<?php if($header['mobile_title']) { ?>
+				<span><?php echo $header['mobile_title'];?></span>
+				<?php }else{ ?>
+					<img src="<?php echo $conf['logo_mobile_url'];?>" class="logo-2">
+					<?php } ?>
+			</a>
+			
+
+			<!-- 右侧的用户登录、发帖图标 -->
+			
+			<?php if(empty($uid)) { ?>
+			<a class="navbar-brand nav-dark text-muted" href="<?php echo url('user-login');?>"
+				aria-label="<?php echo lang('login');?>"> <i class="far fa-user-circle"></i></a>
+			<?php } else { ?>
+				
+			<?php if ($light_config['dock_switch'] == 1 && isset($light_config['dock_func_3']) && $light_config['dock_func_3'] == 1) { ?> 	
+			<a class="navbar-brand nav-dark text-muted" href="<?php echo url('search');?>"><span class="fas fa-search" ></span></a>
+				<?php }elseif($light_config['dock_switch'] == 1 && isset($light_config['dock_func_3']) && $light_config['dock_func_3'] == 0){ ?>
+				<li class="nav-item position-relative usernotice <?php echo $user['unread_notices'] !=0 ? 'current':''; ?>" id="nav-usernotice" data-active="nav-usernotice">
+					<a class="navbar-brand nav-dark text-muted header_notice" href="<?php echo url("my-notice");?>"><span class="far fa-bell" data-toggle="tooltip" data-placement="top" title="<?php echo lang('notice');?>"></span><span class="d-none unread text-danger position-absolute" id="nav-usernotice-unread-notices"><i class="fas fa-circle"></i></span>			
+					</a>
+				</li>
+			<?php }else{ ?>
+				<a class="navbar-brand nav-dark text-muted" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"><i class="far fa-edit"></i></a>
+			<?php }	} ?>
+			
+
+
+					
+		</div>
+	</div>
+	<!-- Mobile Navigation end -->
+	<!--侧边栏菜单-->
+	<aside class="js-sidebar">
+		<div class="js-sidebar--container">
+			<div class="card  rounded-0 " >
+				<div class="py-4 w-100 sidebar-bg background jb-dark" <?php if($user && isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ;?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');" <?php };?>>
+         
+				</div>
+			<div class="card-body">
+				<div class="sidebar--title" style="margin-top: -50px;">
+					<?php if($uid) { ?>
+						<div class="d-flex justify-content-between">
+							<a class="mr-3" href="<?php echo url('my');?>"><img class="avatar-4 border border-white" src="<?php echo $user['avatar_url'];?>"></a>
+							<div class="d-flex justify-content-end mt-5">
+								<div>
+									<a class="badge badge-primary" href="<?php echo url('my');?>"><i class="fas fa-user"></i> <?php echo lang('my_profile');?></a>
+								</div>
+								<div>
+									<a class="badge badge-danger ml-1" href="<?php echo url('user-logout');?>"><i class="fa fa-sign-out-alt"></i> <?php echo lang('logout');?></a>
+								</div>
+							</div>
+						</div>
+					<h4 class="font-weight-bold mt-3"><?php echo $user['username'];?></h4>
+						<div class="mt-2">
+						<a href="<?php echo url('my');?>">
+						<span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+						<span class="badge badge-pill jb-cyan ml-1"><?php echo $user['groupname'];?></span>
+					
+				</a>
+					</div>  
+					<?php } else { ?>
+
+
+				<a class="mr-3" href="<?php echo url('user-login');?>"><img class="avatar-4 border border-white" src="<?php echo 'plugin/zaesky_theme_light/view/img/avatar.png';?>"></a>
+			
+		<h4 class="font-weight-bold mt-3"><?php echo $light_config['login_guide_1'] ;?></h4>
+			<div class="mt-2 text-muted">
+				<?php echo $light_config['login_guide_2'] ;?>
+		</div> 
+		<div class="mt-3">
+			<a href="<?php echo url('user-login');?>" class="btn btn-primary"><i class="fas fa-user-alt"></i> <?php echo lang('login');?></a> 
+		<a href="<?php echo url('user-create');?>" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> <?php echo lang('register');?></a> 
+		</div>
+		
+			<?php } ?>
+		</div>
+			</div>
+			</div>
+			
+			<div class="sidebar_menu">
+				
+				<div class="nav flex-column sidebar--nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					<div class="card rounded-0">
+						<div class="card-body">
+					<li class="nav-item home" data-active="index">
+						<a class="nav-link" href="./" data-active="index"><i class="fas fa-home"></i>
+							<?php echo lang('index_page');?></a>
+					</li>
+					
+					<?php if(isset($light_config['disc_page']) && $light_config['disc_page'] && $light_config['disc_page_index'] && $light_config['disc_nav_bbs']) { ?>
+  <li class="nav-item bbs" data-active="bbs"><a class="nav-link" href="<?php echo url('bbs');?>"><i class="fas fa-comments"></i> <?php echo lang('bbs');?></a></li>
+  <?php } ?>
+<?php if (isset($light_config['side_nav_switch']) && $light_config['side_nav_switch'] == 0 && $light_config['navbar_cate'] == 1 && $light_config['navbar_cate_func'] == 1) { ?>
+<div class="dropdown hidden-sm hidden-md">
+    <li class="nav-item" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" style="cursor:pointer;margin-top: 5px;"><a class="nav-link dropdown-toggle" ><i class="fas fa-layer-group"></i> <?php echo lang('catalog');?></a></li>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <?php foreach($forumlist_show as $_forum) { ?>
+        
+        <li fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
+            <a class="dropdown-item" href="<?php echo url("forum-$_forum[fid]");?>"><img class="avatar-1 mr-1 rounded" src="<?php echo $_forum['icon_url'];?>"> <?php echo $_forum['name'];?></a>
+        </li>
+        
+        <?php } ?>
+    </div>
+  </div>
+  <?php } ?>
+
+<?php if (isset($light_config['disc_page']) && $light_config['disc_page'] == 1 && $light_config['disc_page_index'] == 0) { ?>
+<li class="nav-item discovery" data-active="discovery"><a class="nav-link" data-active="discovery" href="<?php echo url('discovery');?>"><i class="<?php echo $light_config['disc_page_icon'];?>"></i> <?php echo $light_config['disc_page_title'];?></a></li>
+<?php } ?>
+					<li class="nav-item ranklist" data-active="ranklist"><a class="nav-link" href="<?php echo url('ranklist');?>"><i class="fa fa-users" aria-hidden="true"></i> <?php echo lang('ranklist');?></a></li><?php $links = db_sql_find("select * from {$db->tablepre}navlinks order by `rank`");
+foreach($links as $_lid=>$_link) { ?>
+<li class="nav-item">
+    <a class="nav-link" target="_blank" href="<?php echo $_link['link'];?>"><i class="<?php echo $_link['icon'] ? $_link['icon'] : '' ; ?>"></i> <?php echo $_link['name'];?></a>
+</li>
+<?php } ?><?php if (isset($light_config['nav_search_form']) && $light_config['nav_search_form'] == 1) {?>
+<div class="form-group nav-item hidden-sm hidden-md ml-4" style="margin-top: 10px;">
+	<form action="<?php echo url('search');?>" id="search_form">
+		<div class="input-group">
+			<input type="text" class="form-control border-0 search_form_input"  placeholder="<?php echo lang('keyword');?>" name="keyword" autocomplete="off">
+			<div class="input-group-append">
+				<button class="btn btn-light" type="submit"><span class="iconfont icon-sousuo"></span></button>
+			</div>
+		</div>
+	</form>
+</div>
+<?php } ?>	
+				</div>
+			</div>
+				
+			<div class="my_option card rounded-0">
+				<div class="card-body">	
+				<li class="nav-item hidden-lg">
+	<a class="nav-link" href="/hei.htm"><i class="icon-key"></i> 小黑屋</a>
+</li>
+<li class="nav-item hidden-sm">
+	<a class="nav-link" href="/hei.htm"><i class="icon-key"></i> 小黑屋</a>
+</li><?php if(!empty($uid)) { ?>
+	<li class="nav-item usernotice <?php echo $user['unread_notices'] !=0 ? 'current':''; ?>" id="nav-usernotice">
+		<a class="nav-link" href="<?php echo url("my-notice");?>"><i class="icon icon-bell"></i> <?php echo lang('notice');?> <span class="d-none unread badge badge-danger badge-pill" id="nav-usernotice-unread-notices"><?php echo $user['unread_notices']; ?></span>			
+		</a>
+	</li>
+<?php }?>
+			<li class="nav-item hidden-lg">
+	<a class="nav-link" href="<?php echo url('search');?>"><i class="icon-search"></i> <?php echo lang('search');?></a>
+</li><?php if (isset($light_config['dark_mode_switch']) && $light_config['dark_mode_switch'] == 1) { ?>
+<li class="nav-item">
+	<a class="nav-link" id="theme" onclick="theme_switch()" style="cursor:pointer;">
+		<script type="text/javascript">
+			Theme = getCookie('Theme');
+			if (Theme == "1") {
+				document.write("<i class='iconfont icon-shuaxin1' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>自动切换模式</span>");
+			} else if (Theme == "2") {
+				document.write("<i class='iconfont icon-rijian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>日间模式</span>");
+			} else {
+				document.write("<i class='iconfont icon-yejian' data-toggle='tooltip' data-placement='bottom' title='切换显示模式'></i> <span class='d-lg-none'>夜间模式</span>");
+			}
+		</script>
+	</a>
+</li>
+<?php }?>
+
+				<!-- 管理员 -->
+				<?php if($gid == 1) { ?>
+				<a class="nav-link" href="admin/"><i class="fa fa-cog"></i>
+					<?php echo lang('admin_page');?></a>
+				<?php } ?>
+				
+			</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div class="sidebar_forumList card rounded-0">
+				<div class="card-body p-1">
+				
+				<div class="nav navbar-nav forumlist px-4">
+					<div class="row">
+					
+					<?php foreach($forumlist_show as $_forum) { ?>
+						
+					<li class="nav-item col-6 p-1" fid="<?php echo $_forum['fid'];?>"
+						data-active="fid-<?php echo $_forum['fid'];?>">
+						<a class="nav-link py-2 rounded small forumlist-bg mr-0" href="<?php echo url("forum-$_forum[fid]");?>">
+							<div class="text-center">
+							<img class="avatar-1 mr-1 rounded" src="<?php echo $_forum['icon_url'];?>">
+							
+								<span><?php echo $_forum['name'];?></span>
+						</div>
+						</a>
+					</li>
+						
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+			</div>
+	</div>
+		<div class="js-sidebar--background"></div>
+	</aside>
+</header>
+
+
+ 
+
+
+

@@ -1,0 +1,14 @@
+{
+    "name": "阅读权限学院修改版",
+    "brief": "阅读权限，登录可见，回帖可见。（Tinymce中国适配版）",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "post_post_end.php": 1000,
+        "thread_create_thread_end.php": 1000
+    },
+    "overwrites_rank": [],
+    "dependencies": []
+}

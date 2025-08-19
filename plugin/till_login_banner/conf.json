@@ -1,0 +1,11 @@
+{
+    "name": "未登录提示",
+    "brief": "提示游客进行登录",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

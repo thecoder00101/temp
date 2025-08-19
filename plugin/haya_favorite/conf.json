@@ -1,0 +1,12 @@
+{
+    "name": "帖子收藏",
+    "brief": "收藏自己喜欢的帖子，展示热门收藏的帖子。<br/>此版本为主题（xiuno Light）适配版。主题下载请访问><a class='text-danger' href='https://www.noteweb.top/'>NOTEWEB</a>",
+    "version": "2.5.21",
+    "bbs_version": "4.0.3",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "thread_plugin_body.htm": 500
+    },
+    "dependencies": []
+}

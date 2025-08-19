@@ -1,0 +1,19 @@
+<!--XIUNO爱好者论坛https://xiu.no-->
+<?php
+//获取统计数据
+$xn_accesscount = setting_get('xn_accesscount');
+$xn_accesscount['count'] = !empty($xn_accesscount['count']) ? $xn_accesscount['count'] : 0;
+$words = !empty($xn_accesscount['words']) ? $xn_accesscount['words'] : '您是第<b>{count}</b>位访客';
+
+//统计访客
+if(!_COOKIE('_xn_accesscount_visited')){
+    $xn_accesscount['count']++;
+    setting_set('xn_accesscount', $xn_accesscount);
+    //服务器端设置cookie，会报headers already sent错误
+    //setcookie('_xn_accesscount_visited', 1, time()+86400, '/', "", false, true);
+}
+
+//展示文字
+$words = str_replace('{count}', $xn_accesscount['count']?:1, $words);
+echo $words;
+?>

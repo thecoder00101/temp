@@ -1,0 +1,10 @@
+
+<?php if($_thread['digest'] > 0) { ?>
+	<?php if($_thread['digest'] == 1) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-1" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_1');?>"></i>
+	<?php } elseif($_thread['digest'] == 2) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-2" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_2');?>"></i>
+	<?php } elseif($_thread['digest'] == 3) { ?>
+		<i class="iconfont icon-jiangzhang icon-digest-3" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?php echo lang('digest_3');?>"></i>
+	<?php } ?>
+<?php } ?>

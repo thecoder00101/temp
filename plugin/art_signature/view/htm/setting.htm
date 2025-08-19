@@ -1,0 +1,124 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url('plugin-setting-art_signature');?>" method="post" id="formcreate">
+					<h4 class="card-title mb-3 text-center">个性签名设置</h4>
+					<hr class="mb-4" />
+					<div class="form-group row position-relative">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="position">
+							<b class="text-dark">仅楼主显示</b>
+						</label>
+						<div class="col-md-8">
+							<div class="position" id="position">
+								<?php if (isset($get_signature['position']) && $get_signature['position'] == 1) { ?>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="position" value="1" checked="checked">
+									<?php echo lang('enable'); ?>
+								</label>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="position" value="0">
+									<?php echo lang('disable'); ?>
+								</label>
+								<?php } else { ?>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="position" value="1">
+									<?php echo lang('enable'); ?>
+								</label>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="position" value="0" checked="checked">
+									<?php echo lang('disable'); ?>
+								</label>
+								<?php } ?>
+							</div>
+							<div class="figure-caption mt-2">
+								开启后仅楼主帖子下方显示签名，回贴楼层不显示签名。
+							</div>
+						</div>
+						<a href="https://westping.com/thread-41.htm" target="_blank" class="position-absolute bg-info text-light px-2 py-1 rounded" style="right:50px; top:0;text-decoration: none">使用帮助<br>问题反馈</a>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="html">
+							<b class="text-dark">HTML解析</b>
+						</label>
+						<div class="col-md-8">
+							<div class="open-thread" id="html">
+								<?php if (isset($get_signature['html']) && $get_signature['html'] == 1) { ?>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="html" value="1" checked="checked">
+									<?php echo lang('enable'); ?>
+								</label>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="html" value="0">
+									<?php echo lang('disable'); ?>
+								</label>
+								<?php } else { ?>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="html" value="1">
+									<?php echo lang('enable'); ?>
+								</label>
+								<label class="custom-input custom-radio mr-3">
+									<input type="radio" name="html" value="0" checked="checked">
+									<?php echo lang('disable'); ?>
+								</label>
+								<?php } ?>
+							</div>
+							<div class="figure-caption mt-2">
+								开启后支持签名内HTML代码的解析显示，<span class="text-danger">安全考虑，前台用户端仅支持a链接标签</span>。
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="characters">
+							<b class="text-dark">字数限制</b>
+						</label>
+						<div class="col-md-8">
+							<div class="characters" id="characters_box">
+		<input type="text" class="form-control" id="characters" name="characters" maxlength="3" value="<?php if (isset($get_signature['characters']) && $get_signature['characters'] >= 1 && $get_signature['characters'] <= 255) { echo $get_signature['characters']; } else { $get_signature['characters'] = "120";  echo $get_signature['characters']; kv_set('user_signature', $get_signature);} ?>">
+							</div>
+							<div class="figure-caption mt-2">
+								设置签名最多可输入多少字，<span class="text-danger">最大值为255</span>。
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="report">
+							<b class="text-dark">举报链接</b>
+						</label>
+						<div class="col-md-8">
+							<div class="report" id="report_box">
+		<input type="text" class="form-control" id="report" name="report" maxlength="200" value="<?php if (isset($get_signature['report']) && !empty($get_signature['report'])){ echo $get_signature['report'];} ?>">
+							</div>
+							<div class="figure-caption mt-2">
+								设置一个用户可以报告违规签名的链接，比如某个特定的贴子。在用户签名右侧显示，<span class="text-danger">留空则不显示</span>。
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label"></label>
+						<div class="col-sm-8">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>...">
+								<?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();">
+								<?php echo lang('back');?></a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var text = document.getElementById("characters");
+text.onkeyup = function() {
+	this.value = this.value.replace(/[^\d]/g, '');
+	if (text.value !='' && (text.value > 255 || text.value < 1)) {
+		text.value = 120;
+		alert('请在范围（1~255）内取值。')
+	}
+}
+</script>
+<?php
+include _include(ADMIN_PATH.'view/htm/footer.inc.htm');
+?>

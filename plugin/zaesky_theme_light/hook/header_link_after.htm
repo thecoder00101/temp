@@ -1,0 +1,171 @@
+<?php if (isset($light_config['dark_mode_switch']) && $light_config['dark_mode_switch'] == 1) { ?>
+<script type="text/javascript" >
+  function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i].trim();
+    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+  }
+  return "";
+}
+
+function loadjscssfile(filename, filetype) {
+
+  if (filetype == "js") {
+    var fileref = document.createElement('script')
+    fileref.setAttribute("type", "text/javascript")
+    fileref.setAttribute("src", filename)
+  } else if (filetype == "css") {
+    var fileref = document.createElement("link")
+    fileref.setAttribute("rel", "stylesheet")
+    fileref.setAttribute("type", "text/css")
+    fileref.setAttribute("href", filename)
+  }
+  if (typeof fileref != "undefined")
+    document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+function removejscssfile(filename, filetype) {
+  var targetelement = (filetype == "js") ? "script" : (filetype == "css") ? "link" : "none"
+  var targetattr = (filetype == "js") ? "src" : (filetype == "css") ? "href" : "none"
+  var allsuspects = document.getElementsByTagName(targetelement)
+  for (var i = allsuspects.length; i >= 0; i--) {
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr) != null && allsuspects[i].getAttribute(
+        targetattr).indexOf(
+        filename) != -1) {
+      allsuspects[i].parentNode.removeChild(allsuspects[i])
+    }
+  }
+}
+
+function theme() {
+  Theme = getCookie('Theme');
+  if (Theme == "" | Theme == "null" | Theme == null | Theme == undefined) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setCookie('Theme', '2');
+    }
+  }
+
+  if (Theme == "2") {
+    removejscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+  } else if (Theme == "3") {
+    loadjscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+  } else {
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      loadjscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+    } else {
+      removejscssfile("./plugin/zaesky_theme_light/view/css/darktheme.min.css", "css");
+    }
+
+  }
+}
+theme()
+window.onload = function() {
+  Theme = getCookie('Theme');
+  if (Theme == "3") {
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+    }
+  } else if (Theme == "1") {
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+      }
+    } else {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+      }
+    }
+
+  }
+
+}
+
+function theme_switch() {
+
+  Theme = getCookie('Theme');
+  if (Theme == "null" || Theme == undefined || Theme == "1") {
+    document.getElementById("theme").innerHTML =
+      "<i class = 'iconfont icon-rijian'></i>";
+    setCookie('Theme', '2')
+    theme()
+    cocoMessage.success("日间模式！", 3000);
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+
+    }
+
+
+
+  } else if (Theme == "2") {
+    document.getElementById("theme").innerHTML =
+      "<i class='iconfont icon-yejian'></i>";
+    setCookie('Theme', '3')
+    theme()
+    cocoMessage.success("夜间模式！", 3000);
+    if (document.getElementById("message_ifr")) {
+      var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+      tinymce.innerHTML =
+        '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+    }
+  } else {
+    document.getElementById("theme").innerHTML =
+      "<i class='iconfont icon-shuaxin1'></i>";
+    setCookie('Theme', '1')
+    theme()
+    cocoMessage.success("自动切换模式！", 3000);
+    time = new Date();
+    hours = time.getHours();
+    if (hours >= <?php echo	$light_config['dark_mode_time_1'] ;?> || hours <= <?php echo	$light_config['dark_mode_time_2'] ;?>) {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#FFFFFF !important;}</style>';
+      }
+    } else {
+      if (document.getElementById("message_ifr")) {
+        var tinymce = document.getElementById('message_ifr').contentWindow.document.head;
+        tinymce.innerHTML =
+          '<style>.mce-content-body:before{color:#868e96 !important;content: attr(data-mce-placeholder);position: absolute;}.mce-content-body{color:#000000 !important;}</style>';
+      }
+    }
+  }
+}
+</script>
+<?php }?>
+
+
+<?php if (isset($light_config['site_bg_custom']) && $light_config['site_bg_custom'] == 1 ) { ?>
+<style>
+    body{
+      background-image: url('<?php echo $light_config['site_bg_custom_img'];?>');
+<?php if (isset($light_config['site_bg_cover']) && $light_config['site_bg_cover'] == 1 ) { ?>
+      background-size: cover;
+      <?php }?>
+<?php if (isset($light_config['site_bg_scroll']) && $light_config['site_bg_scroll'] == 0 ) { ?>
+      background-attachment: fixed;
+      <?php }?>
+
+    } 
+  </style>
+<?php }?>

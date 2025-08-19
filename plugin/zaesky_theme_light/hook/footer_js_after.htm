@@ -1,0 +1,305 @@
+<script src="<?php echo 'plugin/zaesky_theme_light/view/js/coco-message.min.js';?>"></script>
+<script src="<?php echo 'plugin/zaesky_theme_light/view/js/sidebar.min.js';?>"></script>
+<script type="text/javascript">
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	});
+	$(function () {
+	  $('[data-toggle="popover"]').popover()
+	})
+	var sidebarjs = new SidebarJS();
+</script>
+
+
+<?php if ($route == 'thread' && $action != 'create') { ?>
+  <style>
+    @media screen and (max-width: 992px) {
+    #footer{margin-bottom: 3rem};
+    }
+  </style>
+  
+  <div class="position-fixed w-100 header_fiexd  thread-nav d-lg-none">
+    
+    <div class="d-flex mt-2 px-2">
+      <a href="javascript:;" class="flex-grow-1 thread_comment_input text-muted" >
+        <em><?php if($user) { ?> <span class="thread_tip_text1 ">来发布一条评论吧~</span><span class="tip_close d-none">点击关闭评论框</span> <?php } else{ ?>请先登录后发表评论！<?php }  ?></em>
+    </a>
+    <div class="thread_btm_func d-flex" style="margin-top: -8px;">
+    <div class="px-3">
+      <a href="#comments" class=" position-relative"><i class="iconfont icon-huida"></i><span class="thread_nav_pop_count"><?php echo convert($thread['posts']) ? convert($thread['posts']) : '';?></span></a>
+    </div>
+  <?php if (isset($light_config['thread_left_func']) && $light_config['thread_left_func'] == 1) { ?>
+    <div class="px-3">
+      <?php $haya_favorite_check_favorite = haya_favorite_find_by_uid_and_tid($uid, $tid); ?>
+  <?php if($haya_favorite_check_favorite){ ?>
+    <a href="javascript:;" class="position-relative add_func js-haya-favorite-del text-primary" data-tid="<?php echo $tid;?>"><i class="iconfont icon-tiezishoucang"></i><span class="haya-favorite-user-count thread_nav_pop_count"><?php echo convert(intval($thread['favorites'])) ? convert(intval($thread['favorites'])) : ''; ?></span></a>
+  <?php } else { ?>
+    <a href="javascript:;" class="position-relative add_func js-haya-favorite-add" data-tid="<?php echo $tid;?>"><i class="iconfont icon-tiezishoucang"></i><span class="haya-favorite-user-count thread_nav_pop_count"><?php echo convert(intval($thread['favorites'])) ? convert(intval($thread['favorites'])) : ''; ?></span></a>
+  <?php } ?>
+  
+  </div>
+    <div class="px-3">
+      <?php $haya_post_like_thread_check = haya_post_like_find_by_uid_and_pid($uid, $first['pid']); ?>
+      <?php if($haya_post_like_thread_check){ ?>
+      <a href="javascript:;"  class="position-relative add_func js-haya-post-like-thread-del text-primary" data-pid="<?php echo $first['pid'];?>"><i class="iconfont icon-zan"></i><span class="thread_nav_pop_count haya-post-like-thread-user-count"><?php echo convert(intval($first['likes'])) ? convert(intval($first['likes'])) : ''; ?></span>
+      </a>
+      <?php } else { ?>
+      <a href="javascript:;" class="position-relative add_func js-haya-post-like-thread-add" data-pid="<?php echo $first['pid'];?>"><i class="iconfont icon-zan"></i><span class="thread_nav_pop_count haya-post-like-thread-user-count"><?php echo convert(intval($first['likes'])) ? convert(intval($first['likes'])) : ''; ?></span>
+      </a>
+        <?php } ?>
+    </div><?php }?>
+  
+    <?php if($gid > 0 && $gid < 5 || $allowupdate || $first['allowupdate'] || $allowdelete || $first['allowdelete']) { ?>
+    <div class="pl-3 pr-2">
+      <div class="dropup">
+      <i class="iconfont icon-gengduo" data-toggle="dropdown"></i>
+      <div class="dropdown-menu p-0">
+          <div class="text-center">
+            <div class=" btn-group-vertical w-100 mod-button" role="group" aria-label="">
+              <?php if(param(0) != 'thread') { ?>
+              <label class="btn btn-secondary mb-0">
+                <input type="checkbox" data-target='input[name="modtid"]' class="checkall mr-2" value=""
+                  aria-label="<?php echo lang('checkall');?>" /><?php echo lang('checkall');?>
+              </label>
+              <?php } ?>
+              <?php if($gid > 0 && $gid < 5) { ?>
+              <!--{hook thread_list_mod_delete_before.htm}-->
+              <button class="btn btn-secondary delete" data-modal-url="<?php echo url("mod-delete");?>"
+                data-modal-title="<?php echo lang('delete');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('delete');?></button>
+              <!--{hook thread_list_mod_delete_after.htm}-->
+              <button class="btn btn-secondary move" data-modal-url="<?php echo url("mod-move");?>"
+                data-modal-title="<?php echo lang('move');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('move');?></button>
+              <!--{hook thread_list_mod_top_before.htm}-->
+              <button class="btn btn-secondary top" data-modal-url="<?php echo url("mod-top");?>"
+                data-modal-title="<?php echo lang('top');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('top');?></button>
+              <!--{hook thread_list_mod_top_after.htm}-->
+              <button class="btn btn-secondary _close" data-modal-url="<?php echo url("mod-close");?>"
+                data-modal-title="<?php echo lang('close');?>" data-modal-arg=".threadlist"
+                data-modal-size="md"><?php echo lang('close');?></button>
+              <!--{hook thread_list_mod_close_after.htm}-->
+              <?php } ?>
+              <?php if($allowupdate || $first['allowupdate']) { ?>
+                <a class="btn btn-secondary post_update" href="<?php echo url("post-update-$thread[firstpid]");?>">
+                  <?php echo lang('edit');?>
+                </a>
+                <?php } ?>
+      
+                <?php if($allowdelete || $first['allowdelete']) { ?>
+                <a class="btn btn-secondary post_delete" data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" isfirst="1"><?php echo lang('delete');?></a>
+                <?php } ?>
+            </div>
+          </div>
+          
+      </div>  
+    </div>
+    </div>
+    <?php } ?>
+  </div>
+  </div>
+  
+  </div> 
+  
+  <?php }?>
+
+
+
+<?php if (isset($light_config['pic_lazyload_switch']) && $light_config['pic_lazyload_switch'] == 1) { ?>
+	<script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$(function(){
+			$('.message img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".message img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+		$(function(){
+			$('.pic_box img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".pic_box img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+		$(function(){
+			$('.left_img_box img').each(function(){
+					$(this).addClass("lazy img-responsive");
+					$(this).attr("data-original",$(this).attr("src")).removeAttr("src");
+			});
+			$(".left_img_box img.lazy").lazyload({placeholder: "plugin/zaesky_theme_light/view/img/loading.gif",effect: "fadeIn"});
+		});
+	</script>
+<?php } ?>
+
+<?php if (isset($light_config['window_no_console']) && $light_config['window_no_console'] == 1) { ?>
+
+	<script type="text/javascript">
+		var h = window.innerHeight,w=window.innerWidth;
+		window.oncontextmenu=function(){return false;}
+		window.addEventListener("keydown", function(e) {
+		if (e.keyCode == 123) {
+		window.event.returnValue = false;
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		return false;
+		} else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)){
+		window.event.returnValue = false;
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		return false;
+		}else if((e.shiftKey) && (e.keyCode == 121)){
+		window.event.returnValue = false;
+		return false;
+		}else if((e.ctrlKey) && (e.keyCode == 85)){
+		window.event.returnValue = false;
+		return false;
+		}else if ((e.ctrlKey) && (e.keyCode == 83)) {
+		window.event.returnValue = false;
+		return false;
+		}
+		}, false);
+		//如果用户在工具栏调起开发者工具，那么判断浏览器的可视高度和可视宽度是否有改变，如有改变则关闭本页面
+		window.onresize = function () {
+		// if (h != window.innerHeight||w!=window.innerWidth){
+		// window.location.reload();
+		//}
+		};
+		function checkDebugger(){
+		const d=new Date();
+		debugger;
+		const dur=Date.now()-d;
+		if(dur<5){
+		return false;
+		}else{
+		window.close();
+		window.location = "about:blank";
+		return true;
+		}
+		};
+		function breakDebugger(){
+		if(checkDebugger()){
+		breakDebugger();
+		}
+		};
+		
+		(function isConsoleOpen() {
+		breakDebugger();
+		})();
+		(function(){
+		var re=/x/;
+		var i=0;
+		console.log(re);
+		re.toString=function(){
+		window.close();
+		window.location = "about:blank";
+		console.log("为了安全，在打浏览器开发者工具下不能访问系统");
+		}
+		})();
+		
+		//禁用控制台打开
+		document.onkeydown = function (e) {
+		var currKey = 0, evt = e || window.event;
+		currKey = evt.keyCode || evt.which || evt.charCode;
+		if ((currKey == 123) || ((event.ctrlKey == true) && (event.shiftKey == true) && (currKey == 73))) {
+		layer.msg('控制台不见了呢', {
+		time: 1000
+		});
+		window.event.cancelBubble = true;
+		window.event.returnValue = false;
+		return false;
+		}
+		}
+		</script>
+<?php } ?>
+
+
+<script>
+	$('.add_func').on('click',function(){
+		<?php if (!empty($user)) { ?>
+			if($(this).hasClass('text-primary')){
+			$(this).removeClass('text-primary')
+		}else{
+			$(this).addClass('text-primary')
+		}
+		<?php } else { ?> 
+			cocoMessage.error("请先登录后操作！", 3000);
+			<?php } ?>
+	})
+
+</script>
+
+
+<?php if (isset($light_config['back_top']) && $light_config['back_top'] == 1) { ?> 
+	<script src="<?php echo 'plugin/zaesky_theme_light/view/js/GoToTop.min.js';?>"></script>
+	<div class="goTop text-center shadow-sm text-muted"  id="js-go_top" style="transform: translate(60px,0px);"><i class="fas fa-arrow-alt-circle-up"></i></div>
+	<script>
+    //示例
+    $('#js-go_top').gotoTop({
+        offset : 100,
+        speed : 300, 
+        animationShow : {
+            'transform' : 'translate(0,0)',
+            'transition': 'transform .5s ease-in-out'
+        },
+        animationHide : {
+            'transform' : 'translate(60px,0)',
+            'transition': 'transform .5s ease-in-out'
+        }
+    });
+</script>
+	<?php }?>
+
+<script>
+	$.each($('.thread_checkbox'),function(){
+		
+		$(this).on('click',function(){
+				$('.thread_mod_func').css({
+					'position':'fixed',
+					'bottom':'50px',
+					'left':0,
+					'right':0,
+				})
+				$('.close_mod').removeClass('d-none')
+		})
+
+	})
+
+	$('.close_mod').on('click',function(){
+		$('.thread_mod_func').css('position','relative')
+		$('.close_mod').addClass('d-none')
+	})
+
+
+	function cancelReply (){
+	var jthis = $('.mod_post_reply');
+	var tid = jthis.data('tid');
+	var pid = jthis.data('pid');
+	var jli = jthis.closest('.post');
+	var qusername = $('.qusername');
+	var jadvanced_reply = $('#advanced_reply');
+	var jform = $('#quick_reply_form');
+	var replying = $('.replying');
+		jli.removeClass('quote');
+		jform.find('input[name="quotepid"]').val(0);
+		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
+		qusername.text('');
+		replying.hide('fast');
+}
+</script>
+
+<?php if (isset($light_config['thread_emo_func']) && $light_config['thread_emo_func'] == 1) { ?>
+<script type="text/javascript" src="/plugin/zaesky_theme_light/view/js/jquery.qqFace.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.emotion').qqFace({
+		id : 'facebox', 
+		assign:'message', 
+		path:'plugin/zaesky_theme_light/view/img/emoicon/',
+		emoNum: <?php echo ShuLiang('plugin/zaesky_theme_light/view/img/emoicon/'); ?>,
+	});
+});
+</script>
+<?php } ?>
+
+
+  

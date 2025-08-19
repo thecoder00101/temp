@@ -1,0 +1,6 @@
+<script>
+    //前端设置cookie
+    if(!$.cookie('_xn_accesscount_visited')){
+        $.cookie('_xn_accesscount_visited', 1, <?php echo strtotime(date('Y-m-d 23:59:59')) - time();?>, '/');
+    }
+</script>

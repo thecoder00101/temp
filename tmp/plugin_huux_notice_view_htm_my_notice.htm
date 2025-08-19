@@ -1,0 +1,345 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+<div class="row d-lg-none">
+    <div class="col-12 p-0">
+        <div class="card mb-0 rounded-0 py-5 mm-background background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+            <div class="card-body text-white ">
+                <div class="media">
+                    
+                    <img src="<?php echo $user['avatar_url'];?>" class="avatar-4 rounded-circle border border-white">
+                    <div class="media-body ml-3">
+                        <div class="d-flex justify-content-between user-page-username">
+                            <div class="break-all text-truncate">
+                                <span class="font-weight-bold h4"><?php echo $user['username'];?></span>
+                                
+                            </div>
+                            <div class="text-nowrap">
+                                <a class="text-white" href="<?php echo url("user-$user[uid]");?>">个人主页>></a> 
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <span class="badge badge-pill jb-blue">UID:<?php echo $user['uid'];?></span>
+                            <span class="badge badge-pill jb-cyan"><?php echo $user['groupname'];?></span>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 px-3" style="margin-top: -35px;">
+        <div class="card mb-0 user-info-count">
+            <div class="card-body">
+                <div class="d-flex justify-content-around text-center">
+                    <div><span class="text-muted"><?php echo lang('mb_threads');?></span><br/><b><?php echo $user['threads'];?></b></div>
+                    <div><span class="text-muted"><?php echo lang('mb_posts');?></span><br/><b><?php echo $user['posts'];?></b></div>
+                     
+                    <div><span class="text-muted">收藏</span><br/><b><?php echo intval($user['favorites']);?></b></div><div><span class="text-muted"><?php echo lang('mb_followed');?></span><br/><b><?php echo intval($user['followeds']); ?></b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group my-3 hidden-lg my-mobile-btn-group" role="group" id="my_mobile_nav1" style="width: 100%;overflow:auto;">
+
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+    
+    
+    
+    <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+    <a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+    
+</div>
+
+<div class="row justify-content-center d-none d-lg-block">
+    <div class="col-lg-12">
+        <div class="card user_header" style="overflow: hidden;">
+            <div class="w-100 background mp-background jb-dark"  <?php if(isset($light_config['user_bg_switch']) && $light_config['user_bg_switch'] == 1){ ?> style="background-image: url('./plugin/zaesky_theme_light/view/img/bgimg/bg-<?php echo $user['bgimg'];?>.png');"<?php } ?>>
+                
+            </div>
+            <div class="card-body">
+                    <div class="media" style="margin-top: -90px;">
+                        
+                        <img class="avatar-6 rounded border mr-4 mt-3" src="<?php echo $user['avatar_url'];?>">
+                        <div class="media-body mt-5 pt-5">
+                            <div class="name-info">
+                                <div class="mb-3">
+                                    <span class="h4 font-weight-bold"><?php echo $user['username'];?></span>
+                                    
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="badge jb-blue mr-1">UID:<?php echo $user['uid'];?></span><span class="badge badge-info jb-cyan"><?php echo $user['groupname'];?></span>
+                                    
+                                </div>
+                                <div style="margin-top: -24px;">
+                                    <a class="btn btn-outline-primary" href="<?php echo url("user-$user[uid]");?>" role="button"><i class="iconfont icon-wode"></i> <?php echo lang('my_user');?></a>
+                                    
+                                </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
+
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
+	
+	
+	
+	<a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="<?php echo url('my-thread');?>">论坛帖子</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-my-follow" href="<?php echo url('my-follow');?>">关注</a>
+<a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="<?php echo url('my-notice');?>"><?php echo lang('notice');?></a><a role="button" class="btn btn-secondary" href="<?php echo url("my-name");?>" data-active="my-name">红名</a><a role="button" class="btn btn-secondary" data-active="menu-my-credits" href="<?php echo url('my-credits');?>"><?php echo lang('credits');?></a><!-- <a role="button" class="btn btn-secondary" data-active="menu-my-ranklist" href="<?php echo url('my-ranklist');?>">排行榜</a> -->
+	
+</div>
+
+<div class="row">
+	<!-- 左侧菜单 -->
+	<div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
+		<div class="card">
+			<div class="card-body text-center">
+				
+				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
+				<br><?php echo $user['username'];?>
+				
+			</div>
+			<div class="list-group list-group-flush text-center">
+				
+				<a href="<?php echo url('my');?>" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
+				
+				
+				
+				<a href="<?php echo url('my-thread');?>" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
+				<a href="<?php echo url('my-follow');?>" class="list-group-item list-group-item-action" data-active="menu-my-follow">关注</a>
+		<a href="<?php echo url('my-notice');?>" class="list-group-item list-group-item-action" data-active="menu-my-notice"><?php echo lang('notice');?></a><a href="<?php echo url('my-name');?>" class="list-group-item list-group-item-action" data-active="menu-my-name">红名</a><a href="<?php echo url('my-credits');?>" class="list-group-item list-group-item-action" data-active="menu-my-credits"><?php echo lang('credits'); ?></a><!--<a href="<?php echo url('my-ranklist');?>" class="list-group-item list-group-item-action" data-active="menu-my-ranklist">排行榜</a>-->
+				
+			</div>
+		</div>
+	</div>
+	<!-- 右侧内容 -->
+	<div class="col-lg-10" id="my_main">
+		
+		<div class="card">
+			<div class="card-header">
+				
+				
+		<ul class="nav nav-tabs card-header-tabs">
+			
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-notice");?>" data-active="my-notice"><?php echo lang('notice');?></a>
+			</li>
+			
+		</ul>
+	
+				
+			</div>
+			<div class="card-body">
+				
+				
+		<div class="mx-auto">
+			<?php if($user['notices'] != 0) { ?>
+				<div class="d-flex justify-content-between">					
+					<div>
+						<?php foreach ($notice_menu as $k=>$v) { 
+							if(!isset($v['url']) || !isset($v['name'])) continue; //不安接入规范些直接不显示
+						?>
+						<a class="btn btn-sm btn-<?php echo $type == $k ? 'primary active' : 'light';?>" href="<?php echo $v['url'];?>"><?php echo $v['name'];?></a>
+						<?php } ?>
+					</div>
+					<div>
+						<button class="btn btn-sm btn-outline-danger mb-1" data-confirm-text="<?php echo lang('notice_my_delete_thispagemessage')?>?" id="delete"><?php echo lang('notice_my_delete_thispagemessage')?></button>
+						<button class="btn btn-sm btn-outline-primary mb-1 <?php echo $user['unread_notices'] == 0 ? '' : 'readall';?>" id="readall">
+							<?php echo $user['unread_notices'] == 0 ? lang('notice_my_update_allread'):lang('notice_my_marked_allread');?>
+						</button>
+					</div>
+				</div>	
+				<ul class="list-unstyled noticelist" data-nidarr='<?php echo xn_json_encode(arrlist_values($noticelist, 'nid'));?>'>
+					<?php include _include(APP_PATH.'plugin/huux_notice/view/htm/my_notice_list.inc.htm');?>
+				</ul>	
+				<?php if($pagination) { ?>
+				<nav>
+					<ul class="pagination justify-content-center flex-wrap"><?php echo $pagination;?></ul>
+				</nav>
+				<?php }?>
+			<?php }else{ ?>
+			<div class="d-flex justify-content-center">
+				<div class="text-center h1 pt-5 pb-5"><i class="icon icon-bell d-block mb-2"></i><p class="h6"><?php echo lang('notice_my_nomessage');?></p></div>
+			</div>
+			<?php } ?>
+		</div>
+	
+				
+			</div>
+		</div>
+		<?php 
+$haya_follow_config = setting_get('haya_follow');
+?>
+
+<?php 
+if (isset($haya_follow_config['show_my_dynamic']) 
+	&& $haya_follow_config['show_my_dynamic'] == 1
+	&& ($route == 'my' && $action == '')
+) { 
+?>
+
+	<?php 
+	$haya_follow_dynamic_post_num = intval($haya_follow_config['my_dynamic_post_num']);
+
+	$haya_follow_my_follow_user_count = haya_follow_count_cache(array('follow_uid' => $uid, 'show_dynamic' => 1), 86400);
+	$haya_follow_my_follow_uids = haya_follow_find_uids_by_follow_uid_cache($uid, $haya_follow_my_follow_user_count, 86400);
+	$haya_follow_my_follow_uids[] = $uid;		
+	
+	$haya_follow_user_post_list = post_find(array('uid' => $haya_follow_my_follow_uids), array('pid' => -1), 1, $haya_follow_dynamic_post_num);
+
+	$haya_follow_my_follow_user_remarks_uids = array();
+	if (!empty($haya_follow_user_post_list)) {
+		foreach ($haya_follow_user_post_list as & $haya_follow_user_post) {
+			$haya_follow_user_post['thread'] = thread_read_cache($haya_follow_user_post['tid']);
+	
+			if (!in_array($haya_follow_user_post['uid'], $haya_follow_my_follow_user_remarks_uids)) {
+				$haya_follow_my_follow_user_remarks_uids[] = $haya_follow_user_post['uid'];
+			}
+		}
+	}
+	
+	$haya_follow_my_follow_user_list = haya_follow__find(array('follow_uid' => $uid, 'uid' => $haya_follow_my_follow_user_remarks_uids), array('create_date' => -1), 1, count($haya_follow_my_follow_user_remarks_uids));
+	
+	$haya_follow_my_follow_user_remarks_list = array();
+	
+	if (!empty($haya_follow_my_follow_user_list)) {
+		foreach ($haya_follow_my_follow_user_list as $haya_follow_my_follow_user) {
+			$haya_follow_my_follow_user_remarks_list[$haya_follow_my_follow_user['uid']] = $haya_follow_my_follow_user;
+		}
+	}
+	?>
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<div class="haya-follow-name">
+						最新动态
+					</div>
+					
+					<div class="haya-follow-more">
+						<a href="<?php echo url("my-follow"); ?>" class="small">
+							更多 >>
+						</a>
+					</div>				
+				</div>
+				
+				<div class="card-body">			
+					<?php include _include(APP_PATH.'plugin/haya_follow/view/htm/my_follow_thread.htm'); ?>
+				</div>
+
+			</div>
+
+<?php } ?>
+
+	</div>
+</div>
+
+
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+<script>
+$('li[data-active="bbs"]').addClass('active');
+</script>
+<script>
+	$('a[data-active="my"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="menu-my-notice"]').addClass('active');
+</script>
+
+<script>
+$('a[data-active="my-notice"]').addClass('active');
+</script>
+<script>
+
+// 标记已读
+$('.noticelist .notice .readbtn').on('click', function() { 
+	var jthis = $(this);
+	var jnid = jthis.data('nid');
+	var jnotice = jthis.parents('.notice');
+	var jnum = $("#nav-usernotice-unread-notices").text();//头部导航数值
+	var postdata = {act: 'readone', nid: jnid}; 
+	if(!jthis.hasClass('readbtn')) return false;
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		jthis.removeClass('readbtn').text(message);
+		jnotice.addClass('isread');
+		$('#nav-usernotice-unread-notices').text(--jnum);
+		jnum == 0 && $('#nav-usernotice').removeClass('current');
+	});
+});
+
+// 点击a标签设置已读
+$('.noticelist .notice').find('a').on('click', function() {
+	var isread_btn = $(this).parents('.notice').find('.readbtn');
+	isread_btn.length > 0 && isread_btn.trigger("click");
+});
+
+//删除单条
+$('.noticelist .notice .deletebtn').on('click', function() {
+    var jthis = $(this);
+	var jnid = jthis.data('nid');
+	var jnum = $("#nav-usernotice-unread-notices").text();//头部导航数值
+	var postdata = {act: 'delete', nid: jnid};
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		jthis.prev().hasClass('readbtn') && $('#nav-usernotice-unread-notices').text(--jnum);
+		jnum == 0 && $('#nav-usernotice').removeClass('current');
+		jthis.parents('.notice').remove();
+	});
+});
+
+// 全部已读
+$('#readall').on('click', function() {   
+	var jthis = $(this);
+	var postdata = {act: 'readall'};
+	if(!jthis.hasClass('readall')) return false;
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		$('.noticelist .notice').addClass('isread');
+		$('.noticelist .notice').find('.readbtn').removeClass('readbtn').text(message.a);
+		jthis.removeClass('readall').text(message.b);
+		$('#nav-usernotice').removeClass('current');//头部导航铃铛状态切换
+	});	
+});
+// 删除本页信息
+var jdelete = $('#delete');
+jdelete.on('click', function() {   
+	var text = $(this).data('confirm-text');
+	$.confirm(text, function() {
+		var jthis = $(this);
+		var nidarr = $('.noticelist').data('nidarr');
+		var postdata = {act: 'deletearr', nidarr: nidarr};
+		$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+				jdelete.button(message);
+				setTimeout(function() {
+					window.location.reload();
+				}, 1000);
+		});	
+	});
+	return false;
+})
+
+</script>

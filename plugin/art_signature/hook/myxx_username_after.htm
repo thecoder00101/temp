@@ -1,0 +1,11 @@
+<br/><span><?php
+$htmlsupport = $get_signature['html'];
+if(isset($htmlsupport) && !empty($user['signature'])){
+	if($htmlsupport == 1){
+		echo htmlspecialchars_decode($user['signature']);
+	}else{
+		echo $user['signature'];
+	}
+}else{
+	echo "这家伙太懒了，什么也没留下。"; 
+}?></span>

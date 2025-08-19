@@ -1,0 +1,63 @@
+
+<style>
+table.nav_tag_list {margin-bottom: 0.5rem;}
+table.nav_tag_list td a{background:white;padding:0.3rem .83rem;border-radius:1rem;font-size:12px;color: #8a9aa9;}
+table.nav_tag_list td a:hover{color: #0084ff;}
+.nav_tag_list .active {background:#0084ff;color:#fff;font-weight:500;}
+table li{float:left;margin:5px 0px;}
+</style>
+
+		<table class="small nav_tag_list">
+		<?php if(!empty($forum['tagcatelist'])) {foreach($forum['tagcatelist'] as $i=>$tagcate) { 
+				if(empty($tagcate['enable'])) continue;
+			?>
+			<tr>
+			
+				<td>
+					<?php
+						$tagidadd = '';
+						$tagactive = '';
+						switch ($i) {
+							case 0: $tagidadd = "0_{$tagid2}_{$tagid3}_{$tagid4}";
+								$tagactive = 0 == $tagid1 ? ' class="active"' : '';
+								break;
+							case 1: $tagidadd = "{$tagid1}_0_{$tagid3}_{$tagid4}";
+								$tagactive = 0 == $tagid2 ? ' class="active"' : '';
+								break;
+							case 2: $tagidadd = "{$tagid1}_{$tagid2}_0_{$tagid4}";
+								$tagactive = 0 == $tagid3 ? ' class="active"' : '';
+								break;
+							case 3: $tagidadd = "{$tagid1}_{$tagid2}_{$tagid3}_0";
+								$tagactive = 0 == $tagid4 ? ' class="active"' : '';
+								break;
+						}
+					?>
+                                 
+					<li><a href="<?php echo url("forum-$fid-1", array('tagids'=>$tagidadd));?>" <?php echo $tagactive;?>><?php echo lang('all');?></a><li>
+					<?php foreach($tagcate['taglist'] as $tag) { ?>
+					<?php 
+						if(empty($tag['enable'])) continue;
+						switch ($i) {
+							case 0: 
+								$tagidadd = "{$tag['tagid']}_{$tagid2}_{$tagid3}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid1 ? ' class="active"' : '';
+								break;
+							case 1: $tagidadd = "{$tagid1}_{$tag['tagid']}_{$tagid3}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid2 ? ' class="active"' : '';
+								break;
+							case 2: $tagidadd = "{$tagid1}_{$tagid2}_{$tag['tagid']}_{$tagid4}";
+								$tagactive = $tag['tagid'] == $tagid3 ? ' class="active"' : '';
+								break;
+							case 3: $tagidadd = "{$tagid1}_{$tagid2}_{$tagid3}_{$tag['tagid']}";
+								$tagactive = $tag['tagid'] == $tagid4 ? ' class="active"' : '';
+								break;
+						}
+					?>
+                                 
+					<li><a href="<?php echo url("forum-$fid-1", array('tagids'=>$tagidadd));?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a></li>
+					<?php } ?>
+				</td>
+			</tr>
+		<?php }} ?>
+		</table>
+		

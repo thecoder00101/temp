@@ -1,0 +1,11 @@
+{
+    "name": "插入网盘链接",
+    "brief": "一个简单的发帖时插入网盘链接，规范网盘链接内容格式。<br/>关注更多信息请访问><a href='https://www.noteweb.top/' class='badge badge-primary'>NOTEWEB</a>",
+    "version": "1.0",
+    "bbs_version": "4.0.4",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}
